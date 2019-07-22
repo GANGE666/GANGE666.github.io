@@ -388,7 +388,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/07/22/GOSSIP-summerschool-2019-day2/">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/07/21/GOSSIP-summerschool-2019-day2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="G6">
@@ -407,7 +407,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/07/22/GOSSIP-summerschool-2019-day2/" itemprop="url">GOSSIP_summerschool_2019_day2</a></h1>
+                <a class="post-title-link" href="/2019/07/21/GOSSIP-summerschool-2019-day2/" itemprop="url">GOSSIP_summerschool_2019_day2</a></h1>
         
 
         <div class="post-meta">
@@ -419,8 +419,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T18:11:15+08:00">
-                2019-07-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-21T18:11:15+08:00">
+                2019-07-21
               </time>
             
 
@@ -429,6 +429,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -459,7 +481,50 @@
       
         
           
-            
+            <p># Let’s GOSSIP软件安全暑期学校笔记</p>
+<p># DAY 2</p>
+<p>## ML Module中的隐私和安全问题 张阳</p>
+<p>张阳老师首先介绍了CISPA的基本情况。</p>
+<p>背景：机器学习大热</p>
+<p>最近发现机器学习模型存在大量隐私问题。</p>
+<p>五个方向的内容：</p>
+<p>- Privacy</p>
+<p>  - Membership inference</p>
+<p>  ##### Attack 1</p>
+<p>  训练Attack Module，可以判断熊猫是否在训练集中：</p>
+<p>  <img src="/.io//image-20190721092931932.png" alt="image-20190721092931932"></p>
+<p>  攻击成功的原因：过拟合。因为机器学习在遇到训练过的样本时会更加的“自信”</p>
+<p>  过拟合程度越高，攻击模型表现越好。</p>
+<p>  ##### Attack 2</p>
+<p>  解决样本集合同分布的问题</p>
+<p>  ##### Attack 3</p>
+<p>  不用构建任何数据集，选一个阈值，超过即确定。</p>
+<p>  ##### 防御：</p>
+<p>  减少过拟合。</p>
+<p>  - Data reconstruction </p>
+<p>  attack surface in online learning</p>
+<p>  在线学习更新后，通过同一张图片得到不同后验概率。如此反复，逆向工程推断出更新的数据集。</p>
+<p>  general attack pipeline</p>
+<p>  <img src="/.io//image-20190721101236068.png" alt="image-20190721101236068"></p>
+<p>- Security</p>
+<p>攻击者窃取模型</p>
+<p>提问：GAN 通过模型产生数据，如何鉴别：收集足够的数据，标记并进行训练</p>
+<p>-—–</p>
+<p>## 语言理解之美——基于NLP的漏洞分析  王健强</p>
+<p>学长首先讲解了栈溢出和堆溢出的区别。</p>
+<p>以及检测漏洞的方法：动态：Fuzz、sanitizer；静态：模式匹配、符号执行、机器学习。</p>
+<p>静态分析与动态分析的区别；自动化分析与手工代码审计。</p>
+<p>目的：寻找非标准库中的/自定义的内存管理函数。现有工具无法识别</p>
+<p>解决办法：使用NLP分析函数名，判断函数与内存管理的相关性。</p>
+<p>#### 使用NLP理解函数原型</p>
+<p>##### 分词、比较函数原型</p>
+<p>分词演示：</p>
+<p><img src="/.io//image-20190721145156409.png" alt="image-20190721145156409"></p>
+<p>比较：</p>
+<p>Clang Static Analyzer</p>
+<p>识别有较高的误报率，需要人工检查。</p>
+<p>发现了vim和cpython中的double free、use after free</p>
+
           
         
       
