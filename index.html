@@ -362,250 +362,381 @@
       
         
           
-            <p># Let’s GOSSIP软件安全暑期学校笔记</p>
-<p># 7月22日 周一</p>
-<p>## Embedded System Security: from vulnerability discovery to remote attestation 卢龙</p>
-<p>#### Software security: a quick tour</p>
-<p>- ##### Memory Corruption</p>
-<p>  - 从空间上划分：老生常谈的栈溢出、堆溢出</p>
-<p>  - 从时间上：UAF</p>
-<p>  - data only attack？构造恶意数据？</p>
-<p>- ##### Logic flaws</p>
-<p>- 利用</p>
-<p>  - 远古时期：代码注入 shellcode</p>
-<p>  - 代码复用：ret2libc、ROP</p>
-<p>  - Data only attack：难度更高、在内存中改变一部分数据（还是需要任意地址写？）</p>
+            <h1 id="Let’s-GOSSIP软件安全暑期学校笔记"><a href="#Let’s-GOSSIP软件安全暑期学校笔记" class="headerlink" title="Let’s GOSSIP软件安全暑期学校笔记"></a>Let’s GOSSIP软件安全暑期学校笔记</h1><h1 id="7月22日-周一"><a href="#7月22日-周一" class="headerlink" title="7月22日 周一"></a>7月22日 周一</h1><h2 id="Embedded-System-Security-from-vulnerability-discovery-to-remote-attestation-卢龙"><a href="#Embedded-System-Security-from-vulnerability-discovery-to-remote-attestation-卢龙" class="headerlink" title="Embedded System Security: from vulnerability discovery to remote attestation 卢龙"></a>Embedded System Security: from vulnerability discovery to remote attestation 卢龙</h2><h4 id="Software-security-a-quick-tour"><a href="#Software-security-a-quick-tour" class="headerlink" title="Software security: a quick tour"></a>Software security: a quick tour</h4><ul>
+<li><h5 id="Memory-Corruption"><a href="#Memory-Corruption" class="headerlink" title="Memory Corruption"></a>Memory Corruption</h5><ul>
+<li><p>从空间上划分：老生常谈的栈溢出、堆溢出</p>
+</li>
+<li><p>从时间上：UAF</p>
+</li>
+<li><p>data only attack？构造恶意数据？</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><h5 id="Logic-flaws"><a href="#Logic-flaws" class="headerlink" title="Logic flaws"></a>Logic flaws</h5></li>
+</ul>
+<ul>
+<li>利用</li>
+</ul>
+<ul>
+<li>远古时期：代码注入 shellcode</li>
+</ul>
+<ul>
+<li>代码复用：ret2libc、ROP</li>
+</ul>
+<ul>
+<li>Data only attack：难度更高、在内存中改变一部分数据（还是需要任意地址写？）</li>
+</ul>
 <p>​    - “Golden bit” flip：</p>
 <p>​    </p>
-<p>- 防御</p>
-<p>#### Embedded System: a brief intro</p>
-<p>##### 嵌入式系统分类</p>
-<p>##### Architectures</p>
-<p>- Von-Neumann体系结构与Harvard体系结构</p>
-<p>  - 冯诺伊曼体系结构内存中数据与代码不分离，在cache中分离</p>
-<p>  - 哈佛 内存中数据与代码分离</p>
-<p>- CISC 与 RISC</p>
-<p>- 微控制器MCU</p>
-<p>  - Intel: 8051, Quark, Intel-64</p>
-<p>  - MIPS</p>
-<p>  - PowerPC</p>
-<p>  - ARM: Contex-M</p>
-<p>- Embedded Software Stack</p>
-<p>  - Bootloader</p>
-<p>  - System software: OS-based VS bare metal</p>
+<ul>
+<li>防御</li>
+</ul>
+<h4 id="Embedded-System-a-brief-intro"><a href="#Embedded-System-a-brief-intro" class="headerlink" title="Embedded System: a brief intro"></a>Embedded System: a brief intro</h4><h5 id="嵌入式系统分类"><a href="#嵌入式系统分类" class="headerlink" title="嵌入式系统分类"></a>嵌入式系统分类</h5><h5 id="Architectures"><a href="#Architectures" class="headerlink" title="Architectures"></a>Architectures</h5><ul>
+<li><p>Von-Neumann体系结构与Harvard体系结构</p>
+<ul>
+<li><p>冯诺伊曼体系结构内存中数据与代码不分离，在cache中分离</p>
+</li>
+<li><p>哈佛 内存中数据与代码分离</p>
+</li>
+</ul>
+</li>
+<li><p>CISC 与 RISC</p>
+</li>
+<li><p>微控制器MCU</p>
+<ul>
+<li><p>Intel: 8051, Quark, Intel-64</p>
+</li>
+<li><p>MIPS</p>
+</li>
+<li><p>PowerPC</p>
+</li>
+<li><p>ARM: Contex-M</p>
+</li>
+</ul>
+</li>
+<li><p>Embedded Software Stack</p>
+<ul>
+<li><p>Bootloader</p>
+</li>
+<li><p>System software: OS-based VS bare metal</p>
+</li>
+</ul>
+</li>
+</ul>
 <p>​    - Linux</p>
 <p>​    - C runtime: glibc, uClib, dietlibc</p>
 <p>​    - Command: busybox</p>
 <p>​    - Filesystem: inittramfs, cramfs, jffs2…</p>
-<p>  - Peripheral drivers 外设驱动</p>
-<p>- Security (or insecurity)</p>
-<p>  - Secure Booting</p>
+<ul>
+<li>Peripheral drivers 外设驱动</li>
+</ul>
+<ul>
+<li><p>Security (or insecurity)</p>
+<ul>
+<li>Secure Booting</li>
+</ul>
+</li>
+</ul>
 <p>​    - 从TPM逐层验证，证书存在TPM里面</p>
-<p>  - Memory Protection</p>
+<ul>
+<li>Memory Protection</li>
+</ul>
 <p>​    - MPU (Optional)</p>
 <p>​      - Regions</p>
 <p>​      - Permission: XN 数据不执行, AP Access Permission </p>
 <p>​      - Subregions</p>
-<p>#### Attacks &amp; Defenses on Embedded</p>
-<p>- Attacks</p>
-<p>- Defenses</p>
-<p>  - Network level</p>
+<h4 id="Attacks-amp-Defenses-on-Embedded"><a href="#Attacks-amp-Defenses-on-Embedded" class="headerlink" title="Attacks &amp; Defenses on Embedded"></a>Attacks &amp; Defenses on Embedded</h4><ul>
+<li>Attacks</li>
+</ul>
+<ul>
+<li><p>Defenses</p>
+<ul>
+<li>Network level</li>
+</ul>
+</li>
+</ul>
 <p>​    - Firewall</p>
 <p>​    - IDS/IPS</p>
-<p>  - System/host level</p>
+<ul>
+<li>System/host level</li>
+</ul>
 <p>​    - Event monitoring</p>
 <p>​    - Policy enforcement</p>
 <p>​    - Program hardening</p>
 <p>​    - Vulnerability detection</p>
 <p>​    - Attestation and Verification</p>
-<p>- 开放问题嵌入式系统中待解决的问题</p>
-<p>#### Embedded Vulnerability Discovery</p>
-<p>常用方法：fuzz、静态分析</p>
+<ul>
+<li>开放问题嵌入式系统中待解决的问题</li>
+</ul>
+<h4 id="Embedded-Vulnerability-Discovery"><a href="#Embedded-Vulnerability-Discovery" class="headerlink" title="Embedded Vulnerability Discovery"></a>Embedded Vulnerability Discovery</h4><p>常用方法：fuzz、静态分析</p>
 <p>fuzz应用在嵌入式系统中存在的问题：模拟器不好运行（需要真实设备）、路径不能达到、不好检测错误发生</p>
 <p>启发式的Automatic Emulator Generation。（无法反调试、与厂商合作）</p>
-<p>- 与现在常见的Fuzz结合起来</p>
-<p>- 自动化识别固件</p>
-<p>#### Remote Device Attestation</p>
-<p>验证远端设备完整性</p>
+<ul>
+<li><p>与现在常见的Fuzz结合起来</p>
+</li>
+<li><p>自动化识别固件</p>
+</li>
+</ul>
+<h4 id="Remote-Device-Attestation"><a href="#Remote-Device-Attestation" class="headerlink" title="Remote Device Attestation"></a>Remote Device Attestation</h4><p>验证远端设备完整性</p>
 <p>目前的检测方法只能静态检测代码、数据</p>
 <p>解决：</p>
 <p>检测控制流、数据流</p>
 <p>云端控制器遇到的问题：如何信任发来的数据，未被更改</p>
-<p>- 两重验证：</p>
-<p>  - Operation-scoped CFI</p>
-<p>  - Critical value integrity</p>
-<p>### 总结</p>
-<p>嵌入式系统在未来仍有很长的前景、应用范围很广。一个问题解决后要考虑有多少的价值（多少人care这个解决方案、是否能够在现实中使用）</p>
+<ul>
+<li><p>两重验证：</p>
+<ul>
+<li><p>Operation-scoped CFI</p>
+</li>
+<li><p>Critical value integrity</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>嵌入式系统在未来仍有很长的前景、应用范围很广。一个问题解决后要考虑有多少的价值（多少人care这个解决方案、是否能够在现实中使用）</p>
 <p>花了很长时间介绍前置知识，从11:25才开始介绍其研究的工作，没有深入讲解。</p>
 <p>能够物理接触嵌入式设备，能够直接读取储存器。在软件上缓解：嵌入式系统中的输入更加多样化、可以接受模拟信号，模拟器不好模拟。（可以使用这些的特点进行缓解）</p>
-<p>-—–</p>
-<p>## 模糊测试不再模糊 张超</p>
-<p>### Fuzzing Base</p>
-<p>发现漏洞：</p>
-<p>- 人工审计（10%）</p>
-<p>- 学术界：静态分析、动态分析、污点分析、符号执行、模型检验</p>
-<p>- Fuzzing（80%？）</p>
+<hr>
+<h2 id="模糊测试不再模糊-张超"><a href="#模糊测试不再模糊-张超" class="headerlink" title="模糊测试不再模糊 张超"></a>模糊测试不再模糊 张超</h2><h3 id="Fuzzing-Base"><a href="#Fuzzing-Base" class="headerlink" title="Fuzzing Base"></a>Fuzzing Base</h3><p>发现漏洞：</p>
+<ul>
+<li><p>人工审计（10%）</p>
+</li>
+<li><p>学术界：静态分析、动态分析、污点分析、符号执行、模型检验</p>
+</li>
+<li><p>Fuzzing（80%？）</p>
+</li>
+</ul>
 <p>Random Fuzz：简单、覆盖率极低</p>
 <p>目前的两大类：</p>
-<p>- generation-based：根据输入的语法进行生成输入</p>
-<p>- Mutation-based：基于变异的，从以前的测试例，通过进化算法。需要种子输入</p>
+<ul>
+<li><p>generation-based：根据输入的语法进行生成输入</p>
+</li>
+<li><p>Mutation-based：基于变异的，从以前的测试例，通过进化算法。需要种子输入</p>
+</li>
+</ul>
 <p>对比：</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722140842030.png" alt="image-20190722140842030"></p>
 <p>Mutation-based存在的问题：覆盖率、约束</p>
-<p>##### 如何提高代码覆盖率</p>
-<p>coverage-guided fuzzing</p>
-<p>### AFL Basics</p>
-<p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722141113038.png" alt="image-20190722141113038"></p>
+<h5 id="如何提高代码覆盖率"><a href="#如何提高代码覆盖率" class="headerlink" title="如何提高代码覆盖率"></a>如何提高代码覆盖率</h5><p>coverage-guided fuzzing</p>
+<h3 id="AFL-Basics"><a href="#AFL-Basics" class="headerlink" title="AFL Basics"></a>AFL Basics</h3><p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722141113038.png" alt="image-20190722141113038"></p>
 <p>test and track中检测覆盖率，并将覆盖率作为指标，来决定是否将种子留下来。</p>
 <p>AFL通过bitmap记录边覆盖率。</p>
 <p>实现细节：</p>
-<p>#### track code coverage</p>
-<p>- solution 1: 动态插桩，执行引擎插桩，比较慢，可能带来十倍的开销</p>
-<p>- solution 2: 让目标程序自己记录，静态插桩（AFL）</p>
+<h4 id="track-code-coverage"><a href="#track-code-coverage" class="headerlink" title="track code coverage"></a>track code coverage</h4><ul>
+<li>solution 1: 动态插桩，执行引擎插桩，比较慢，可能带来十倍的开销</li>
+</ul>
+<ul>
+<li>solution 2: 让目标程序自己记录，静态插桩（AFL）</li>
+</ul>
 <p>gcc_mode、llvm_mode、qemu_mode</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722142523777.png" alt="image-20190722142523777"></p>
 <p>实现：</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722142740711.png" alt="image-20190722142740711"></p>
 <p>AFL只记录了边，没考虑覆盖边的顺序（路径）。</p>
 <p>共享内存，共享bitmap</p>
-<p>-—–</p>
-<p>##### Fuzz 进行决策：</p>
-<p>virgin_bits 八个bit： 2^0，2^1…2^7</p>
+<hr>
+<h5 id="Fuzz-进行决策："><a href="#Fuzz-进行决策：" class="headerlink" title="Fuzz 进行决策："></a>Fuzz 进行决策：</h5><p>virgin_bits 八个bit： 2^0，2^1…2^7</p>
 <p>*virgin = vir &amp; ~cur</p>
 <p>为了循环次数，很多情况与循环有关。</p>
-<p>-—–</p>
-<p>##### Fast：fork and execve</p>
-<p>dumb_mode: fork and execve</p>
+<hr>
+<h5 id="Fast：fork-and-execve"><a href="#Fast：fork-and-execve" class="headerlink" title="Fast：fork and execve"></a>Fast：fork and execve</h5><p>dumb_mode: fork and execve</p>
 <p>输入输出使用管道</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722144200431.png" alt="image-20190722144200431"></p>
 <p>waitpid等待完成，再进行bitmap的比较</p>
-<p>##### Faster: forkserver</p>
-<p>省掉了execve的时间</p>
+<h5 id="Faster-forkserver"><a href="#Faster-forkserver" class="headerlink" title="Faster: forkserver"></a>Faster: forkserver</h5><p>省掉了execve的时间</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722144450392.png" alt="image-20190722144450392"></p>
 <p>输入：通过cmd pipe，forkserver再fork</p>
-<p>-—–</p>
-<p>##### Faster: persistent mode</p>
-<p>省去fork的时间，使用大循环，仅对少量循环程序适用。</p>
+<hr>
+<h5 id="Faster-persistent-mode"><a href="#Faster-persistent-mode" class="headerlink" title="Faster: persistent mode"></a>Faster: persistent mode</h5><p>省去fork的时间，使用大循环，仅对少量循环程序适用。</p>
 <p>前后数据会进行干扰。</p>
 <p>在循环开始做快照，结束后恢复。</p>
-<p>-—–</p>
-<p>##### Faster: Parallel Mode</p>
-<p>并行模式，多个fuzz协作，种子池共享。</p>
+<hr>
+<h5 id="Faster-Parallel-Mode"><a href="#Faster-Parallel-Mode" class="headerlink" title="Faster: Parallel Mode"></a>Faster: Parallel Mode</h5><p>并行模式，多个fuzz协作，种子池共享。</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722145316450.png" alt="image-20190722145316450"></p>
-<p>-—–</p>
-<p>##### Sensitive: catch potential bugs</p>
-<p>Securityity violations:</p>
-<p>- AddressSanitizer</p>
+<hr>
+<h5 id="Sensitive-catch-potential-bugs"><a href="#Sensitive-catch-potential-bugs" class="headerlink" title="Sensitive: catch potential bugs"></a>Sensitive: catch potential bugs</h5><p>Securityity violations:</p>
+<ul>
+<li>AddressSanitizer</li>
+</ul>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722145715710.png" alt="image-20190722145715710"></p>
-<p>### Our Solutions</p>
-<p>CollAFL</p>
+<h3 id="Our-Solutions"><a href="#Our-Solutions" class="headerlink" title="Our Solutions"></a>Our Solutions</h3><p>CollAFL</p>
 <p>控制流敏感的AFL</p>
 <p>AFL存在的问题</p>
-<p>- AFL使用64KB bitmap来记录访问过的边，可能会发生碰撞。可能会造成：</p>
-<p>  - 浪费好的种子</p>
-<p>  - 浪费unique crashes</p>
-<p>  - 覆盖率记录得不精确</p>
-<p>- 并没有利用好边覆盖率的信息</p>
-<p>  - 仅用来选种子</p>
-<p>  - 如何选seed使得覆盖率上升更快</p>
+<ul>
+<li><p>AFL使用64KB bitmap来记录访问过的边，可能会发生碰撞。可能会造成：</p>
+<ul>
+<li><p>浪费好的种子</p>
+</li>
+<li><p>浪费unique crashes</p>
+</li>
+<li><p>覆盖率记录得不精确</p>
+</li>
+</ul>
+</li>
+<li><p>并没有利用好边覆盖率的信息</p>
+<ul>
+<li><p>仅用来选种子</p>
+</li>
+<li><p>如何选seed使得覆盖率上升更快</p>
+</li>
+</ul>
+</li>
+</ul>
 <p>路径覆盖率：存储代价很大、runtime代价很大，无法实现</p>
-<p>-—–</p>
-<p>##### CollAFL：</p>
-<p>##### 消除碰撞：</p>
-<p>Naive solution: 扩大bitmap容量，性能下降很厉害（cache miss访存消耗大量时间）</p>
+<hr>
+<h5 id="CollAFL："><a href="#CollAFL：" class="headerlink" title="CollAFL："></a>CollAFL：</h5><h5 id="消除碰撞："><a href="#消除碰撞：" class="headerlink" title="消除碰撞："></a>消除碰撞：</h5><p>Naive solution: 扩大bitmap容量，性能下降很厉害（cache miss访存消耗大量时间）</p>
 <p>替换hash算法：</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722152615438.png" alt="image-20190722152615438"></p>
 <p>为所有基本块搜索xyz，以便避免hash碰撞。但是越往后越难搜索xyz。</p>
 <p>优化</p>
-<p>- 不是所有边都需要计算hash，基本块的入度为1时，执行该基本块即可确定刚执行的边。超过一半的基本块入度为1。</p>
-<p>- 空间换时间，找不到xyz时，静态赋一个hash，运行时查表查hash</p>
+<ul>
+<li>不是所有边都需要计算hash，基本块的入度为1时，执行该基本块即可确定刚执行的边。超过一半的基本块入度为1。</li>
+</ul>
+<ul>
+<li>空间换时间，找不到xyz时，静态赋一个hash，运行时查表查hash</li>
+</ul>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722153209671.png" alt="image-20190722153209671"></p>
 <p>优化结果 三种情况：</p>
 <p>多前驱（找hash）、多前驱（查表）、单前驱</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722153543823.png" alt="image-20190722153543823"></p>
 <p>结果：稍微扩大bitmap、消除碰撞。</p>
-<p>-—–</p>
-<p>##### Coverage-first seed selection</p>
-<p>策略：</p>
-<p>- 一个种子没测试过的分支比较多，它可能提升代码覆盖率比较快。</p>
-<p>- 更多的内存访问数量</p>
-<p>-—–</p>
-<p>#### GREYONE：数据流敏感Fuzz</p>
-<p>隐式数据传递/依赖</p>
+<hr>
+<h5 id="Coverage-first-seed-selection"><a href="#Coverage-first-seed-selection" class="headerlink" title="Coverage-first seed selection"></a>Coverage-first seed selection</h5><p>策略：</p>
+<ul>
+<li><p>一个种子没测试过的分支比较多，它可能提升代码覆盖率比较快。</p>
+</li>
+<li><p>更多的内存访问数量</p>
+</li>
+</ul>
+<hr>
+<h4 id="GREYONE：数据流敏感Fuzz"><a href="#GREYONE：数据流敏感Fuzz" class="headerlink" title="GREYONE：数据流敏感Fuzz"></a>GREYONE：数据流敏感Fuzz</h4><p>隐式数据传递/依赖</p>
 <p>What types of data-flow features?</p>
-<p>- Taint attributes 污点数据</p>
-<p>- Branch value conformance 分支值的一致性</p>
+<ul>
+<li><p>Taint attributes 污点数据</p>
+</li>
+<li><p>Branch value conformance 分支值的一致性</p>
+</li>
+</ul>
 <p>解决的问题：</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722160923591.png" alt="image-20190722160923591"></p>
-<p>-—–</p>
+<hr>
 <p>三个问题：</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722155229509.png" alt="image-20190722155229509"></p>
-<p>-—–</p>
-<p>##### RQ1-1: Taint Attributes</p>
-<p>传统动态污点分析：</p>
-<p>- Libdft/DFSan…</p>
-<p>- Propagate taint inst by inst</p>
-<p>- Taint rules manually/automatically</p>
-<p>- Under-Taint and over-taint issues</p>
+<hr>
+<h5 id="RQ1-1-Taint-Attributes"><a href="#RQ1-1-Taint-Attributes" class="headerlink" title="RQ1-1: Taint Attributes"></a>RQ1-1: Taint Attributes</h5><p>传统动态污点分析：</p>
+<ul>
+<li><p>Libdft/DFSan…</p>
+</li>
+<li><p>Propagate taint inst by inst</p>
+</li>
+<li><p>Taint rules manually/automatically</p>
+</li>
+<li><p>Under-Taint and over-taint issues</p>
+</li>
+</ul>
 <p>比如xor eax, eax，应该是清除污点标记</p>
 <p>隐式数据流依赖，认为是依赖：依赖急剧扩散；不是：漏掉</p>
-<p>##### 基于Fuzzing驱动的污点分析 Fuzzing-driven Taint Inference(FTI)</p>
-<p>- Inference rule:</p>
-<p>  - 输入输出同时发生变化，说明输出是依赖输入的</p>
-<p>  - 改变第i个字节，发现输出发生变化，说明依赖第i个字节。</p>
-<p>- Taint Inference:</p>
-<p>  - AFL会逐字节进行变异，对变量进行监控</p>
+<h5 id="基于Fuzzing驱动的污点分析-Fuzzing-driven-Taint-Inference-FTI"><a href="#基于Fuzzing驱动的污点分析-Fuzzing-driven-Taint-Inference-FTI" class="headerlink" title="基于Fuzzing驱动的污点分析 Fuzzing-driven Taint Inference(FTI)"></a>基于Fuzzing驱动的污点分析 Fuzzing-driven Taint Inference(FTI)</h5><ul>
+<li><p>Inference rule:</p>
+<ul>
+<li><p>输入输出同时发生变化，说明输出是依赖输入的</p>
+</li>
+<li><p>改变第i个字节，发现输出发生变化，说明依赖第i个字节。</p>
+</li>
+</ul>
+</li>
+<li><p>Taint Inference:</p>
+<ul>
+<li>AFL会逐字节进行变异，对变量进行监控</li>
+</ul>
+</li>
+</ul>
 <p><strong><strong>Comparison</strong></strong></p>
-<p>- 更快</p>
-<p>- 不需要手动设置规则</p>
-<p>- 不会出现误标记 没有over taint</p>
-<p>- 可能会出现真正的污点变量无标记</p>
-<p>-—–</p>
-<p>##### RQ1-2: Constraint Conformance</p>
-<p>对分支语句做插桩，计算vlaue的一致性</p>
-<p>-—–</p>
-<p>#### RQ2: taint-guided mutation</p>
-<p>先对字节的重要性进行排序，看其会影响多少变量</p>
+<ul>
+<li><p>更快</p>
+</li>
+<li><p>不需要手动设置规则</p>
+</li>
+<li><p>不会出现误标记 没有over taint</p>
+</li>
+<li><p>可能会出现真正的污点变量无标记</p>
+</li>
+</ul>
+<hr>
+<h5 id="RQ1-2-Constraint-Conformance"><a href="#RQ1-2-Constraint-Conformance" class="headerlink" title="RQ1-2: Constraint Conformance"></a>RQ1-2: Constraint Conformance</h5><p>对分支语句做插桩，计算vlaue的一致性</p>
+<hr>
+<h4 id="RQ2-taint-guided-mutation"><a href="#RQ2-taint-guided-mutation" class="headerlink" title="RQ2: taint-guided mutation"></a>RQ2: taint-guided mutation</h4><p>先对字节的重要性进行排序，看其会影响多少变量</p>
 <p>对边的权重进行计算</p>
 <p>以权重最高的边做为目标，进行变异</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722161209915.png" alt="image-20190722161209915"></p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722161222751.png" alt="image-20190722161222751"></p>
-<p>-—–</p>
-<p>##### RQ3: Conformance-guided evolution</p>
-<p>the higher conformance, the better</p>
+<hr>
+<h5 id="RQ3-Conformance-guided-evolution"><a href="#RQ3-Conformance-guided-evolution" class="headerlink" title="RQ3: Conformance-guided evolution"></a>RQ3: Conformance-guided evolution</h5><p>the higher conformance, the better</p>
 <p>将种子池进行改变，链表中节点为一组路径相同、全局一致性相同、某一分支一致性不同的种子：</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722161531645.png" alt="image-20190722161531645"></p>
-<p>\1. 新的路径</p>
-<p>\2. 更高的全局一致性，替换原来的</p>
-<p>\3. 全局一致性相同，某一分支一致性不同，加入</p>
+<ol>
+<li><p>新的路径</p>
+</li>
+<li><p>更高的全局一致性，替换原来的</p>
+</li>
+<li><p>全局一致性相同，某一分支一致性不同，加入</p>
+</li>
+</ol>
 <p>因此能够更快的将好的种子选取出来。</p>
-<p>-—–</p>
+<hr>
 <p>具体效果：效果很好，发现了很多CVE。。。</p>
-<p>### Other Research Work</p>
-<p>初始种子的选择</p>
-<p>- 通过神经网络</p>
-<p>  - Neuzz(Oakland 19)值得一看。提高代码覆盖率，增加bitmap多样性。通过输出进行反推，送给神经网络。</p>
-<p>  - <img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722163011888.png" alt="image-20190722163011888"></p>
-<p>- 通过符号执行辅助</p>
-<p>  - <img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722163952377.png" alt="image-20190722163952377"></p>
-<p>- 选种子</p>
-<p>  - AFLfast：多选冷种子、冷路径，认为每个种子贡献相近，选择多的种子已经发现得差不多了</p>
-<p>  - <img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164004307.png" alt="image-20190722164004307"></p>
-<p>- 编译策略</p>
-<p>  - 通过AI帮助变异</p>
-<p>  - <img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164153935.png" alt="image-20190722164153935"></p>
-<p>- 更快的测试</p>
-<p>  - <img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164322657.png" alt="image-20190722164322657"></p>
-<p>- 安全性方面</p>
-<p>  - <img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164333775.png" alt="image-20190722164333775"></p>
+<h3 id="Other-Research-Work"><a href="#Other-Research-Work" class="headerlink" title="Other Research Work"></a>Other Research Work</h3><p>初始种子的选择</p>
+<ul>
+<li><p>通过神经网络</p>
+<ul>
+<li><p>Neuzz(Oakland 19)值得一看。提高代码覆盖率，增加bitmap多样性。通过输出进行反推，送给神经网络。</p>
+</li>
+<li><p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722163011888.png" alt="image-20190722163011888"></p>
+</li>
+</ul>
+</li>
+<li><p>通过符号执行辅助</p>
+<ul>
+<li><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722163952377.png" alt="image-20190722163952377"></li>
+</ul>
+</li>
+<li><p>选种子</p>
+<ul>
+<li><p>AFLfast：多选冷种子、冷路径，认为每个种子贡献相近，选择多的种子已经发现得差不多了</p>
+</li>
+<li><p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164004307.png" alt="image-20190722164004307"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>编译策略</li>
+</ul>
+<ul>
+<li><p>通过AI帮助变异</p>
+</li>
+<li><p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164153935.png" alt="image-20190722164153935"></p>
+</li>
+</ul>
+<ul>
+<li>更快的测试</li>
+</ul>
+<ul>
+<li><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164322657.png" alt="image-20190722164322657"></li>
+</ul>
+<ul>
+<li>安全性方面</li>
+</ul>
+<ul>
+<li><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164333775.png" alt="image-20190722164333775"></li>
+</ul>
 <p>目前仍存在的一些问题：</p>
 <p>涉及网络、复杂协议、UI界面、复杂状态机，对浏览器、kernel、driver大型目标怎么测</p>
-<p>##### Q&amp;A：</p>
-<p>Fuzz的一些标准：CCS18的Fuzz 建议</p>
+<h5 id="Q-amp-A："><a href="#Q-amp-A：" class="headerlink" title="Q&amp;A："></a>Q&amp;A：</h5><p>Fuzz的一些标准：CCS18的Fuzz 建议</p>
 <p>Fuzz数据集</p>
 <p><img src="/2019/07/22/GOSSIP-summerschool-2019-day3/image-20190722164812607.png" alt="image-20190722164812607"></p>
-<p>### 总结</p>
-<p>收获很大，对AFL有了更深入的了解。GreyOne中实现Data-flow sensitive的方式令我眼前一亮：通过fuzz来标记污点变量，可能对现在项目有所帮助。</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>收获很大，对AFL有了更深入的了解。GreyOne中实现Data-flow sensitive的方式令我眼前一亮：通过fuzz来标记污点变量，可能对现在项目有所帮助。</p>
 <p>前沿领域，越来越多使用机器学习来帮助fuzz进行seed的生成等操作，可能以后会更加常见，也值得一读通过机器学习来帮助fuzz的那篇ccs18的论文。</p>
 
           
@@ -748,44 +879,42 @@
       
         
           
-            <p># Let’s GOSSIP软件安全暑期学校笔记</p>
-<p># DAY 2</p>
-<p>## ML Module中的隐私和安全问题 张阳</p>
-<p>张阳老师首先介绍了CISPA的基本情况。</p>
+            <h1 id="Let’s-GOSSIP软件安全暑期学校笔记"><a href="#Let’s-GOSSIP软件安全暑期学校笔记" class="headerlink" title="Let’s GOSSIP软件安全暑期学校笔记"></a>Let’s GOSSIP软件安全暑期学校笔记</h1><h1 id="DAY-2"><a href="#DAY-2" class="headerlink" title="DAY 2"></a>DAY 2</h1><h2 id="ML-Module中的隐私和安全问题-张阳"><a href="#ML-Module中的隐私和安全问题-张阳" class="headerlink" title="ML Module中的隐私和安全问题 张阳"></a>ML Module中的隐私和安全问题 张阳</h2><p>张阳老师首先介绍了CISPA的基本情况。</p>
 <p>背景：机器学习大热</p>
 <p>最近发现机器学习模型存在大量隐私问题。</p>
 <p>五个方向的内容：</p>
-<p>- Privacy</p>
-<p>  - Membership inference</p>
-<p>  ##### Attack 1</p>
-<p>  训练Attack Module，可以判断熊猫是否在训练集中：</p>
+<ul>
+<li>Privacy</li>
+</ul>
+<ul>
+<li>Membership inference</li>
+</ul>
+<h5 id="Attack-1"><a href="#Attack-1" class="headerlink" title="Attack 1"></a>Attack 1</h5><p>  训练Attack Module，可以判断熊猫是否在训练集中：</p>
 <p>  <img src="/2019/07/21/GOSSIP-summerschool-2019-day2/image-20190721092931932.png" alt="image-20190721092931932"></p>
 <p>  攻击成功的原因：过拟合。因为机器学习在遇到训练过的样本时会更加的“自信”</p>
 <p>  过拟合程度越高，攻击模型表现越好。</p>
-<p>  ##### Attack 2</p>
-<p>  解决样本集合同分布的问题</p>
-<p>  ##### Attack 3</p>
-<p>  不用构建任何数据集，选一个阈值，超过即确定。</p>
-<p>  ##### 防御：</p>
-<p>  减少过拟合。</p>
-<p>  - Data reconstruction </p>
+<h5 id="Attack-2"><a href="#Attack-2" class="headerlink" title="Attack 2"></a>Attack 2</h5><p>  解决样本集合同分布的问题</p>
+<h5 id="Attack-3"><a href="#Attack-3" class="headerlink" title="Attack 3"></a>Attack 3</h5><p>  不用构建任何数据集，选一个阈值，超过即确定。</p>
+<h5 id="防御："><a href="#防御：" class="headerlink" title="防御："></a>防御：</h5><p>  减少过拟合。</p>
+<ul>
+<li>Data reconstruction </li>
+</ul>
 <p>  attack surface in online learning</p>
 <p>  在线学习更新后，通过同一张图片得到不同后验概率。如此反复，逆向工程推断出更新的数据集。</p>
 <p>  general attack pipeline</p>
 <p>  <img src="/2019/07/21/GOSSIP-summerschool-2019-day2/image-20190721101236068.png" alt="image-20190721101236068"></p>
-<p>- Security</p>
+<ul>
+<li>Security</li>
+</ul>
 <p>攻击者窃取模型</p>
 <p>提问：GAN 通过模型产生数据，如何鉴别：收集足够的数据，标记并进行训练</p>
-<p>-—–</p>
-<p>## 语言理解之美——基于NLP的漏洞分析  王健强</p>
-<p>学长首先讲解了栈溢出和堆溢出的区别。</p>
+<hr>
+<h2 id="语言理解之美——基于NLP的漏洞分析-王健强"><a href="#语言理解之美——基于NLP的漏洞分析-王健强" class="headerlink" title="语言理解之美——基于NLP的漏洞分析  王健强"></a>语言理解之美——基于NLP的漏洞分析  王健强</h2><p>学长首先讲解了栈溢出和堆溢出的区别。</p>
 <p>以及检测漏洞的方法：动态：Fuzz、sanitizer；静态：模式匹配、符号执行、机器学习。</p>
 <p>静态分析与动态分析的区别；自动化分析与手工代码审计。</p>
 <p>目的：寻找非标准库中的/自定义的内存管理函数。现有工具无法识别</p>
 <p>解决办法：使用NLP分析函数名，判断函数与内存管理的相关性。</p>
-<p>#### 使用NLP理解函数原型</p>
-<p>##### 分词、比较函数原型</p>
-<p>分词演示：</p>
+<h4 id="使用NLP理解函数原型"><a href="#使用NLP理解函数原型" class="headerlink" title="使用NLP理解函数原型"></a>使用NLP理解函数原型</h4><h5 id="分词、比较函数原型"><a href="#分词、比较函数原型" class="headerlink" title="分词、比较函数原型"></a>分词、比较函数原型</h5><p>分词演示：</p>
 <p><img src="/2019/07/21/GOSSIP-summerschool-2019-day2/image-20190721145156409.png" alt="image-20190721145156409"></p>
 <p>比较：</p>
 <p>Clang Static Analyzer</p>
@@ -932,70 +1061,131 @@
       
         
           
-            <p># Let’s GOSSIP软件安全暑期学校笔记</p>
-<p>## 7.20 上午</p>
-<p>8:55 开幕式，李卷孺博士开幕式致辞，介绍本次暑期学校大致情况。</p>
+            <h1 id="Let’s-GOSSIP软件安全暑期学校笔记"><a href="#Let’s-GOSSIP软件安全暑期学校笔记" class="headerlink" title="Let’s GOSSIP软件安全暑期学校笔记"></a>Let’s GOSSIP软件安全暑期学校笔记</h1><h2 id="7-20-上午"><a href="#7-20-上午" class="headerlink" title="7.20 上午"></a>7.20 上午</h2><p>8:55 开幕式，李卷孺博士开幕式致辞，介绍本次暑期学校大致情况。</p>
 <p>9:03 美国俄亥俄州立大学的张殷乾副教授开始《Spectre &amp; Meltdown, 你了解与不了解的侧信道攻击》的演讲。</p>
 <p>张老师首先介绍了著名的OSU的seclab的大致情况，欢迎同学们来到OSU深造。</p>
-<p>### Part 1</p>
-<p>进入正题，张老师首先介绍了CPU的大致结构，以及Spectre和Meltdown的背景知识。</p>
+<h3 id="Part-1"><a href="#Part-1" class="headerlink" title="Part 1"></a>Part 1</h3><p>进入正题，张老师首先介绍了CPU的大致结构，以及Spectre和Meltdown的背景知识。</p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720112450254.png" alt="image-20190720112450254"></p>
-<p>- 为了提高CPU效率，需要多个逻辑CPU对指令进行乱序执行</p>
-<p>- 微架构的侧信道攻击</p>
-<p>  - 威胁模型：两个虚拟机/线程在同一个处理器上运行</p>
-<p>  - 场景：云计算、移动设备、浏览器中的JavaScript</p>
-<p>- 侧信道攻击的C语言例子</p>
-<p>  - 当secret不同时，控制流不同</p>
-<p>  - 从执行的控制流推断secret</p>
-<p>- 攻击方法</p>
-<p>  - Prime+Probe 更普遍 精度cache set</p>
-<p>  - Flush+Reload 更精确</p>
-<p>  - …</p>
-<p>  - 通过循环访问、驱逐cache块，并检测cache的访问时间，泄露程序是否访问特定cache，从而推测同一块处理器上的victim程序访问的数据。</p>
-<p>- 攻击向量</p>
-<p>  - 计算机的储存结构以及执行指令模型：取指（）、译指、转换为多条micro指令、分发到多个执行单元。</p>
-<p>- TLB 侧信道攻击</p>
-<p>  - 驱逐TLB表项，victim访问后TLB存在，根据translate地址时间，判断。与之前类似</p>
-<p>- 威胁模型</p>
-<p>  - Hyper-Threading 攻击者与目标在同一个物理core，不同逻辑core 共享较多</p>
-<p>  - Same core，分时复用，共享的资源较少</p>
-<p>  - Cross core，共享的资源更少，page table、DRAM、LLC</p>
-<p>### Part 2</p>
-<p>- X86 Execution Engine 看PPT. Fetcher-&gt;decoder-&gt;issuer-&gt;scheduler</p>
-<p>- 乱序执行、预测执行</p>
-<p>- 预测执行攻击</p>
-<p>  - 当产生耗时操作（page fault）时，后续的micro instructions将继续预测执行，若预测错误，恢复寄存器、mem，但micro-architectural state发生变化，产生side channel effect</p>
-<p>- Spectre Attack</p>
-<p>  - 针对分支预测</p>
-<p>  - Example 论文里的例子</p>
-<p>- Meltdown</p>
-<p>  - 内核地址映射到用户空间的高内存部分</p>
-<p>  - 通过软件、硬件实现内存隔离</p>
-<p>  - 乱序执行、条件竞争</p>
+<ul>
+<li><p>为了提高CPU效率，需要多个逻辑CPU对指令进行乱序执行</p>
+</li>
+<li><p>微架构的侧信道攻击</p>
+<ul>
+<li><p>威胁模型：两个虚拟机/线程在同一个处理器上运行</p>
+</li>
+<li><p>场景：云计算、移动设备、浏览器中的JavaScript</p>
+</li>
+</ul>
+</li>
+<li><p>侧信道攻击的C语言例子</p>
+<ul>
+<li><p>当secret不同时，控制流不同</p>
+</li>
+<li><p>从执行的控制流推断secret</p>
+</li>
+</ul>
+</li>
+<li><p>攻击方法</p>
+<ul>
+<li><p>Prime+Probe 更普遍 精度cache set</p>
+</li>
+<li><p>Flush+Reload 更精确</p>
+</li>
+<li><p>…</p>
+</li>
+<li><p>通过循环访问、驱逐cache块，并检测cache的访问时间，泄露程序是否访问特定cache，从而推测同一块处理器上的victim程序访问的数据。</p>
+</li>
+</ul>
+</li>
+<li><p>攻击向量</p>
+<ul>
+<li>计算机的储存结构以及执行指令模型：取指（）、译指、转换为多条micro指令、分发到多个执行单元。</li>
+</ul>
+</li>
+<li><p>TLB 侧信道攻击</p>
+<ul>
+<li>驱逐TLB表项，victim访问后TLB存在，根据translate地址时间，判断。与之前类似</li>
+</ul>
+</li>
+<li><p>威胁模型</p>
+<ul>
+<li><p>Hyper-Threading 攻击者与目标在同一个物理core，不同逻辑core 共享较多</p>
+</li>
+<li><p>Same core，分时复用，共享的资源较少</p>
+</li>
+<li><p>Cross core，共享的资源更少，page table、DRAM、LLC</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Part-2"><a href="#Part-2" class="headerlink" title="Part 2"></a>Part 2</h3><ul>
+<li><p>X86 Execution Engine 看PPT. Fetcher-&gt;decoder-&gt;issuer-&gt;scheduler</p>
+</li>
+<li><p>乱序执行、预测执行</p>
+</li>
+<li><p>预测执行攻击</p>
+<ul>
+<li>当产生耗时操作（page fault）时，后续的micro instructions将继续预测执行，若预测错误，恢复寄存器、mem，但micro-architectural state发生变化，产生side channel effect</li>
+</ul>
+</li>
+<li><p>Spectre Attack</p>
+<ul>
+<li><p>针对分支预测</p>
+</li>
+<li><p>Example 论文里的例子</p>
+</li>
+</ul>
+</li>
+<li><p>Meltdown</p>
+<ul>
+<li><p>内核地址映射到用户空间的高内存部分</p>
+</li>
+<li><p>通过软件、硬件实现内存隔离</p>
+</li>
+<li><p>乱序执行、条件竞争</p>
+</li>
+</ul>
+</li>
+</ul>
 <p>​    - 数据到达比权限检查到达得更快，可以用micro-architectural state side channel 泄漏读取到的信息。</p>
-<p>  - Example</p>
-<p>  - CPU处理异常的模型，分两个阶段：</p>
+<ul>
+<li><p>Example</p>
+</li>
+<li><p>CPU处理异常的模型，分两个阶段：</p>
+</li>
+</ul>
 <p>​    - <img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720112845450.png" alt="image-20190720112845450"></p>
 <p>​    - Meltdown有时候失败返回0的原因：在P1后才返回数据</p>
-<p>- L1 Terminal Fault Attack（L1TF）</p>
-<p>  - SGX</p>
-<p>  - 通过 绕过检查 </p>
-<p>  - 只能leak L1 cache中的数据</p>
-<p>  - 利用Page fault</p>
-<p>- RIDL attack</p>
-<p>  - 利用Line Fill Buffer（LFB）</p>
-<p>  - 优点：可以跨域读取（没有清空LFB）</p>
-<p>### 总结</p>
-<p>对CPU side channel attack有了更深入的了解。</p>
+<ul>
+<li><p>L1 Terminal Fault Attack（L1TF）</p>
+<ul>
+<li><p>SGX</p>
+</li>
+<li><p>通过 绕过检查 </p>
+</li>
+<li><p>只能leak L1 cache中的数据</p>
+</li>
+<li><p>利用Page fault</p>
+</li>
+</ul>
+</li>
+<li><p>RIDL attack</p>
+<ul>
+<li><p>利用Line Fill Buffer（LFB）</p>
+</li>
+<li><p>优点：可以跨域读取（没有清空LFB）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对CPU side channel attack有了更深入的了解。</p>
 <p>Spectre论文：<a href="https://spectreattack.com/spectre.pdf" target="_blank" rel="noopener">https://spectreattack.com/spectre.pdf</a></p>
 <p>Meltdown论文：<a href="https://meltdownattack.com/meltdown.pdf" target="_blank" rel="noopener">https://meltdownattack.com/meltdown.pdf</a></p>
 <p>LOCCS实验室成员阅读Spectre论文笔记：<a href="https://loccs.sjtu.edu.cn/gossip/blog/2019/04/11/spectre-attacks-exploiting-speculative-execution/" target="_blank" rel="noopener">https://loccs.sjtu.edu.cn/gossip/blog/2019/04/11/spectre-attacks-exploiting-speculative-execution/</a></p>
-<p>-—–</p>
-<p>-—–</p>
-<p>-—–</p>
-<p>### 下午</p>
-<p>### Rust的奇幻之旅 孙茗珅</p>
-<p>-—–</p>
+<hr>
+<hr>
+<hr>
+<h3 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h3><h3 id="Rust的奇幻之旅-孙茗珅"><a href="#Rust的奇幻之旅-孙茗珅" class="headerlink" title="Rust的奇幻之旅 孙茗珅"></a>Rust的奇幻之旅 孙茗珅</h3><hr>
 <p>孙博士首先介绍了最近热门的Rust项目Libra</p>
 <p>说明了为什么选择Rust的原因：</p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720135829962.png" alt="image-20190720135829962"></p>
@@ -1049,8 +1239,7 @@
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720144022029.png" alt="image-20190720144022029"></p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720144048389.png" alt="image-20190720144048389"></p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720144218691.png" alt="image-20190720144218691"></p>
-<p>### Part 2</p>
-<p>使用Rust开发的ARM TrustZone SDK</p>
+<h3 id="Part-2-1"><a href="#Part-2-1" class="headerlink" title="Part 2"></a>Part 2</h3><p>使用Rust开发的ARM TrustZone SDK</p>
 <p>简单介绍TrustZone：</p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720150029586.png" alt="image-20190720150029586"></p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720150227402.png" alt="image-20190720150227402"></p>
@@ -1086,11 +1275,15 @@
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720154224189.png" alt="image-20190720154224189"></p>
 <p>总结：</p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720154258995.png" alt="image-20190720154258995"></p>
-<p>#### Unsafe Rust</p>
-<p>在unsafe 大括号下，可使用不安全语法</p>
-<p>- Dereference a raw pointer</p>
-<p>- Access or modify a mutable static variable</p>
-<p>- Call an unsafe function or method</p>
+<h4 id="Unsafe-Rust"><a href="#Unsafe-Rust" class="headerlink" title="Unsafe Rust"></a>Unsafe Rust</h4><p>在unsafe 大括号下，可使用不安全语法</p>
+<ul>
+<li><p>Dereference a raw pointer</p>
+</li>
+<li><p>Access or modify a mutable static variable</p>
+</li>
+<li><p>Call an unsafe function or method</p>
+</li>
+</ul>
 <p>可以将unsafe function封装到safe function中</p>
 <p><img src="/2019/07/20/GOSSIP-summerschool-2019-day1/image-20190720160713644.png" alt="image-20190720160713644"></p>
 <p>lon shell ： Rust 写的shell</p>
