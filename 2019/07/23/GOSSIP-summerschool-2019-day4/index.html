@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="讲座,笔记,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Let’s GOSSIP软件安全暑期学校笔记DAY 4: 7.23你的Password我来猜——口令安全分析技术揭秘 汪定">
+<meta name="keywords" content="讲座,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GOSSIP-summerschool-2019-day4">
+<meta property="og:url" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="Let’s GOSSIP软件安全暑期学校笔记DAY 4: 7.23你的Password我来猜——口令安全分析技术揭秘 汪定">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723135654518.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723140938314.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723151913751.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723151923945.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723161902809.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723162518781.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723162921162.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723163259306.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723163617605.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723163731737.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723164103301.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723164258565.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723164738795.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723165054748.png">
+<meta property="og:updated_time" content="2019-07-23T10:07:49.334Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GOSSIP-summerschool-2019-day4">
+<meta name="twitter:description" content="Let’s GOSSIP软件安全暑期学校笔记DAY 4: 7.23你的Password我来猜——口令安全分析技术揭秘 汪定">
+<meta name="twitter:image" content="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723135654518.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/">
+
+
+
+
+
+  <title>GOSSIP-summerschool-2019-day4 | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/07/23/GOSSIP-summerschool-2019-day4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GOSSIP-summerschool-2019-day4</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-23T18:04:24+08:00">
+                2019-07-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Let’s-GOSSIP软件安全暑期学校笔记"><a href="#Let’s-GOSSIP软件安全暑期学校笔记" class="headerlink" title="Let’s GOSSIP软件安全暑期学校笔记"></a>Let’s GOSSIP软件安全暑期学校笔记</h1><h1 id="DAY-4-7-23"><a href="#DAY-4-7-23" class="headerlink" title="DAY 4: 7.23"></a>DAY 4: 7.23</h1><h2 id="你的Password我来猜——口令安全分析技术揭秘-汪定"><a href="#你的Password我来猜——口令安全分析技术揭秘-汪定" class="headerlink" title="你的Password我来猜——口令安全分析技术揭秘 汪定"></a>你的Password我来猜——口令安全分析技术揭秘 汪定</h2><a id="more"></a>
+
+
+<p>生物特征仅适合本地/离线认证，不适合在线认证。（深圳某公司人脸数据造泄漏，生物特征的不可再生性）</p>
+<h3 id="用户行为"><a href="#用户行为" class="headerlink" title="用户行为"></a>用户行为</h3><p>人是系统中最薄弱的环节。</p>
+<p>现状：</p>
+<ol>
+<li><p>每个人的账号数量越来越多</p>
+</li>
+<li><p>网站口令策略杂乱无章</p>
+</li>
+<li><p>用户处理安全事务的能力和精力有限</p>
+</li>
+</ol>
+<p>研究所用信息获取的途径：</p>
+<ul>
+<li>用户问卷调查（效果不好）</li>
+<li>基于真实数据分析（使用泄露的口令集进行研究）</li>
+</ul>
+<p>用户口令行为：</p>
+<p>一：偏好选择流行口令（选择最热门的10个口令：1.28%～10.44%）</p>
+<p>二：口令重用</p>
+<p>三：使用个人相关信息（中文用户：37%～51%，英文用户：13%～30%）</p>
+<hr>
+<h3 id="口令分布"><a href="#口令分布" class="headerlink" title="口令分布"></a>口令分布</h3><p>用户选择的口令是高度集中的（highly skewed）</p>
+<p>基本假设有问题？口令的分布不知道。因为涉及到大规模的真实数据，涉及到多学科的交叉知识。</p>
+<p>数学的部分听不懂了。。。</p>
+<hr>
+<h3 id="口令猜测"><a href="#口令猜测" class="headerlink" title="口令猜测"></a>口令猜测</h3><p>口令猜测攻击</p>
+<p>定向在线猜测攻击越来越可行</p>
+<p>口令猜测情境下对个人信息的分类</p>
+<ul>
+<li>个人信息</li>
+<li>个人可标识信息</li>
+<li>用户的身份凭证</li>
+<li>其他个人信息</li>
+</ul>
+<p><strong>攻击情景</strong></p>
+<ul>
+<li>TarGuess-I: 定向PCFG</li>
+<li>对数据集进行切割，进行训练，对口令进行刻画</li>
+<li>TarGuess-II: 公开信息+姊妹口令</li>
+<li>TarGuess-III: 姊妹口令+第一类PII</li>
+<li>TarGuess-IV: 姊妹口令+第一类PII+第二类PII</li>
+</ul>
+<hr>
+<h3 id="口令评价"><a href="#口令评价" class="headerlink" title="口令评价"></a>口令评价</h3><p>口令强度检测器</p>
+<p>如何在未知用户旧口令的情况下，刻画用户的口令修改行为？</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>口令安全分析的方法论，为之前盲目的口令猜测破解提供了系统的指引。</p>
+<p>口令猜测部分可以基于已泄漏的口令数据集，对用户新设置口令的安全性进行分析。</p>
+<p>口令评价部分可以在工程中实现，提高用户口令安全性。</p>
+<p>具有较强的应用场景。</p>
+<hr>
+<hr>
+<hr>
+<h2 id="网络基础协议安全研究初探-郑晓峰"><a href="#网络基础协议安全研究初探-郑晓峰" class="headerlink" title="网络基础协议安全研究初探 郑晓峰"></a>网络基础协议安全研究初探 郑晓峰</h2><h3 id="“来来来，我们黑掉-GoSSIP”："><a href="#“来来来，我们黑掉-GoSSIP”：" class="headerlink" title="“来来来，我们黑掉 GoSSIP”："></a>“来来来，我们黑掉 GoSSIP”：</h3><p>介绍了一次从浏览器输入域名开始，访问网页中的的细节。</p>
+<hr>
+<h3 id="地址栏："><a href="#地址栏：" class="headerlink" title="地址栏："></a>地址栏：</h3><ul>
+<li>URL的组成</li>
+</ul>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723135654518.png" alt="image-20190723135654518"></p>
+<p>Example：<a href="http://baudu.com&amp;search=qq@167772161" target="_blank" rel="noopener">http://baudu.com&amp;search=qq@167772161</a></p>
+<p>实际访问：10.0.0.1</p>
+<ul>
+<li>复杂的编码 URL编码</li>
+<li>Percent-encoding</li>
+<li>Double-encoding</li>
+<li>Case-insensitive</li>
+<li>IDN 国际化域名 Unicode域名</li>
+<li><a href="http://xn--xkrp53d.edu.cn" target="_blank" rel="noopener">http://xn--xkrp53d.edu.cn</a> -&gt; http://清华.cn</li>
+<li><a href="http://xn--pple-43d.com" target="_blank" rel="noopener">http://xn--pple-43d.com</a> -&gt; ‘a’ (U+0430) -&gt; <a href="http://apple.com" target="_blank" rel="noopener">http://apple.com</a></li>
+<li>浏览器初期的防御：若域名字符不属于同一字符集，则直接显示</li>
+<li>引入更严格的检测算法，如黑名单</li>
+<li>利用Loading  掩盖掉地址栏真实的地址</li>
+<li>访问真实的，跳转到没有意义的地址，阻塞</li>
+<li>访问恶意的阻塞真实的：</li>
+<li>打开恶意网页，跳转到真实的网站，端口指向一个不存在的端口</li>
+<li><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723140938314.png" alt="image-20190723140938314"></li>
+</ul>
+<hr>
+<h3 id="启程：DNS"><a href="#启程：DNS" class="headerlink" title="启程：DNS"></a>启程：DNS</h3><p>篡改真实的IP地址</p>
+<ul>
+<li><p>DNS劫持：Middle Box</p>
+</li>
+<li><p>家用路由器（小米路由器 某一版本 会对请求的域名进行过滤）</p>
+</li>
+<li><p>DNS递归服务器</p>
+</li>
+<li><p>良性的</p>
+</li>
+<li><p>ISP可能会对主干网上的DNS进行劫持/抢答</p>
+</li>
+<li><p>在国内，356个自治系统中，有61个AS检测到DNS劫持</p>
+</li>
+<li><p>运营商内部进行缓存，抢答至缓存</p>
+</li>
+<li><p>攻击者</p>
+</li>
+<li><p>对递归DNS缓存投毒：攻击难度较高（2的32次方）</p>
+</li>
+<li><p>攻击者在递归服务器得到请求响应之前，抢答返回递归DNS服务器</p>
+</li>
+<li><p>需要构造响应包的</p>
+</li>
+<li><p>端口要相同</p>
+</li>
+<li><p>Transaction id相同</p>
+</li>
+<li><p>防御：</p>
+</li>
+<li><p>0x20编码：请求时对域名大小写随意置换，响应时必须匹配</p>
+</li>
+<li><p>绕过：</p>
+</li>
+<li><p>IP分片</p>
+</li>
+<li><p>不用猜 Source Port、Transaction id，转为猜IPID</p>
+</li>
+<li><p>UDP报文大于512字节时，IP可能分片</p>
+</li>
+<li><p>攻击者只用伪造第二个IP报文，发给受害者。（IP分片到达对于时序没有要求）</p>
+</li>
+<li><p>IPID</p>
+</li>
+<li><p>IPID长度：2的16次方，16字节</p>
+</li>
+<li><p>IPID没那么随机：操作系统的生成算法（全局递增的占多数，甚至常量。超过90%可以直接探测/递增）</p>
+</li>
+<li><p>Meet in Middle: 分片缓存，Linux默认至少64个，因此，只需间隔布局，再进行尝试，使IPID递增，猜测空间降低为1024（2^10）。</p>
+</li>
+<li><p>构造分片才是关键</p>
+</li>
+<li><p>包足够大，DNS payload长度一般小于512</p>
+</li>
+<li><p>PMTU足够小，操作系统默认配置PMTU大于576（实际攻击比较难）</p>
+</li>
+<li><p>DNSSEC</p>
+</li>
+<li><p>DNSSEC仅能保障数据完备性</p>
+</li>
+<li><p>部署程度很低</p>
+</li>
+</ul>
+<hr>
+<h3 id="HTTP劫持"><a href="#HTTP劫持" class="headerlink" title="HTTP劫持"></a>HTTP劫持</h3><p>在运营商的层面http的劫持时有发生</p>
+<p>HTTPS通过公钥体系，可以保证隐私性和完整性</p>
+<h4 id="Session如何泄漏的：Cookie安全"><a href="#Session如何泄漏的：Cookie安全" class="headerlink" title="Session如何泄漏的：Cookie安全"></a>Session如何泄漏的：Cookie安全</h4><h5 id="HTTP-Session"><a href="#HTTP-Session" class="headerlink" title="HTTP Session"></a>HTTP Session</h5><ul>
+<li><p>用于保持HTTP会话状态/缓存信息</p>
+</li>
+<li><p>由服务器/浏览器（脚本）写入</p>
+</li>
+<li><p>存储与浏览器/传输与HTTP头部</p>
+</li>
+<li><p>属性 </p>
+</li>
+<li><p>Name, domain, path……</p>
+</li>
+<li><p>三元组</p>
+</li>
+<li><p>[name, domain, path]: 确定一个cookie</p>
+</li>
+<li><p>很容易被劫持</p>
+</li>
+</ul>
+<h5 id="Cookie基础：同源策略（SOP）"><a href="#Cookie基础：同源策略（SOP）" class="headerlink" title="Cookie基础：同源策略（SOP）"></a>Cookie基础：同源策略（SOP）</h5><ul>
+<li>Web SOP 资源的同源策略：域名、端口、协议相同</li>
+<li>Cookie SOP：跨协议的</li>
+<li>仅以domain/path作为同源限制</li>
+<li>不区分端口</li>
+<li>不区分HTTP/HTTPS</li>
+<li>Domain向上通配</li>
+<li>写入时向上通配</li>
+<li>读取时</li>
+<li>Path向下通配</li>
+<li>以目录为单位</li>
+</ul>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723151913751.png" alt="image-20190723151913751"></p>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723151923945.png" alt="image-20190723151923945"></p>
+<h5 id="HTTPS-Cookie-Secure-Flag-保护"><a href="#HTTPS-Cookie-Secure-Flag-保护" class="headerlink" title="HTTPS Cookie: Secure Flag 保护"></a>HTTPS Cookie: Secure Flag 保护</h5><ul>
+<li>带有Secure属性的Cookie仅用于HTTPS使用。</li>
+<li>Secure Cookie缺乏完整性保护：无法读取，可以覆盖</li>
+<li>Secure Cookie注入、覆盖</li>
+<li>Cookie 注入：Authenticated as Attacker</li>
+</ul>
+<h5 id="HTTPS-Session"><a href="#HTTPS-Session" class="headerlink" title="HTTPS Session"></a>HTTPS Session</h5><ul>
+<li><p>惯性思维：“一个”HTTPS页面</p>
+</li>
+<li><p>现在通常的Web页面由多个请求组装起来的，并不少原子性的。替换一个请求</p>
+</li>
+<li><p>惯性思维：“唯一”的Cookie</p>
+</li>
+<li><p>Server只能看到name，domain/path由浏览器决定</p>
+</li>
+<li><p>写的时候带属性，读取时不带属性</p>
+</li>
+<li><p>允许重名（name相同，value不同）</p>
+</li>
+</ul>
+<p>RFC对于重名的处理没有标准</p>
+<p>目前主流的处理：顺序即优先级</p>
+<p><strong>控制优先级（顺序）</strong></p>
+<ul>
+<li>浏览器对Cookie String的排序标准：path更长，创建时间更早</li>
+<li>path</li>
+<li>更长</li>
+<li>无’/‘加入’/‘</li>
+<li>甚至加上‘index.php’或’index.php?type=1’(Firefox)</li>
+<li>更早创建</li>
+<li>可以删除原来的，再加入</li>
+</ul>
+<p>Gmail的例子</p>
+<p>注入了25个cookie</p>
+<p><strong>如何正确看待HTTPS页面：</strong></p>
+<ul>
+<li>HTTPS页面并非一个“原子”的页面，由很多个HTTPS请求组成，请求是离散的</li>
+<li>由多个ajax组成</li>
+<li>其中的部分请求可能被更改</li>
+</ul>
+<p><strong>补丁后的现状：Secure Cookie不能被重写</strong></p>
+<ul>
+<li><p>解决了Strict Secure Cookie避免了同名混淆</p>
+</li>
+<li><p>HTTP下仍能合法写入的Cookie，仍能在同domain HTTPS请求中传输</p>
+</li>
+<li><p>HTTP下能够控制HTTPS请求长度的变化</p>
+</li>
+</ul>
+<p><strong>HTTPS Path侧信道</strong></p>
+<ul>
+<li>对已知路径识别</li>
+<li>朝目标路径注入大量cookie，长度一旦发生变化，即可判断</li>
+<li>未知路径泄漏</li>
+<li>长hash作为路径，知道hash即可访问（云盘）</li>
+<li>Safari/IE未遵循规范，错误地采取了字符串前缀匹配</li>
+<li>攻击者可以逐字节猜解</li>
+</ul>
+<hr>
+<p>协议中歧义性的问题大量存在，特别是文本协议</p>
+<h4 id="Host-of-troubles"><a href="#Host-of-troubles" class="headerlink" title="Host of troubles"></a>Host of troubles</h4><p>请求中的host字段，存在歧义。</p>
+<p>服务器端第一次理解歧义产生的问题，影响了后续的请求。</p>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723161902809.png" alt="image-20190723161902809"></p>
+<hr>
+<h3 id="CDN安全"><a href="#CDN安全" class="headerlink" title="CDN安全"></a>CDN安全</h3><p>国内80%的情况会遇到CDN，CDN用来加速，帮助服务器进行防御</p>
+<p>CDN原理</p>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723162518781.png" alt="image-20190723162518781"></p>
+<h5 id="Forwarding-Loop-1-CDN节点自循环"><a href="#Forwarding-Loop-1-CDN节点自循环" class="headerlink" title="Forwarding-Loop 1: CDN节点自循环"></a>Forwarding-Loop 1: CDN节点自循环</h5><ul>
+<li>静态配置本地地址127.0.0.1</li>
+<li>支持域名作为原站地址，DNS实现动态绑定本地地址</li>
+</ul>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723162921162.png" alt="image-20190723162921162"></p>
+<h5 id="Forwarding-Loop-2-CDN内部多节点循环"><a href="#Forwarding-Loop-2-CDN内部多节点循环" class="headerlink" title="Forwarding-Loop 2: CDN内部多节点循环"></a>Forwarding-Loop 2: CDN内部多节点循环</h5><p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723163259306.png" alt="image-20190723163259306"></p>
+<h5 id="Forwarding-Loop-3-跨CDN循环"><a href="#Forwarding-Loop-3-跨CDN循环" class="headerlink" title="Forwarding-Loop 3: 跨CDN循环"></a>Forwarding-Loop 3: 跨CDN循环</h5><p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723163617605.png" alt="image-20190723163617605"></p>
+<h5 id="Forwarding-Loop-DNS调度"><a href="#Forwarding-Loop-DNS调度" class="headerlink" title="Forwarding-Loop +: DNS调度"></a>Forwarding-Loop +: DNS调度</h5><p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723163731737.png" alt="image-20190723163731737"></p>
+<h5 id="Forwarding-Loop-主动探测-amp-超时重传"><a href="#Forwarding-Loop-主动探测-amp-超时重传" class="headerlink" title="Forwarding-Loop +: 主动探测 &amp; 超时重传"></a>Forwarding-Loop +: 主动探测 &amp; 超时重传</h5><p>让爬虫来发起</p>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723164103301.png" alt="image-20190723164103301"></p>
+<h5 id="Forwarding-Loop-Non-Streaming-VS-Streaming"><a href="#Forwarding-Loop-Non-Streaming-VS-Streaming" class="headerlink" title="Forwarding-Loop +: Non-Streaming VS Streaming"></a>Forwarding-Loop +: Non-Streaming VS Streaming</h5><p>之前链路中之有一个/数个请求</p>
+<p>使用Request Streaming（仅部分支持）</p>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723164258565.png" alt="image-20190723164258565"></p>
+<h5 id="Forwarding-Loop-利用Response-Streaming"><a href="#Forwarding-Loop-利用Response-Streaming" class="headerlink" title="Forwarding-Loop +: 利用Response Streaming"></a>Forwarding-Loop +: 利用Response Streaming</h5><p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723164738795.png" alt="image-20190723164738795"></p>
+<p>攻击的增长仍是线性</p>
+<h5 id="Forwarding-Loop-GZip炸弹"><a href="#Forwarding-Loop-GZip炸弹" class="headerlink" title="Forwarding-Loop +: GZip炸弹"></a>Forwarding-Loop +: GZip炸弹</h5><p>本身很小，解压后十分大</p>
+<p>发起请求时不带gz，响应时带gz，使CDN解压后回传</p>
+<p><img src="/2019/07/23/GOSSIP-summerschool-2019-day4/image-20190723165054748.png" alt="image-20190723165054748"></p>
+<hr>
+<p>Q&amp;A：DNS over HTTPS</p>
+<p>依赖浏览器，（可指定权威DNS服务器？），大范围推广还是有一定距离；如邮件服务器等，仍需要传统DNS。</p>
+<p>其能够建立新的生态，可能出现新的攻击点。</p>
+<p>Q&amp;A：WAF、云盾</p>
+<p>Q&amp;A：支付前的安全检查有什么用</p>
+<hr>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>演讲十分精彩，网络协议研究、网络基础设施研究有很大的乐趣。</p>
+<p>网络协议中存在很多未被规范的细节，同时各个软件在实现上的方式不同，造成了协议中字段存在歧义。可以通过发现网络协议字段的歧义、网络协议中的细节，伪造、篡改信息，这是一个攻击面。</p>
+<p>如何系统的去解决、检测，也是一个值得思考的问题。</p>
+<p>网络是一个不信任域，如果没有协议的保障，任何来自网络的数据都是不可信的，中间有太多的环节可以对传输的数据进行攻击。这就要求我们：1. 设计网络协议时要考虑完整性、保密性、可用性，需要考虑可能遇到的时序相关的问题；2.在设计网络程序时，对接受的数据要进行多方面的验证，保证数据的完整性、保密性；也需要纵深防御的原则，对程序进行监控，及时发现并处理异常情况。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/讲座/" rel="tag"># 讲座</a>
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/22/GOSSIP-summerschool-2019-day3/" rel="next" title="GOSSIP_summerschool_2019_day3">
+                <i class="fa fa-chevron-left"></i> GOSSIP_summerschool_2019_day3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Let’s-GOSSIP软件安全暑期学校笔记"><span class="nav-number">1.</span> <span class="nav-text">Let’s GOSSIP软件安全暑期学校笔记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DAY-4-7-23"><span class="nav-number">2.</span> <span class="nav-text">DAY 4: 7.23</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#你的Password我来猜——口令安全分析技术揭秘-汪定"><span class="nav-number">2.1.</span> <span class="nav-text">你的Password我来猜——口令安全分析技术揭秘 汪定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户行为"><span class="nav-number">2.1.1.</span> <span class="nav-text">用户行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#口令分布"><span class="nav-number">2.1.2.</span> <span class="nav-text">口令分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#口令猜测"><span class="nav-number">2.1.3.</span> <span class="nav-text">口令猜测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#口令评价"><span class="nav-number">2.1.4.</span> <span class="nav-text">口令评价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.1.5.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络基础协议安全研究初探-郑晓峰"><span class="nav-number">2.2.</span> <span class="nav-text">网络基础协议安全研究初探 郑晓峰</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“来来来，我们黑掉-GoSSIP”："><span class="nav-number">2.2.1.</span> <span class="nav-text">“来来来，我们黑掉 GoSSIP”：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址栏："><span class="nav-number">2.2.2.</span> <span class="nav-text">地址栏：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启程：DNS"><span class="nav-number">2.2.3.</span> <span class="nav-text">启程：DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP劫持"><span class="nav-number">2.2.4.</span> <span class="nav-text">HTTP劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Session如何泄漏的：Cookie安全"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">Session如何泄漏的：Cookie安全</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP-Session"><span class="nav-number">2.2.4.1.1.</span> <span class="nav-text">HTTP Session</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Cookie基础：同源策略（SOP）"><span class="nav-number">2.2.4.1.2.</span> <span class="nav-text">Cookie基础：同源策略（SOP）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTPS-Cookie-Secure-Flag-保护"><span class="nav-number">2.2.4.1.3.</span> <span class="nav-text">HTTPS Cookie: Secure Flag 保护</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTPS-Session"><span class="nav-number">2.2.4.1.4.</span> <span class="nav-text">HTTPS Session</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Host-of-troubles"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">Host of troubles</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN安全"><span class="nav-number">2.2.5.</span> <span class="nav-text">CDN安全</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-1-CDN节点自循环"><span class="nav-number">2.2.5.0.1.</span> <span class="nav-text">Forwarding-Loop 1: CDN节点自循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-2-CDN内部多节点循环"><span class="nav-number">2.2.5.0.2.</span> <span class="nav-text">Forwarding-Loop 2: CDN内部多节点循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-3-跨CDN循环"><span class="nav-number">2.2.5.0.3.</span> <span class="nav-text">Forwarding-Loop 3: 跨CDN循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-DNS调度"><span class="nav-number">2.2.5.0.4.</span> <span class="nav-text">Forwarding-Loop +: DNS调度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-主动探测-amp-超时重传"><span class="nav-number">2.2.5.0.5.</span> <span class="nav-text">Forwarding-Loop +: 主动探测 &amp; 超时重传</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-Non-Streaming-VS-Streaming"><span class="nav-number">2.2.5.0.6.</span> <span class="nav-text">Forwarding-Loop +: Non-Streaming VS Streaming</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-利用Response-Streaming"><span class="nav-number">2.2.5.0.7.</span> <span class="nav-text">Forwarding-Loop +: 利用Response Streaming</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Forwarding-Loop-GZip炸弹"><span class="nav-number">2.2.5.0.8.</span> <span class="nav-text">Forwarding-Loop +: GZip炸弹</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结-1"><span class="nav-number">2.2.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
