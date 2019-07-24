@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="讲座,笔记,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Let’s GOSSIP软件安全暑期学校笔记DAY 5: 7.24今日演讲主题：  Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  夏虞斌 攻陷macOS！”非主流”逻辑提权漏洞研究 周智">
+<meta name="keywords" content="讲座,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GOSSIP-summerschool-2019-day5">
+<meta property="og:url" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="Let’s GOSSIP软件安全暑期学校笔记DAY 5: 7.24今日演讲主题：  Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  夏虞斌 攻陷macOS！”非主流”逻辑提权漏洞研究 周智">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112150962.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724093842665.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724094732044.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724094846747.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724101757186.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724102355238.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724102931219.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724102940524.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724103128932.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724103744906.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724103822005.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724104338858.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724105032791.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724105447998.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724105731781.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724110300443.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724110627288.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724110636472.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112531021.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112840510.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112931992.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113028271.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113315731.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113331985.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113344413.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113555092.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114027152.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114231883.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114443167.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114456985.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724132931063.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724132902916.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133008717.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133057241.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133125305.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133140817.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133210590.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133236701.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133334812.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133411176.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133438555.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133523402.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133610235.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133650277.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133716238.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135306164.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135439641.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135456482.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135827553.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724140707765.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724144136852.png">
+<meta property="og:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724144438188.png">
+<meta property="og:updated_time" content="2019-07-24T10:32:22.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GOSSIP-summerschool-2019-day5">
+<meta name="twitter:description" content="Let’s GOSSIP软件安全暑期学校笔记DAY 5: 7.24今日演讲主题：  Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  夏虞斌 攻陷macOS！”非主流”逻辑提权漏洞研究 周智">
+<meta name="twitter:image" content="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112150962.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/">
+
+
+
+
+
+  <title>GOSSIP-summerschool-2019-day5 | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/07/24/GOSSIP-summerschool-2019-day5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GOSSIP-summerschool-2019-day5</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-24T16:50:16+08:00">
+                2019-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Let’s-GOSSIP软件安全暑期学校笔记"><a href="#Let’s-GOSSIP软件安全暑期学校笔记" class="headerlink" title="Let’s GOSSIP软件安全暑期学校笔记"></a>Let’s GOSSIP软件安全暑期学校笔记</h1><h1 id="DAY-5-7-24"><a href="#DAY-5-7-24" class="headerlink" title="DAY 5: 7.24"></a>DAY 5: 7.24</h1><p>今日演讲主题：</p>
+<ol>
+<li>Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  夏虞斌</li>
+<li>攻陷macOS！”非主流”逻辑提权漏洞研究 周智</li>
+</ol>
+<a id="more"></a>
+
+
+
+<h1 id="Introduction-to-Secure-Processors-硬件为王——安全处理器的发展与机遇-夏虞斌"><a href="#Introduction-to-Secure-Processors-硬件为王——安全处理器的发展与机遇-夏虞斌" class="headerlink" title="Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  夏虞斌"></a>Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  <a href="https://ipads.se.sjtu.edu.cn/zh/pub/members/yubin_xia/" target="_blank" rel="noopener">夏虞斌</a></h1><p>在很多时候，可以认为硬件比软件更安全。</p>
+<p>形式化验证对于小型系统比较简单，大的系统如Android比较难。</p>
+<p>软件开发、更新比较简单，打patch更简单；硬件比较难。</p>
+<p>硬件攻击面比软件攻击面小</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><h5 id="OS-Hypervisor-has-too-much-code-as-TCB"><a href="#OS-Hypervisor-has-too-much-code-as-TCB" class="headerlink" title="OS/Hypervisor has too much code as TCB"></a>OS/Hypervisor has too much code as TCB</h5><p>第三方驱动为linux内核带来了许多漏洞。</p>
+<h5 id="Moreover-cloud-vendors-may-not-be-trusted-by-very-security-sensitive-clients"><a href="#Moreover-cloud-vendors-may-not-be-trusted-by-very-security-sensitive-clients" class="headerlink" title="Moreover, cloud vendors may not be trusted by very security sensitive clients"></a>Moreover, cloud vendors may not be trusted by very security sensitive clients</h5><h5 id="Thus-we-have-enclave"><a href="#Thus-we-have-enclave" class="headerlink" title="Thus we have enclave"></a>Thus we have enclave</h5><ul>
+<li>Technology to provide secure execution environment (aka enclave)</li>
+<li>Only hava small TCB</li>
+<li>Use TCB to provide confidentiality, integrity and freshness guarantees for application executing in enclave environment</li>
+</ul>
+<p>验证云端确实有硬件安全的基础，才信任</p>
+<h3 id="需要考虑"><a href="#需要考虑" class="headerlink" title="需要考虑"></a>需要考虑</h3><ul>
+<li>OS/hypervisor被控制的情况下，保证数据的安全</li>
+<li>同一台机器上的恶意软件的侧信道攻击</li>
+<li>物理攻击 被云运营商<ul>
+<li>Memory bus snooping： 数据读写 在总线上广播、内存中数据加密比较难</li>
+<li>Cold boot attack / NVM： 用液氮将内存冷冻起来，装到恶意系统中，将密钥偷出来</li>
+<li>Etc</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112150962.png" alt="image-20190724112150962"></p>
+<h2 id="学术界"><a href="#学术界" class="headerlink" title="学术界"></a>学术界</h2><p>介绍了两个学术界的enclave：XOM、AEGIS</p>
+<h3 id="eXecute-Only-Memory-XOM"><a href="#eXecute-Only-Memory-XOM" class="headerlink" title="eXecute-Only Memory (XOM)"></a>eXecute-Only Memory (XOM)</h3><p>ASPLOS 2000</p>
+<p>CPU对内存区域，不可读、仅可执行。使得操作CPU也无法读取数据，黑盒。</p>
+<h4 id="Threat-model"><a href="#Threat-model" class="headerlink" title="Threat model"></a>Threat model</h4><p>OS不可信 and external memory （内存中存放密文，key在CPU里面，明文在cache中，防止Cold boot attack，使得攻击成本极高，所以认为CPU内部、SOC内部比较安全）</p>
+<h4 id="Propose-execute-only-code"><a href="#Propose-execute-only-code" class="headerlink" title="Propose execute-only code"></a>Propose execute-only code</h4><h4 id="Abstract-XOM-Machine"><a href="#Abstract-XOM-Machine" class="headerlink" title="Abstract XOM Machine"></a>Abstract XOM Machine</h4><h4 id="XOMOS"><a href="#XOMOS" class="headerlink" title="XOMOS"></a>XOMOS</h4><p>XOM保证master secret key的安全</p>
+<p>软件进行配置，硬件进行细节的执行</p>
+<p>Modification required：论文</p>
+<ul>
+<li>进程创建进行修改 每个进程key不同，函数调用、返回值加密</li>
+</ul>
+<h4 id="Counter-Mode-Encryption"><a href="#Counter-Mode-Encryption" class="headerlink" title="Counter-Mode Encryption"></a>Counter-Mode Encryption</h4><p>每块内存对应一个seed</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724093842665.png" alt="image-20190724093842665"></p>
+<p>使得加解密开销由一个页面大小转变为Block Cipher的大小（Cache line 大小16Byte）</p>
+<h5 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h5><p>Seed with global Counter</p>
+<h4 id="Memory-Integrity-Verification"><a href="#Memory-Integrity-Verification" class="headerlink" title="Memory Integrity Verification"></a>Memory Integrity Verification</h4><p>CPU取内存时计算hash进行校验</p>
+<ul>
+<li>Replay attacks for simply computing MAC</li>
+<li>Merkle tree verification</li>
+</ul>
+<h5 id="Merkle-trees"><a href="#Merkle-trees" class="headerlink" title="Merkle trees"></a>Merkle trees</h5><p>一层一层的hash，得到root hash，从而一层层的保证数据完整性</p>
+<p>优化：Bonsai Merkle trees</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724094732044.png" alt="image-20190724094732044"></p>
+<h5 id="AISE-amp-BMT"><a href="#AISE-amp-BMT" class="headerlink" title="AISE &amp; BMT"></a>AISE &amp; BMT</h5><p>overhead 5%，cache hit 90%+</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724094846747.png" alt="image-20190724094846747"></p>
+<hr>
+<h3 id="AEGIS"><a href="#AEGIS" class="headerlink" title="AEGIS"></a>AEGIS</h3><p>设计目的大部分与XOM相同</p>
+<p>Small TCB</p>
+<h5 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h5><p>​    与XOM相似。将 root hash放在cpu内部</p>
+<h5 id="Data-Confidential"><a href="#Data-Confidential" class="headerlink" title="Data Confidential"></a>Data Confidential</h5><h5 id="Context-Switch-amp-Interrupt"><a href="#Context-Switch-amp-Interrupt" class="headerlink" title="Context Switch &amp; Interrupt"></a>Context Switch &amp; Interrupt</h5><p>​    OS可以控制enclave</p>
+<p>​    将上下文保存在cpu中的一块区域</p>
+<h5 id="Memory-Sharing"><a href="#Memory-Sharing" class="headerlink" title="Memory Sharing"></a>Memory Sharing</h5><p>​    通过一个bit进行标记是否共享，一个bit进行加密</p>
+<h4 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h4><ul>
+<li>上下文机制</li>
+<li>隔离enclaves</li>
+<li>对内存划分比较简单</li>
+</ul>
+<h4 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h4><ul>
+<li>侧信道</li>
+<li>performance overhead较高</li>
+</ul>
+<h3 id="RISC-V"><a href="#RISC-V" class="headerlink" title="RISC-V"></a>RISC-V</h3><h4 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h4><p><strong>权限划分</strong>：用户态、OS Supervisor、Hypervisor、Machine Mode</p>
+<p>Machine Mode: 类似微码编程</p>
+<h4 id="Theart-model"><a href="#Theart-model" class="headerlink" title="Theart model:"></a>Theart model:</h4><ul>
+<li>恶意的操作系统</li>
+<li>测信道</li>
+<li>无物理攻击的防御</li>
+</ul>
+<h4 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h4><p>software</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724101757186.png" alt="image-20190724101757186"></p>
+<h4 id="Hardware-Property-Memory-Region"><a href="#Hardware-Property-Memory-Region" class="headerlink" title="Hardware Property: Memory Region"></a>Hardware Property: Memory Region</h4><p>Secure Monitor 管理内存区域的归属那个enclave</p>
+<p>CPU需要记录process id和memory region id并在每一次访存中检查</p>
+<p>没有共享内存的机制，可以一定程度上的缓解side channel</p>
+<p>memory region数量受限、同时跑的enclave受限</p>
+<h4 id="Hardware-Property-Dual-page-table"><a href="#Hardware-Property-Dual-page-table" class="headerlink" title="Hardware Property: Dual page table"></a>Hardware Property: Dual page table</h4><p>双页表</p>
+<p>当属于某个enclave时，加入enclave页表。</p>
+<p>与系统无保护的页表分开，防止页表的side channel</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724102355238.png" alt="image-20190724102355238"></p>
+<h4 id="Conclusion-1"><a href="#Conclusion-1" class="headerlink" title="Conclusion"></a>Conclusion</h4><p>内存隔离机制</p>
+<p>安全性差</p>
+<p>秘密性、完整性无保护</p>
+<p>内存限制较多</p>
+<p>同时运行enclave数量有限</p>
+<h3 id="KEYSTONE"><a href="#KEYSTONE" class="headerlink" title="KEYSTONE"></a>KEYSTONE</h3><h4 id="Overview-1"><a href="#Overview-1" class="headerlink" title="Overview"></a>Overview</h4><p>纯软件的方案，大部分代码都是现在Machine mode中</p>
+<h4 id="Basic-Architecture"><a href="#Basic-Architecture" class="headerlink" title="Basic Architecture"></a>Basic Architecture</h4><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724102931219.png" alt="image-20190724102931219"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724102940524.png" alt="image-20190724102940524"></p>
+<h4 id="Hardware-Property-PMP-Physical-Memory-Protection"><a href="#Hardware-Property-PMP-Physical-Memory-Protection" class="headerlink" title="Hardware Property: PMP(Physical Memory Protection)"></a>Hardware Property: PMP(Physical Memory Protection)</h4><p>有八个寄存器标记连续内存区域的权限</p>
+<p>和页表不同的地方：PMP寄存器只有八个，针对物理地址。</p>
+<p>PMP寄存器取并集为权限：</p>
+<p>OS运行时：只能访问OS memory</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724103128932.png" alt="image-20190724103128932"></p>
+<h4 id="Hardware-Property-Cache-Partition"><a href="#Hardware-Property-Cache-Partition" class="headerlink" title="Hardware Property: Cache Partition"></a>Hardware Property: Cache Partition</h4><p>Sifive</p>
+<p>避免Cache 共享</p>
+<h4 id="Conclusion-2"><a href="#Conclusion-2" class="headerlink" title="Conclusion"></a>Conclusion</h4><p>通过PMP来实现隔离</p>
+<p>局限：动态加载内存不行、enclave寄存器数量有限（仅支持n-1个enclave）</p>
+<p>优点：开源、软件实现</p>
+<hr>
+<h2 id="工业界"><a href="#工业界" class="headerlink" title="工业界"></a>工业界</h2><h3 id="Intel-SGX"><a href="#Intel-SGX" class="headerlink" title="Intel SGX"></a>Intel SGX</h3><p>能防御物理攻击</p>
+<h4 id="threat-model"><a href="#threat-model" class="headerlink" title="threat model"></a>threat model</h4><p>隐私性完整性</p>
+<p>side channel没有</p>
+<h4 id="Design-of-SGX-Memory-Protection"><a href="#Design-of-SGX-Memory-Protection" class="headerlink" title="Design of SGX: Memory Protection"></a>Design of SGX: Memory Protection</h4><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724103744906.png" alt="image-20190724103744906"></p>
+<h4 id="Design-of-SGX-Memory-Protection-1"><a href="#Design-of-SGX-Memory-Protection-1" class="headerlink" title="Design of SGX: Memory Protection"></a>Design of SGX: Memory Protection</h4><p>只有一个页表、由OS控制</p>
+<p>ELRANGE对应到EPC，VA映射PA由OS控制，Processor记录ELRANGE和EPC的内存范围。</p>
+<p>CPU中有hash tree，overhead比较高</p>
+<p>EPC比较小128M，由于hash tree限制。</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724103822005.png" alt="image-20190724103822005"></p>
+<h4 id="Design-of-SGX-Permission-Check"><a href="#Design-of-SGX-Permission-Check" class="headerlink" title="Design of SGX: Permission Check"></a>Design of SGX: Permission Check</h4><p>更多权限上的检查</p>
+<h4 id="Design-of-SGX-Context-Switch-amp-Interrupt"><a href="#Design-of-SGX-Context-Switch-amp-Interrupt" class="headerlink" title="Design of SGX: Context Switch &amp; Interrupt"></a>Design of SGX: Context Switch &amp; Interrupt</h4><h4 id="Design-of-SGX-Confidentiality-amp-Integrity"><a href="#Design-of-SGX-Confidentiality-amp-Integrity" class="headerlink" title="Design of SGX: Confidentiality &amp; Integrity"></a>Design of SGX: Confidentiality &amp; Integrity</h4><p>MEE: 加解密模块</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724104338858.png" alt="image-20190724104338858"></p>
+<h4 id="Software-Interface"><a href="#Software-Interface" class="headerlink" title="Software Interface"></a>Software Interface</h4><p>可以将.so/.dll加载到进程空间</p>
+<p>EENTER：单一入口 enclave</p>
+<h4 id="Conclusion-3"><a href="#Conclusion-3" class="headerlink" title="Conclusion"></a>Conclusion</h4><ul>
+<li><p>隔离软件和enclave</p>
+</li>
+<li><p>隔离enclave之间</p>
+</li>
+<li><p>物理攻击</p>
+<ul>
+<li>加密</li>
+<li>hash</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>side channel</li>
+<li>第一代不支持动态内存增加</li>
+<li>128M PRM限制</li>
+</ul>
+</li>
+</ul>
+<h3 id="AMD-VEX"><a href="#AMD-VEX" class="headerlink" title="AMD VEX"></a>AMD VEX</h3><h4 id="Overview-2"><a href="#Overview-2" class="headerlink" title="Overview"></a>Overview</h4><p>保证隐私性不保证完整性</p>
+<p>对内存大小无限制</p>
+<h4 id="threat-model-1"><a href="#threat-model-1" class="headerlink" title="threat model"></a>threat model</h4><p>直接用VM做隔离，保证VM的安全，云端</p>
+<p>side channel没考虑太多</p>
+<h4 id="Design-of-SEV-Secure-Encryption"><a href="#Design-of-SEV-Secure-Encryption" class="headerlink" title="Design of SEV: Secure Encryption"></a>Design of SEV: Secure Encryption</h4><p>每个VM一个key</p>
+<p>通过Address Space ID来决定VM的key，可以以此控制share</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724105032791.png" alt="image-20190724105032791"></p>
+<h4 id="Design-of-SEV-Hardware-Architecture"><a href="#Design-of-SEV-Hardware-Architecture" class="headerlink" title="Design of SEV: Hardware Architecture"></a>Design of SEV: Hardware Architecture</h4><p>硬件与软件的界限越来越模糊</p>
+<p>CPU打patch：修改micro code对应的ROM，每条指令的操作就变了。</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724105447998.png" alt="image-20190724105447998"></p>
+<h4 id="Conclusion-4"><a href="#Conclusion-4" class="headerlink" title="Conclusion"></a>Conclusion</h4><ul>
+<li>enclave之间：<ul>
+<li>通过ASID保护</li>
+<li>加密</li>
+</ul>
+</li>
+<li>enclave与软件之间<ul>
+<li>通过ASID保护</li>
+<li>加密</li>
+</ul>
+</li>
+<li>物理攻击：<ul>
+<li>加密</li>
+</ul>
+</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><p>side channel</p>
+<p>ASID有限</p>
+<h3 id="ARM-TRUSTZOME"><a href="#ARM-TRUSTZOME" class="headerlink" title="ARM TRUSTZOME"></a>ARM TRUSTZOME</h3><h4 id="Overview-3"><a href="#Overview-3" class="headerlink" title="Overview"></a>Overview</h4><p>把CPU一分为二，时分复用。很底层的设计，做切换</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724105731781.png" alt="image-20190724105731781"></p>
+<p>TEE REE</p>
+<h4 id="应用："><a href="#应用：" class="headerlink" title="应用："></a>应用：</h4><p>指纹、三星用TEE防root，华为类似、数字版权保护（DRM）</p>
+<h4 id="Different-levels-of-Trust-安全级别："><a href="#Different-levels-of-Trust-安全级别：" class="headerlink" title="Different levels of Trust 安全级别："></a>Different levels of Trust 安全级别：</h4><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724110300443.png" alt="image-20190724110300443"></p>
+<p>TEE在成本、安全性比较好、折衷的方案</p>
+<p>可以把指纹、虹膜放在TEE；很深的隔离</p>
+<h3 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h3><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724110627288.png" alt="image-20190724110627288"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724110636472.png" alt="image-20190724110636472"></p>
+<h2 id="Enhancement"><a href="#Enhancement" class="headerlink" title="Enhancement"></a>Enhancement</h2><h3 id="Internal-isolation"><a href="#Internal-isolation" class="headerlink" title="Internal isolation"></a>Internal isolation</h3><p>Enclave 往往更加复杂。介绍了一种内部隔离的方法</p>
+<h4 id="TEE"><a href="#TEE" class="headerlink" title="TEE:"></a>TEE:</h4><p>Stage1: (before-2012) 检查启动</p>
+<p>Stage2: (2012-2017) 预装应用程序、扩展的信任</p>
+<p>Stage3: (2017-now) 很多程序可以动态装入enclave中</p>
+<h5 id="需要在TEE中做更细致的隔离的原因"><a href="#需要在TEE中做更细致的隔离的原因" class="headerlink" title="需要在TEE中做更细致的隔离的原因"></a>需要在TEE中做更细致的隔离的原因</h5><p>三个原因</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112531021.png" alt="image-20190724112531021"></p>
+<h4 id="Goals-of-vTEE"><a href="#Goals-of-vTEE" class="headerlink" title="Goals of vTEE"></a>Goals of vTEE</h4><ul>
+<li>TEE虚拟化</li>
+<li>最小化TEE</li>
+<li>…</li>
+</ul>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112840510.png" alt="image-20190724112840510"></p>
+<p>要求：</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724112931992.png" alt="image-20190724112931992"></p>
+<h5 id="TEE-visor"><a href="#TEE-visor" class="headerlink" title="TEE-visor"></a>TEE-visor</h5><p>解决：</p>
+<p>虚拟化MMU</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113028271.png" alt="image-20190724113028271"></p>
+<p>对不同的TEE看到的MMU不同</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113315731.png" alt="image-20190724113315731"></p>
+<h5 id="Gate"><a href="#Gate" class="headerlink" title="Gate"></a>Gate</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113331985.png" alt="image-20190724113331985"></p>
+<h5 id="Interaction"><a href="#Interaction" class="headerlink" title="Interaction"></a>Interaction</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113344413.png" alt="image-20190724113344413"></p>
+<h5 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724113555092.png" alt="image-20190724113555092"></p>
+<h3 id="Cross-boundary-optimization"><a href="#Cross-boundary-optimization" class="headerlink" title="Cross-boundary optimization"></a>Cross-boundary optimization</h3><p>上述TEE之间的切换overhead很大，在隔离的情况下实现Cross-boundary interaction。</p>
+<p>在微内核中常见：</p>
+<p>IPC</p>
+<p>比function call 消耗大16倍，有切换的过程。</p>
+<p>Domain switch 500cycles</p>
+<p>Message copy 4000cycles(4 KB数据)</p>
+<h4 id="XPC"><a href="#XPC" class="headerlink" title="XPC"></a>XPC</h4><p>跨进程调用</p>
+<p>实现了xcall、xret指令</p>
+<ul>
+<li>Direct domain switch</li>
+<li>Relay segment</li>
+</ul>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114027152.png" alt="image-20190724114027152"></p>
+<h5 id="Domain-switch的时间开销"><a href="#Domain-switch的时间开销" class="headerlink" title="Domain switch的时间开销"></a>Domain switch的时间开销</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114231883.png" alt="image-20190724114231883"></p>
+<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114443167.png" alt="image-20190724114443167"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724114456985.png" alt="image-20190724114456985"></p>
+<p>Check 转为硬件实现：</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724132931063.png" alt="image-20190724132931063"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724132902916.png" alt="image-20190724132902916"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133008717.png" alt="image-20190724133008717"></p>
+<h5 id="Copying-Message-is-Slow"><a href="#Copying-Message-is-Slow" class="headerlink" title="Copying Message is Slow"></a>Copying Message is Slow</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133057241.png" alt="image-20190724133057241"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133125305.png" alt="image-20190724133125305"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133140817.png" alt="image-20190724133140817"></p>
+<p>普通数据通过Page Table 访问，message通过寄存器进行翻译，等价于TLB</p>
+<p>将寄存器relay-segment传递给callee，使得caller失去对message的访问</p>
+<p>可实现快速的接力，同时只能有一个</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133210590.png" alt="image-20190724133210590"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133236701.png" alt="image-20190724133236701"></p>
+<h5 id="XPC程序示例"><a href="#XPC程序示例" class="headerlink" title="XPC程序示例"></a>XPC程序示例</h5><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133334812.png" alt="image-20190724133334812"></p>
+<h3 id="side-channel"><a href="#side-channel" class="headerlink" title="side channel"></a>side channel</h3><p>核心在于共享。</p>
+<h4 id="Controlled-channel-attack-via-page-table"><a href="#Controlled-channel-attack-via-page-table" class="headerlink" title="Controlled channel attack (via page table)"></a>Controlled channel attack (via page table)</h4><p>Transaction<br>失败时abort<br>保证xbegin到xend是原子的</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133411176.png" alt="image-20190724133411176"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133438555.png" alt="image-20190724133438555"></p>
+<h4 id="Branch-side-channel"><a href="#Branch-side-channel" class="headerlink" title="Branch side channel"></a>Branch side channel</h4><p>哪些地址是take or not take，来推断if中的值</p>
+<h4 id="TLB-side-channel"><a href="#TLB-side-channel" class="headerlink" title="TLB side channel"></a>TLB side channel</h4><h4 id="conclusion"><a href="#conclusion" class="headerlink" title="conclusion"></a>conclusion</h4><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133523402.png" alt="image-20190724133523402"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>传统的隔离是单向的</p>
+<p>enclave</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133610235.png" alt="image-20190724133610235"></p>
+<p>跨级反向隔离 &amp; 同级细粒度隔离</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133650277.png" alt="image-20190724133650277"></p>
+<p>软硬件协同的离散隔离模型</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724133716238.png" alt="image-20190724133716238"></p>
+<h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><h3 id="如何使用SGX："><a href="#如何使用SGX：" class="headerlink" title="如何使用SGX："></a>如何使用SGX：</h3><p>将代码传到云平台，向其发出随机数challenge，云平台对其签名，在Intel官网使用公钥，验证其签名来自Intel认可的私钥。</p>
+<p>保护代码：传上去代码的loader，将代码作为数据加密传上去。</p>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><p>SGX可以实现全同态加密，在密文的基础上进行操作，加密搜索、加密操作…</p>
+<p>能够保证完整性和隐私性</p>
+<p>不信任Intel SGX，因为密钥存放在Intel。</p>
+<p>SGX中恶意代码，攻击主机，TEE中也可以保护恶意代码。</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>对硬件安全机制有了更深入的了解，软件安全依赖于硬件安全，一旦硬件出现安全问题，在其之上的软件势必会受到影响。现在，硬件与软件之间的界限愈发模糊，许多硬件问题能够通过升级软件来解决。</p>
+<p>SGX作为Intel近年来发布的解决方案，之前爆出了大量漏洞，但之后利用难度也肯定会越来越大。</p>
+<p>云安全和硬件安全值得关注。</p>
+<h1 id="攻陷macOS！”非主流”逻辑提权漏洞研究-周智"><a href="#攻陷macOS！”非主流”逻辑提权漏洞研究-周智" class="headerlink" title="攻陷macOS！”非主流”逻辑提权漏洞研究 周智"></a>攻陷macOS！”非主流”逻辑提权漏洞研究 周智</h1><h2 id="推荐书籍与工具："><a href="#推荐书籍与工具：" class="headerlink" title="推荐书籍与工具："></a>推荐书籍与工具：</h2><p>《OS Internals》推荐</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135306164.png" alt="image-20190724135306164"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135439641.png" alt="image-20190724135439641"></p>
+<p>自带的工具</p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135456482.png" alt="image-20190724135456482"></p>
+<p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724135827553.png" alt="image-20190724135827553"></p>
+<p>环境：</p>
+<ul>
+<li>反汇编/反编译</li>
+<li>class-dump</li>
+<li>系统监控<ul>
+<li>Monitor.app By FireEye</li>
+</ul>
+</li>
+</ul>
+<h2 id="逻辑漏洞"><a href="#逻辑漏洞" class="headerlink" title="逻辑漏洞"></a>逻辑漏洞</h2><p>特点：</p>
+<ul>
+<li>简单粗暴：相对较少涉及底层细节</li>
+<li>难以fuzz：不会产生明显的奔溃现象</li>
+<li>利用稳定：不需要破坏数据结构</li>
+<li>脑洞大开：跨组件串联多个条件</li>
+</ul>
+<p>滥用软件既有的特性</p>
+<p>开发者对API的误用</p>
+<h2 id="MacOS-权限隔离"><a href="#MacOS-权限隔离" class="headerlink" title="MacOS 权限隔离"></a>MacOS 权限隔离</h2><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724140707765.png" alt="image-20190724140707765"></p>
+<h2 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h2><ul>
+<li>Mach IPC</li>
+<li>XPC：macOS/IOS最常用的IPC、用于用户态进程通信</li>
+<li>NSXPCConnection<ul>
+<li>基于libxpc</li>
+<li>基于@protocol和NSSecureCoding的远程过程调用</li>
+<li>面向对象</li>
+</ul>
+</li>
+</ul>
+<h2 id="权限检查"><a href="#权限检查" class="headerlink" title="权限检查"></a>权限检查</h2><p>沙箱逃逸：攻击沙箱外传进来的API</p>
+<p>XPC服务允许不同特权级别进程互相通信。</p>
+<ul>
+<li>跨sandbox</li>
+<li>跨euid</li>
+</ul>
+<p>通常使用代码签名限制（低权限）调用者</p>
+<p><strong>使用pid做检查很不安全</strong>，有很多软件这么做</p>
+<p>### </p>
+<h2 id="Safari沙箱逃逸"><a href="#Safari沙箱逃逸" class="headerlink" title="Safari沙箱逃逸"></a>Safari沙箱逃逸</h2><ul>
+<li>现代浏览器基于多进程架构</li>
+<li>渲染器进程处于沙箱中<ul>
+<li>不可以创建进程</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<p>渲染器：主要攻击WebCore</p>
+<h3 id="IOS-WebProcess"><a href="#IOS-WebProcess" class="headerlink" title="IOS WebProcess"></a>IOS WebProcess</h3><ul>
+<li>当前MobileSafari基于多进程架构</li>
+<li>沙箱配置文件直接编译到sandbox.kext</li>
+<li>使用的searbelt-profiles指定，进程启动后自动初始化沙箱</li>
+</ul>
+<h3 id="MacOS-WebProcess"><a href="#MacOS-WebProcess" class="headerlink" title="MacOS WebProcess"></a>MacOS WebProcess</h3><ul>
+<li><p>配置文件…</p>
+</li>
+<li><p>在进程初始化中存在一个无沙箱状态的时间窗口</p>
+</li>
+</ul>
+<h3 id="攻击面"><a href="#攻击面" class="headerlink" title="攻击面"></a>攻击面</h3><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724144136852.png" alt="image-20190724144136852"></p>
+<h3 id="系统服务（用户态的攻击面）"><a href="#系统服务（用户态的攻击面）" class="headerlink" title="系统服务（用户态的攻击面）"></a>系统服务（用户态的攻击面）</h3><p><img src="/2019/07/24/GOSSIP-summerschool-2019-day5/image-20190724144438188.png" alt="image-20190724144438188"></p>
+<p>WindowServer在前几年是重点攻击的目标</p>
+<h4 id="攻击WebKit自带的IPC"><a href="#攻击WebKit自带的IPC" class="headerlink" title="攻击WebKit自带的IPC"></a>攻击WebKit自带的IPC</h4><h3 id="分析沙箱配置"><a href="#分析沙箱配置" class="headerlink" title="分析沙箱配置"></a>分析沙箱配置</h3><p>macOS WebProcess上的配置文件可以在文件系统中找到。</p>
+<p>检查其中的配置</p>
+<ul>
+<li>…</li>
+<li>用户态服务</li>
+<li>函数原型</li>
+<li>flags</li>
+<li>其他IPC<ul>
+<li>共享内存</li>
+<li>…</li>
+</ul>
+</li>
+<li>对缓存和临时目录具有读写权限</li>
+</ul>
+<h2 id="两个案例分析"><a href="#两个案例分析" class="headerlink" title="两个案例分析"></a>两个案例分析</h2><ol>
+<li>IOS应用后台续命</li>
+<li>一行代码逃逸沙箱<ol>
+<li>TOCTOU：time of check time of use<ol>
+<li>Safari渲染器启动时没有沙箱的</li>
+<li>初始化完毕后才会调用</li>
+</ol>
+</li>
+<li>一行代码POC<ol>
+<li>不需要跑赢仍何条件竞争</li>
+<li>…</li>
+</ol>
+</li>
+<li>添加恶意Widget至Dashboard</li>
+</ol>
+</li>
+</ol>
+<h2 id="Root提权"><a href="#Root提权" class="headerlink" title="Root提权"></a>Root提权</h2><p>MAC中即使root用户，仍然会收到SIP限制。</p>
+<p>攻击对象：</p>
+<ul>
+<li>内核</li>
+<li>用户态root权限进程的IPC</li>
+<li>系统自带服务</li>
+<li>第三方软件服务</li>
+</ul>
+<h4 id="SIP（Rootless）"><a href="#SIP（Rootless）" class="headerlink" title="SIP（Rootless）"></a>SIP（Rootless）</h4><h4 id="Rootpipe"><a href="#Rootpipe" class="headerlink" title="Rootpipe"></a>Rootpipe</h4><p>writeconfig进程以root权限执行，并可通过进程间通信访问。</p>
+<p>暴露后门API可用于向指定路径写入任意属性文件</p>
+<h2 id="TimeMachine提权"><a href="#TimeMachine提权" class="headerlink" title="TimeMachine提权"></a>TimeMachine提权</h2><p>两处bug</p>
+<ul>
+<li>替换可执行文件</li>
+<li>命令注入</li>
+</ul>
+<p>可以使用通配符减少payload长度</p>
+<h2 id="Feedback-Assistant-条件竞争"><a href="#Feedback-Assistant-条件竞争" class="headerlink" title="Feedback Assistant 条件竞争"></a>Feedback Assistant 条件竞争</h2><p>pid的安全问题</p>
+<ul>
+<li>系统回收重用</li>
+<li>保留pid创建新进程</li>
+</ul>
+<h2 id="内核提权"><a href="#内核提权" class="headerlink" title="内核提权"></a>内核提权</h2><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><ul>
+<li>操作系统安全性具有显著的木桶效应</li>
+<li>操作系统的复杂性决定其攻击方式充满多样性</li>
+<li>安全研究不要循规蹈矩</li>
+</ul>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p>着重介绍了几个MacOS中的几个漏洞，但是无奈没有MacOS安全基础，很多细节不太了解。</p>
+<p>了解到了一些MacOS的安全机制、IPC机制。</p>
+<p>正好换了mac，以后有时间可以尝试一下基础的MacOS/IOS编程、逆向，学习一下MacOS安全机制、复现一下漏洞。（想起来正好把之前<a href="https://github.com/GANGE666/Projects/tree/master/other/2018_11_CVE-2018-4407%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E5%88%86%E6%9E%90" target="_blank" rel="noopener">复现的XNU内核ICMP漏洞 CVE-2018-4407的一些笔记</a>传到github上去）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/讲座/" rel="tag"># 讲座</a>
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/23/GOSSIP-summerschool-2019-day4/" rel="next" title="GOSSIP-summerschool-2019-day4">
+                <i class="fa fa-chevron-left"></i> GOSSIP-summerschool-2019-day4
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Let’s-GOSSIP软件安全暑期学校笔记"><span class="nav-number">1.</span> <span class="nav-text">Let’s GOSSIP软件安全暑期学校笔记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DAY-5-7-24"><span class="nav-number">2.</span> <span class="nav-text">DAY 5: 7.24</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction-to-Secure-Processors-硬件为王——安全处理器的发展与机遇-夏虞斌"><span class="nav-number">3.</span> <span class="nav-text">Introduction to Secure Processors 硬件为王——安全处理器的发展与机遇  夏虞斌</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">3.1.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#OS-Hypervisor-has-too-much-code-as-TCB"><span class="nav-number">3.1.0.0.1.</span> <span class="nav-text">OS/Hypervisor has too much code as TCB</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Moreover-cloud-vendors-may-not-be-trusted-by-very-security-sensitive-clients"><span class="nav-number">3.1.0.0.2.</span> <span class="nav-text">Moreover, cloud vendors may not be trusted by very security sensitive clients</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Thus-we-have-enclave"><span class="nav-number">3.1.0.0.3.</span> <span class="nav-text">Thus we have enclave</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需要考虑"><span class="nav-number">3.1.1.</span> <span class="nav-text">需要考虑</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#学术界"><span class="nav-number">3.2.</span> <span class="nav-text">学术界</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#eXecute-Only-Memory-XOM"><span class="nav-number">3.2.1.</span> <span class="nav-text">eXecute-Only Memory (XOM)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Threat-model"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">Threat model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Propose-execute-only-code"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">Propose execute-only code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstract-XOM-Machine"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">Abstract XOM Machine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XOMOS"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">XOMOS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Counter-Mode-Encryption"><span class="nav-number">3.2.1.5.</span> <span class="nav-text">Counter-Mode Encryption</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Problems"><span class="nav-number">3.2.1.5.1.</span> <span class="nav-text">Problems</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Memory-Integrity-Verification"><span class="nav-number">3.2.1.6.</span> <span class="nav-text">Memory Integrity Verification</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Merkle-trees"><span class="nav-number">3.2.1.6.1.</span> <span class="nav-text">Merkle trees</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AISE-amp-BMT"><span class="nav-number">3.2.1.6.2.</span> <span class="nav-text">AISE &amp; BMT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AEGIS"><span class="nav-number">3.2.2.</span> <span class="nav-text">AEGIS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据完整性"><span class="nav-number">3.2.2.0.1.</span> <span class="nav-text">数据完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Confidential"><span class="nav-number">3.2.2.0.2.</span> <span class="nav-text">Data Confidential</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Context-Switch-amp-Interrupt"><span class="nav-number">3.2.2.0.3.</span> <span class="nav-text">Context Switch &amp; Interrupt</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Memory-Sharing"><span class="nav-number">3.2.2.0.4.</span> <span class="nav-text">Memory Sharing</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#限制"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">限制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RISC-V"><span class="nav-number">3.2.3.</span> <span class="nav-text">RISC-V</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Theart-model"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">Theart model:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Architecture"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">Architecture</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hardware-Property-Memory-Region"><span class="nav-number">3.2.3.4.</span> <span class="nav-text">Hardware Property: Memory Region</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hardware-Property-Dual-page-table"><span class="nav-number">3.2.3.5.</span> <span class="nav-text">Hardware Property: Dual page table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion-1"><span class="nav-number">3.2.3.6.</span> <span class="nav-text">Conclusion</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KEYSTONE"><span class="nav-number">3.2.4.</span> <span class="nav-text">KEYSTONE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-1"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Basic-Architecture"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">Basic Architecture</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hardware-Property-PMP-Physical-Memory-Protection"><span class="nav-number">3.2.4.3.</span> <span class="nav-text">Hardware Property: PMP(Physical Memory Protection)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hardware-Property-Cache-Partition"><span class="nav-number">3.2.4.4.</span> <span class="nav-text">Hardware Property: Cache Partition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion-2"><span class="nav-number">3.2.4.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工业界"><span class="nav-number">3.3.</span> <span class="nav-text">工业界</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Intel-SGX"><span class="nav-number">3.3.1.</span> <span class="nav-text">Intel SGX</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#threat-model"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">threat model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SGX-Memory-Protection"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">Design of SGX: Memory Protection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SGX-Memory-Protection-1"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">Design of SGX: Memory Protection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SGX-Permission-Check"><span class="nav-number">3.3.1.4.</span> <span class="nav-text">Design of SGX: Permission Check</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SGX-Context-Switch-amp-Interrupt"><span class="nav-number">3.3.1.5.</span> <span class="nav-text">Design of SGX: Context Switch &amp; Interrupt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SGX-Confidentiality-amp-Integrity"><span class="nav-number">3.3.1.6.</span> <span class="nav-text">Design of SGX: Confidentiality &amp; Integrity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Software-Interface"><span class="nav-number">3.3.1.7.</span> <span class="nav-text">Software Interface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion-3"><span class="nav-number">3.3.1.8.</span> <span class="nav-text">Conclusion</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AMD-VEX"><span class="nav-number">3.3.2.</span> <span class="nav-text">AMD VEX</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-2"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#threat-model-1"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">threat model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SEV-Secure-Encryption"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">Design of SEV: Secure Encryption</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Design-of-SEV-Hardware-Architecture"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">Design of SEV: Hardware Architecture</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion-4"><span class="nav-number">3.3.2.5.</span> <span class="nav-text">Conclusion</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">3.3.2.5.1.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARM-TRUSTZOME"><span class="nav-number">3.3.3.</span> <span class="nav-text">ARM TRUSTZOME</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-3"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用："><span class="nav-number">3.3.3.2.</span> <span class="nav-text">应用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Different-levels-of-Trust-安全级别："><span class="nav-number">3.3.3.3.</span> <span class="nav-text">Different levels of Trust 安全级别：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较"><span class="nav-number">3.3.4.</span> <span class="nav-text">比较</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enhancement"><span class="nav-number">3.4.</span> <span class="nav-text">Enhancement</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Internal-isolation"><span class="nav-number">3.4.1.</span> <span class="nav-text">Internal isolation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TEE"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">TEE:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#需要在TEE中做更细致的隔离的原因"><span class="nav-number">3.4.1.1.1.</span> <span class="nav-text">需要在TEE中做更细致的隔离的原因</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Goals-of-vTEE"><span class="nav-number">3.4.1.2.</span> <span class="nav-text">Goals of vTEE</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TEE-visor"><span class="nav-number">3.4.1.2.1.</span> <span class="nav-text">TEE-visor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Gate"><span class="nav-number">3.4.1.2.2.</span> <span class="nav-text">Gate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Interaction"><span class="nav-number">3.4.1.2.3.</span> <span class="nav-text">Interaction</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#举例："><span class="nav-number">3.4.1.2.4.</span> <span class="nav-text">举例：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cross-boundary-optimization"><span class="nav-number">3.4.2.</span> <span class="nav-text">Cross-boundary optimization</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XPC"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">XPC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Domain-switch的时间开销"><span class="nav-number">3.4.2.1.1.</span> <span class="nav-text">Domain switch的时间开销</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#优化"><span class="nav-number">3.4.2.1.2.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Copying-Message-is-Slow"><span class="nav-number">3.4.2.1.3.</span> <span class="nav-text">Copying Message is Slow</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XPC程序示例"><span class="nav-number">3.4.2.1.4.</span> <span class="nav-text">XPC程序示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#side-channel"><span class="nav-number">3.4.3.</span> <span class="nav-text">side channel</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Controlled-channel-attack-via-page-table"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">Controlled channel attack (via page table)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Branch-side-channel"><span class="nav-number">3.4.3.2.</span> <span class="nav-text">Branch side channel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TLB-side-channel"><span class="nav-number">3.4.3.3.</span> <span class="nav-text">TLB side channel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#conclusion"><span class="nav-number">3.4.3.4.</span> <span class="nav-text">conclusion</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other"><span class="nav-number">3.6.</span> <span class="nav-text">Other</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用SGX："><span class="nav-number">3.6.1.</span> <span class="nav-text">如何使用SGX：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">3.7.</span> <span class="nav-text">Q&amp;A</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-1"><span class="nav-number">3.8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#攻陷macOS！”非主流”逻辑提权漏洞研究-周智"><span class="nav-number">4.</span> <span class="nav-text">攻陷macOS！”非主流”逻辑提权漏洞研究 周智</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐书籍与工具："><span class="nav-number">4.1.</span> <span class="nav-text">推荐书籍与工具：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑漏洞"><span class="nav-number">4.2.</span> <span class="nav-text">逻辑漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MacOS-权限隔离"><span class="nav-number">4.3.</span> <span class="nav-text">MacOS 权限隔离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC"><span class="nav-number">4.4.</span> <span class="nav-text">IPC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限检查"><span class="nav-number">4.5.</span> <span class="nav-text">权限检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Safari沙箱逃逸"><span class="nav-number">4.6.</span> <span class="nav-text">Safari沙箱逃逸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IOS-WebProcess"><span class="nav-number">4.6.1.</span> <span class="nav-text">IOS WebProcess</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MacOS-WebProcess"><span class="nav-number">4.6.2.</span> <span class="nav-text">MacOS WebProcess</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#攻击面"><span class="nav-number">4.6.3.</span> <span class="nav-text">攻击面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统服务（用户态的攻击面）"><span class="nav-number">4.6.4.</span> <span class="nav-text">系统服务（用户态的攻击面）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#攻击WebKit自带的IPC"><span class="nav-number">4.6.4.1.</span> <span class="nav-text">攻击WebKit自带的IPC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析沙箱配置"><span class="nav-number">4.6.5.</span> <span class="nav-text">分析沙箱配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两个案例分析"><span class="nav-number">4.7.</span> <span class="nav-text">两个案例分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Root提权"><span class="nav-number">4.8.</span> <span class="nav-text">Root提权</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SIP（Rootless）"><span class="nav-number">4.8.0.1.</span> <span class="nav-text">SIP（Rootless）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rootpipe"><span class="nav-number">4.8.0.2.</span> <span class="nav-text">Rootpipe</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TimeMachine提权"><span class="nav-number">4.9.</span> <span class="nav-text">TimeMachine提权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feedback-Assistant-条件竞争"><span class="nav-number">4.10.</span> <span class="nav-text">Feedback Assistant 条件竞争</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内核提权"><span class="nav-number">4.11.</span> <span class="nav-text">内核提权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">4.12.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-2"><span class="nav-number">4.13.</span> <span class="nav-text">总结</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
