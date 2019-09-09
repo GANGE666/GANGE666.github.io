@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,Reverse,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Bytectf 2019 s390 Writeup Category: RE Score: 833 Solved: 5   在上一章中已经讲到将IBM ZOS S390搭建好了，在hercules上安装了Ubuntu 18.04 s390x。  在本文中将讲解如何对其进行静态分析和动态调试，以及IBM z Architecture的汇编资料。如果你有更好的想法，欢迎与我交流。  由于目前的主流反编">
+<meta name="keywords" content="CTF,Reverse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bytectf 2019 s390 Writeup">
+<meta property="og:url" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="Bytectf 2019 s390 Writeup Category: RE Score: 833 Solved: 5   在上一章中已经讲到将IBM ZOS S390搭建好了，在hercules上安装了Ubuntu 18.04 s390x。  在本文中将讲解如何对其进行静态分析和动态调试，以及IBM z Architecture的汇编资料。如果你有更好的想法，欢迎与我交流。  由于目前的主流反编">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233218225.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233452823.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233523003.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233629848.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909145824879.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909150037182.png">
+<meta property="og:updated_time" content="2019-09-09T17:17:24.086Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bytectf 2019 s390 Writeup">
+<meta name="twitter:description" content="Bytectf 2019 s390 Writeup Category: RE Score: 833 Solved: 5   在上一章中已经讲到将IBM ZOS S390搭建好了，在hercules上安装了Ubuntu 18.04 s390x。  在本文中将讲解如何对其进行静态分析和动态调试，以及IBM z Architecture的汇编资料。如果你有更好的想法，欢迎与我交流。  由于目前的主流反编">
+<meta name="twitter:image" content="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233218225.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/">
+
+
+
+
+
+  <title>Bytectf 2019 s390 Writeup | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/09/09/Bytectf_2019_s390_Writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Bytectf 2019 s390 Writeup</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-09T22:00:00+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/Reverse/" itemprop="url" rel="index">
+                    <span itemprop="name">Reverse</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Bytectf-2019-s390-Writeup"><a href="#Bytectf-2019-s390-Writeup" class="headerlink" title="Bytectf 2019 s390 Writeup"></a>Bytectf 2019 s390 Writeup</h1><blockquote>
+<p>Category: RE</p>
+<p>Score: 833</p>
+<p>Solved: 5</p>
+</blockquote>
+<blockquote>
+<p>在上一章中已经讲到将IBM ZOS S390搭建好了，在hercules上安装了Ubuntu 18.04 s390x。</p>
+</blockquote>
+<p>在本文中将讲解如何对其进行静态分析和动态调试，以及IBM z Architecture的汇编资料。如果你有更好的想法，欢迎与我交流。</p>
+<blockquote>
+<p>由于目前的主流反编译器、反汇编工具如IDA、Ghidra、radare2、objdump均无法有效的跨平台反汇编，更没有办法调试，因此我选择搭建s390环境，并在该环境中分析这个elf文件。</p>
+</blockquote>
+<p>搭好了环境，先运行一下：</p>
+<p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233218225.png" alt="image-20190909233218225"></p>
+<h2 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h2><p>直接用s390上使用<code>apt-get install gdb</code>，但该版本的gdb有点问题，虽然能够调试，但无法使用step、next命令，只能通过b、c来调试。可能的解决方案：下载gdb源码，在s390上编译。（在虚拟机中的虚拟机中编译，很慢很慢…）</p>
+<p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233452823.png" alt="image-20190909233452823"></p>
+<p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233523003.png" alt="image-20190909233523003"></p>
+<h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>查看所有段</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> objdump -h ./s390</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233629848.png" alt="image-20190909233629848"></p>
+<p>使用objdump反汇编，并导出到文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> objdump -s ./s390 &gt; dis.txt</span><br></pre></td></tr></table></figure>
+
+<p>使用objdump把rodata段dump出来，并在编辑器中打开，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> objdump -j .rodata -s ./s390 &gt; rodata.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909145824879.png" alt="image-20190909145824879"></p>
+<p>定位到几个关键字符串地址，在反汇编代码中查找，顺利定位到main函数：</p>
+<p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909150037182.png" alt="image-20190909150037182"></p>
+<p>对照<a href="http://www.tachyonsoft.com/inst390m.htm了解汇编指令，并标注其含义。" target="_blank" rel="noopener">http://www.tachyonsoft.com/inst390m.htm了解汇编指令，并标注其含义。</a></p>
+<p>同时进行动态调试，发现循环4次scanf(“%llu”, &amp;(%r11+168)+8*(%r11+164))，输入4个数字（%r11可视为栈指针）</p>
+<p>main函数（0x80000920）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">80000920:	eb bf f0 58 00 24 	stmg	%r11,%r15,88(%r15)                              ; main</span><br><span class="line">  80000926:	e3 f0 ff 50 ff 71 	lay	%r15,-176(%r15)</span><br><span class="line">  8000092c:	b9 04 00 bf       	lgr	%r11,%r15</span><br><span class="line">  80000930:	a7 29 00 20       	lghi	%r2,32</span><br><span class="line">  80000934:	c0 e5 00 00 9d 62 	brasl	%r14,0x800143f8</span><br><span class="line">  8000093a:	b9 04 00 12       	lgr	%r1,%r2</span><br><span class="line">  8000093e:	e3 10 b0 a8 00 24 	stg	%r1,168(%r11)</span><br><span class="line">  80000944:	e5 4c b0 a4 00 00 	mvhi	164(%r11),0</span><br><span class="line">  8000094a:	c0 20 00 03 68 93 	larl	%r2,0x8006da70</span><br><span class="line">  80000950:	c0 e5 00 00 3e 74 	brasl	%r14,0x80008638</span><br><span class="line">  80000956:	c0 20 00 03 68 8e 	larl	%r2,0x8006da72</span><br><span class="line">  8000095c:	c0 e5 00 00 3e 6e 	brasl	%r14,0x80008638</span><br><span class="line">  80000962:	c0 20 00 03 68 9a 	larl	%r2,0x8006da96</span><br><span class="line">  80000968:	c0 e5 00 00 3e 68 	brasl	%r14,0x80008638</span><br><span class="line">  8000096e:	c0 20 00 03 68 a7 	larl	%r2,0x8006dabc</span><br><span class="line">  80000974:	c0 e5 00 00 3e 62 	brasl	%r14,0x80008638</span><br><span class="line">  8000097a:	c0 20 00 03 68 b4 	larl	%r2,0x8006dae2</span><br><span class="line">  80000980:	c0 e5 00 00 3e 5c 	brasl	%r14,0x80008638</span><br><span class="line">  80000986:	c0 20 00 03 68 c1 	larl	%r2,0x8006db08</span><br><span class="line">  8000098c:	c0 e5 00 00 3e 56 	brasl	%r14,0x80008638</span><br><span class="line">  80000992:	c0 20 00 03 68 ce 	larl	%r2,0x8006db2e</span><br><span class="line">  80000998:	c0 e5 00 00 3e 50 	brasl	%r14,0x80008638</span><br><span class="line">  8000099e:	c0 20 00 03 68 db 	larl	%r2,0x8006db54</span><br><span class="line">  800009a4:	c0 e5 00 00 3e 4a 	brasl	%r14,0x80008638</span><br><span class="line">  800009aa:	c0 20 00 03 68 e8 	larl	%r2,0x8006db7a</span><br><span class="line">  800009b0:	c0 e5 00 00 3e 44 	brasl	%r14,0x80008638</span><br><span class="line">  800009b6:	c0 20 00 03 68 5d 	larl	%r2,0x8006da70</span><br><span class="line">  800009bc:	c0 e5 00 00 3e 3e 	brasl	%r14,0x80008638</span><br><span class="line">  800009c2:	c0 20 00 03 68 57 	larl	%r2,0x8006da70</span><br><span class="line">  800009c8:	c0 e5 00 00 3e 38 	brasl	%r14,0x80008638</span><br><span class="line">  800009ce:	c0 20 00 03 68 e9 	larl	%r2,0x8006dba0                                  ; input your answer</span><br><span class="line">  800009d4:	c0 e5 00 00 3e 32 	brasl	%r14,0x80008638</span><br><span class="line">  800009da:	e5 4c b0 a4 00 00 	mvhi	164(%r11),0</span><br><span class="line">  800009e0:	a7 f4 00 16       	j	0x80000a0c</span><br><span class="line">  800009e4:	e3 10 b0 a4 00 14 	lgf	%r1,164(%r11)                                       ; Load</span><br><span class="line">  800009ea:	eb 11 00 03 00 0d 	sllg	%r1,%r1,3                                       ; Shift Left Single Logical</span><br><span class="line">  800009f0:	e3 10 b0 a8 00 08 	ag	%r1,168(%r11)                                       ; Add</span><br><span class="line">  800009f6:	b9 04 00 31       	lgr	%r3,%r1                                             ; Load       %r3-&gt;%r1   0x8009e420</span><br><span class="line">  800009fa:	c0 20 00 03 68 dc 	larl	%r2,0x8006dbb2                                  ; %llu</span><br><span class="line">  80000a00:	c0 e5 00 00 3a 3c 	brasl	%r14,0x80007e78                                 ; scanf</span><br><span class="line">  80000a06:	eb 01 b0 a4 00 6a 	asi	164(%r11),1</span><br><span class="line">  80000a0c:	58 10 b0 a4       	l	%r1,164(%r11)</span><br><span class="line">  80000a10:	a7 1e 00 03       	chi	%r1,3</span><br><span class="line">  80000a14:	a7 c4 ff e8       	jle	0x800009e4</span><br><span class="line">  80000a18:	e3 20 b0 a8 00 04 	lg	%r2,168(%r11)                                       ; 在%r2的地址中</span><br><span class="line">  80000a1e:	c0 e5 ff ff fe a1 	brasl	%r14,0x80000760                                 ; check and printf</span><br><span class="line">  80000a24:	a7 18 00 00       	lhi	%r1,0</span><br><span class="line">  80000a28:	b9 14 00 11       	lgfr	%r1,%r1</span><br><span class="line">  80000a2c:	b9 04 00 21       	lgr	%r2,%r1</span><br><span class="line">  80000a30:	e3 40 b1 20 00 04 	lg	%r4,288(%r11)</span><br><span class="line">  80000a36:	eb bf b1 08 00 04 	lmg	%r11,%r15,264(%r11)</span><br><span class="line">  80000a3c:	07 f4             	br	%r4</span><br></pre></td></tr></table></figure>
+
+<p>接下来call 0x80000760，并在该函数中检查输入并输出结果。（Architecture z的汇编与MIPS类似，brasl为跳转并链接，即为call）</p>
+<p>最主要的是0x80000760函数，不过现在我们有汇编代码、有参考手册、有gdb动态调试，分析其功能只是时间问题。以下是我对0x80000760函数的分析：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">    0x80000760:	eb bf f0 58 00 24 	stmg	%r11,%r15,88(%r15)                            ; Store Multiple ; check and printf</span><br><span class="line">    0x80000766:	e3 f0 ff 28 ff 71 	lay	%r15,-216(%r15)                                   ; Load Address</span><br><span class="line">    0x8000076c:	b9 04 00 bf       	lgr	%r11,%r15                                         ; Load</span><br><span class="line">    0x80000770:	e3 20 b0 a0 00 24 	stg	%r2,160(%r11)                                       ; Store     %r2 -&gt; %r11+160</span><br><span class="line">    0x80000776:	e5 4c b0 a8 00 00 	mvhi	168(%r11),0                                     ; Move Immediate</span><br><span class="line">    0x8000077c:	e3 10 b0 a0 00 04 	lg	%r1,160(%r11)                                       ; $r11 + 160; $r11 + 192为输入</span><br><span class="line">    0x80000782:	e3 10 b0 c0 00 24 	stg	%r1,192(%r11)</span><br><span class="line">    0x80000788:	e3 10 b0 c0 00 04 	lg	%r1,192(%r11)</span><br><span class="line">    0x8000078e:	e3 20 10 00 00 04 	lg	%r2,0(%r1)</span><br><span class="line">    0x80000794:	e3 10 b0 c0 00 04 	lg	%r1,192(%r11)</span><br><span class="line">    0x8000079a:	a7 1b 00 08       	aghi	%r1,8                                           ; Add Halfword Immediate</span><br><span class="line">    0x8000079e:	e3 10 10 00 00 04 	lg	%r1,0(%r1)</span><br><span class="line">    0x800007a4:	b9 82 00 12       	xgr	%r1,%r2</span><br><span class="line">    0x800007a8:	e3 10 b0 c8 00 24 	stg	%r1,200(%r11)</span><br><span class="line">    0x800007ae:	e3 10 b0 c0 00 04 	lg	%r1,192(%r11)</span><br><span class="line">    0x800007b4:	a7 1b 00 10       	aghi	%r1,16</span><br><span class="line">    0x800007b8:	e3 20 10 00 00 04 	lg	%r2,0(%r1)</span><br><span class="line">    0x800007be:	e3 10 b0 c0 00 04 	lg	%r1,192(%r11)</span><br><span class="line">    0x800007c4:	a7 1b 00 18       	aghi	%r1,24</span><br><span class="line">    0x800007c8:	e3 10 10 00 00 04 	lg	%r1,0(%r1)</span><br><span class="line">    0x800007ce:	b9 82 00 12       	xgr	%r1,%r2</span><br><span class="line">    0x800007d2:	e3 10 b0 d0 00 24 	stg	%r1,208(%r11)</span><br><span class="line">    0x800007d8:	e5 4c b0 ac 00 00 	mvhi	172(%r11),0</span><br><span class="line">    0x800007de:	e5 4c b0 a8 00 00 	mvhi	168(%r11),0                                     ; 初始化结束</span><br><span class="line">    0x800007e4:	a7 f4 00 73       	j	0x800008ca              J2</span><br><span class="line">LA1 0x800007e8:	e5 48 b0 b8 00 01 	mvghi	184(%r11),1                                     ; Move Immediate</span><br><span class="line">    0x800007ee:	e5 48 b0 b0 25 3d 	mvghi	176(%r11),9533                                  ; [176] &lt;- 9533</span><br><span class="line">    0x800007f4:	a7 f4 00 4d       	j	0x8000088e              J1</span><br><span class="line">LA2 0x800007f8:	e3 10 b0 b0 00 04 	lg	%r1,176(%r11)</span><br><span class="line">    0x800007fe:	ec 11 3f bf 00 55 	risbg	%r1,%r1,63,191,0                                ; Rotate then Insert Selected Bits</span><br><span class="line">    0x80000804:	b9 02 00 11       	ltgr	%r1,%r1</span><br><span class="line">    0x80000808:	a7 84 00 14       	je	0x80000830              LA3</span><br><span class="line">    0x8000080c:	e3 10 b0 a8 00 14 	lgf	%r1,168(%r11)</span><br><span class="line">    0x80000812:	eb 11 00 03 00 0d 	sllg	%r1,%r1,3                                       ; Shift Left Single Logical     *8</span><br><span class="line">    0x80000818:	e3 10 b0 c0 00 08 	ag	%r1,192(%r11)                                       ; 取第[168*8]个输入</span><br><span class="line">    0x8000081e:	e3 10 10 00 00 04 	lg	%r1,0(%r1)</span><br><span class="line">    0x80000824:	e3 10 b0 b8 00 0c 	msg	%r1,184(%r11)                                       ; Multiply Single</span><br><span class="line">    0x8000082a:	e3 10 b0 b8 00 24 	stg	%r1,184(%r11)                                       ; 乘完放回[184]</span><br><span class="line">LA3 0x80000830:	e3 10 b0 a8 00 14 	lgf	%r1,168(%r11)--|</span><br><span class="line">    0x80000836:	eb 11 00 03 00 0d 	sllg	%r1,%r1,3  | --------------------------------   ; 取第i个输入的数的地址</span><br><span class="line">    0x8000083c:	e3 10 b0 c0 00 08 	ag	%r1,192(%r11)--|</span><br><span class="line">    0x80000842:	e3 20 b0 a8 00 14 	lgf	%r2,168(%r11)--|</span><br><span class="line">    0x80000848:	eb 22 00 03 00 0d 	sllg	%r2,%r2,3  |----------------------------------  ; 第i个输入的数到 %r3</span><br><span class="line">    0x8000084e:	e3 20 b0 c0 00 08 	ag	%r2,192(%r11)  |</span><br><span class="line">    0x80000854:	e3 30 20 00 00 04 	lg	%r3,0(%r2)-----|</span><br><span class="line">    0x8000085a:	e3 20 b0 a8 00 14 	lgf	%r2,168(%r11)  |</span><br><span class="line">    0x80000860:	eb 22 00 03 00 0d 	sllg	%r2,%r2,3  |----------------------------------  ; 再取一次到 %r2</span><br><span class="line">    0x80000866:	e3 20 b0 c0 00 08 	ag	%r2,192(%r11)  |</span><br><span class="line">    0x8000086c:	e3 20 20 00 00 04 	lg	%r2,0(%r2)-----|</span><br><span class="line">    0x80000872:	b9 0c 00 23       	msgr	%r2,%r3</span><br><span class="line">    0x80000876:	e3 20 10 00 00 24 	stg	%r2,0(%r1)                                          ; %r2 %r3 相乘放回</span><br><span class="line">    0x8000087c:	e3 10 b0 b0 00 04 	lg	%r1,176(%r11)</span><br><span class="line">    0x80000882:	eb 11 00 01 00 0c 	srlg	%r1,%r1,1</span><br><span class="line">    0x80000888:	e3 10 b0 b0 00 24 	stg	%r1,176(%r11)</span><br><span class="line">J1  0x8000088e:	e3 10 b0 b0 00 04 	lg	%r1,176(%r11)                                       ; 每次[176] &gt;&gt; 1   while([176] != 0)</span><br><span class="line">    0x80000894:	b9 02 00 11       	ltgr	%r1,%r1                                         ; Load and Test</span><br><span class="line">    0x80000898:	a7 74 ff b0       	jne	0x800007f8              LA2                         ;</span><br><span class="line">    0x8000089c:	c0 10 00 03 68 c2 	larl	%r1,0x8006da20                                  ; check data</span><br><span class="line">    0x800008a2:	e3 20 b0 a8 00 14 	lgf	%r2,168(%r11)</span><br><span class="line">    0x800008a8:	eb 22 00 03 00 0d 	sllg	%r2,%r2,3</span><br><span class="line">    0x800008ae:	e3 12 10 00 00 04 	lg	%r1,0(%r2,%r1)</span><br><span class="line">    0x800008b4:	e3 10 b0 b8 00 20 	cg	%r1,184(%r11)                                       ; 比较  %r1: check data  %r11+184: transformed input</span><br><span class="line">    0x800008ba:	a7 74 00 05       	jne	0x800008c4</span><br><span class="line">    0x800008be:	eb 01 b0 ac 00 6a 	asi	172(%r11),1                                         ; 正确 172 + 1</span><br><span class="line">    0x800008c4:	eb 01 b0 a8 00 6a 	asi	168(%r11),1                                         ; 循环计数 168</span><br><span class="line">J2  0x800008ca:	58 10 b0 a8       	l	%r1,168(%r11)</span><br><span class="line">    0x800008ce:	a7 1e 00 03       	chi	%r1,3                                               ; 168 小于等于 3 循环</span><br><span class="line">    0x800008d2:	a7 c4 ff 8b       	jle	0x800007e8              LA1</span><br><span class="line">    0x800008d6:	58 10 b0 ac       	l	%r1,172(%r11)                                       ; 比较 172是否等于4</span><br><span class="line">    0x800008da:	a7 1e 00 04       	chi	%r1,4</span><br><span class="line">    0x800008de:	a7 74 00 10       	jne	0x800008fe                                          ; go to wrong</span><br><span class="line">    0x800008e2:	e3 40 b0 d0 00 04 	lg	%r4,208(%r11)                                       ; %llx</span><br><span class="line">    0x800008e8:	e3 30 b0 c8 00 04 	lg	%r3,200(%r11)                                       ; $llx</span><br><span class="line">    0x800008ee:	c0 20 00 03 68 a9 	larl	%r2,0x8006da40                                  ; Congratulation</span><br><span class="line">    0x800008f4:	c0 e5 00 00 3a 66 	brasl	%r14,0x80007dc0                                 ; printf</span><br><span class="line">    0x800008fa:	a7 f4 00 09       	j	0x8000090c</span><br><span class="line">    0x800008fe:	c0 20 00 03 68 b4 	larl	%r2,0x8006da66                                  ; wrong</span><br><span class="line">    0x80000904:	c0 e5 00 00 3e 9a 	brasl	%r14,0x80008638</span><br><span class="line">    0x8000090a:	18 00             	lr	%r0,%r0</span><br><span class="line">    0x8000090c:	e3 40 b1 48 00 04 	lg	%r4,328(%r11)</span><br><span class="line">    0x80000912:	eb bf b1 30 00 04 	lmg	%r11,%r15,304(%r11)</span><br><span class="line">    0x80000918:	07 f4             	br	%r4                                                 ; return</span><br></pre></td></tr></table></figure>
+
+<p>有一个五操作数指令<code>risbg    %r1,%r1,63,191,0</code>手册上解释其功能为<code>Rotate then Insert Selected Bits</code>，不太理解，不过根据动态调试的结果，其功能为取最低位放回%r1，等价与<code>%r1 = %r1 &amp; 1</code></p>
+<p>分析check函数0x80000760可知其为一个快速幂算法，对四个输入进行快速幂运算，得到9533次方，与rodata中的密文进行比较，输出结果。</p>
+<h2 id="解密脚本"><a href="#解密脚本" class="headerlink" title="解密脚本"></a>解密脚本</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">target =[</span><br><span class="line">    <span class="number">0x17e8ba3b95cb36e9</span>,</span><br><span class="line">    <span class="number">0x5eb83e8108340e27</span>,</span><br><span class="line">    <span class="number">0x298bb3acedff4e49</span>,</span><br><span class="line">    <span class="number">0xed57a654e66e84c5</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">e = <span class="number">9533</span></span><br><span class="line">fi_n = <span class="number">2</span>**<span class="number">63</span></span><br><span class="line"><span class="keyword">print</span> gmpy2.invert(e, fi_n)</span><br><span class="line"><span class="comment"># 3149278923734637077</span></span><br><span class="line"></span><br><span class="line">key = <span class="number">3149278923734637077</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    <span class="keyword">print</span> pow(target[i], key, <span class="number">1</span> &lt;&lt; <span class="number">64</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">9997764242830658953</span></span><br><span class="line"><span class="string">13181961895445880007</span></span><br><span class="line"><span class="string">10486649486922394729</span></span><br><span class="line"><span class="string">13099406429414088373</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">bytectf&#123;3c508d1b7ecf514e2442609ba1bb72dc&#125;</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>可以在ubuntu上安装gcc-s390x-linux-gnu，交叉编译静态链接有符号的二进制文件，帮助我们识别无符号elf中的libc函数，如scanf。</p>
+<p>参考<a href="https://packages.ubuntu.com/xenial/gcc-s390x-linux-gnu，可使用`apt-get" target="_blank" rel="noopener">https://packages.ubuntu.com/xenial/gcc-s390x-linux-gnu，可使用`apt-get</a> install gcc-5-s390x-linux-gnu`安装交叉编译器。</p>
+<p>导出来的txt：</p>
+<ul>
+<li><a href="Bytectf_2019_s390_Writeup/head.txt">head.txt</a></li>
+<li><a href="Bytectf_2019_s390_Writeup/dis.txt">dis.txt</a></li>
+<li><a href="Bytectf_2019_s390_Writeup/rodata.txt">rodata.txt</a></li>
+<li><a href="Bytectf_2019_s390_Writeup/check_func.txt">check_func.txt</a></li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>z Architecture汇编手册：<a href="http://www.tachyonsoft.com/inst390m.htm" target="_blank" rel="noopener">http://www.tachyonsoft.com/inst390m.htm</a></p>
+<p>zpwn200题解：<a href="https://blog.dragonsector.pl/2014/02/olympic-ctf-2014-zpwn-200.html" target="_blank" rel="noopener">https://blog.dragonsector.pl/2014/02/olympic-ctf-2014-zpwn-200.html</a></p>
+<p>zbin500题解：<a href="https://blog.dragonsector.pl/2014/02/olympic-ctf-2014-zbin-re-500.html" target="_blank" rel="noopener">https://blog.dragonsector.pl/2014/02/olympic-ctf-2014-zbin-re-500.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/" rel="next" title="在hercules上安装Ubuntu 18.04 s390x">
+                <i class="fa fa-chevron-left"></i> 在hercules上安装Ubuntu 18.04 s390x
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/09/Bytectf_2019_NaughtyBoy_Writeup/" rel="prev" title="Bytectf 2019 NaughtyBoy Writeup">
+                Bytectf 2019 NaughtyBoy Writeup <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Bytectf-2019-s390-Writeup"><span class="nav-number">1.</span> <span class="nav-text">Bytectf 2019 s390 Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态调试"><span class="nav-number">1.1.</span> <span class="nav-text">动态调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态分析"><span class="nav-number">1.2.</span> <span class="nav-text">静态分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解密脚本"><span class="nav-number">1.3.</span> <span class="nav-text">解密脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">1.4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

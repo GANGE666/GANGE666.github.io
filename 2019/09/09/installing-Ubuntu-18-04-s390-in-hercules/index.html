@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在hercules上安装Ubuntu 18.04 s390x 由于在bytectf2019中有一道s390的逆向题目，需要搭建IBM s390的环境，网上还没有中文教程，故记录一下我的安装过程。  我参考的链接： https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-m">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在hercules上安装Ubuntu 18.04 s390x">
+<meta property="og:url" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="在hercules上安装Ubuntu 18.04 s390x 由于在bytectf2019中有一道s390的逆向题目，需要搭建IBM s390的环境，网上还没有中文教程，故记录一下我的安装过程。  我参考的链接： https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-m">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909001743522.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909002225126.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909002346028.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003307056.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003346648.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003517388.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003725950.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003753888.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003829794.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003920821.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003956451.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004010577.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004044706.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004121171.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004155657.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010153230.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010216933.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010316971.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010352061.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010429879.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010501376.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010527097.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013042929.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013706938.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013725327.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013751581.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013809415.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013822391.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909014154814.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909123800471.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909223722177.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909224015896.png">
+<meta property="og:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909230215978.png">
+<meta property="og:updated_time" content="2019-09-09T17:11:05.651Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在hercules上安装Ubuntu 18.04 s390x">
+<meta name="twitter:description" content="在hercules上安装Ubuntu 18.04 s390x 由于在bytectf2019中有一道s390的逆向题目，需要搭建IBM s390的环境，网上还没有中文教程，故记录一下我的安装过程。  我参考的链接： https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-m">
+<meta name="twitter:image" content="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909001743522.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/">
+
+
+
+
+
+  <title>在hercules上安装Ubuntu 18.04 s390x | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在hercules上安装Ubuntu 18.04 s390x</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-09T01:06:46+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在hercules上安装Ubuntu-18-04-s390x"><a href="#在hercules上安装Ubuntu-18-04-s390x" class="headerlink" title="在hercules上安装Ubuntu 18.04 s390x"></a>在hercules上安装Ubuntu 18.04 s390x</h1><blockquote>
+<p>由于在bytectf2019中有一道s390的逆向题目，需要搭建IBM s390的环境，网上还没有中文教程，故记录一下我的安装过程。</p>
+</blockquote>
+<p>我参考的链接：</p>
+<p><a href="https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-mainframe-simulator/" target="_blank" rel="noopener">https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-mainframe-simulator/</a></p>
+<p><a href="http://www.josefsipek.net/docs/s390-linux/hercules-s390.html" target="_blank" rel="noopener">http://www.josefsipek.net/docs/s390-linux/hercules-s390.html</a></p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>在macos上运行虚拟机Ubuntu 18.04，并在虚拟机中安装hercules模拟器，并在hercules中安装Ubuntu 18.04 s390x。s390x 是 IBM System z / zos系列 (zSeries)大型机 (mainframe) 硬件平台。</p>
+<h2 id="本地环境"><a href="#本地环境" class="headerlink" title="本地环境"></a>本地环境</h2><p>物理机：</p>
+<ul>
+<li><p>MacOS 10.14 </p>
+</li>
+<li><p>Parallel Desktop 14</p>
+</li>
+<li><p>可通过局域网访问的代理</p>
+</li>
+</ul>
+<p>虚拟机：</p>
+<ul>
+<li>Ubuntu 18.04 64位</li>
+<li>4核</li>
+<li>16G内存</li>
+</ul>
+<h2 id="网络环境"><a href="#网络环境" class="headerlink" title="网络环境"></a>网络环境</h2><p>虚拟机与物理机之间的网络环境为Parallel Desktop自动配置，采有nat。物理机上开启了通过局域网接入的代理。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ip</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>物理机</td>
+<td>10.211.55.2</td>
+<td></td>
+</tr>
+<tr>
+<td>虚拟机</td>
+<td>10.211.55.8</td>
+<td>10.1.1.1</td>
+</tr>
+<tr>
+<td>Ubuntu 18.04 s390x</td>
+<td></td>
+<td>10.1.1.2</td>
+</tr>
+</tbody></table>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>建一个工作目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cd</span><br><span class="line"><span class="meta">$</span> mkdir zos</span><br><span class="line"><span class="meta">$</span> cd zos</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Hercules-4-2"><a href="#安装Hercules-4-2" class="headerlink" title="安装Hercules 4.2"></a>安装Hercules 4.2</h3><p>Hercules 4.2的github：<a href="https://github.com/SDL-Hercules-390/hyperion，之前的版本我尝试时出了各种各样的问题。" target="_blank" rel="noopener">https://github.com/SDL-Hercules-390/hyperion，之前的版本我尝试时出了各种各样的问题。</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> wget https://github.com/SDL-Hercules-390/hyperion/archive/Release_4.2.tar.gz</span><br><span class="line"><span class="meta">$</span> tar -xzvf Release_4.2.tar.gz</span><br><span class="line"><span class="meta">$</span> cd hyperion-Release_4.2</span><br><span class="line"><span class="meta">$</span> configure</span><br><span class="line"><span class="meta">$</span> make</span><br><span class="line"><span class="meta">$</span> sudo make install</span><br><span class="line"><span class="meta">$</span> cd ..</span><br></pre></td></tr></table></figure>
+
+<p>至此，如果没有报错的话，Hercules 4.2就已经安装好了。</p>
+<h3 id="准备Hercules-4-2虚拟机配置文件"><a href="#准备Hercules-4-2虚拟机配置文件" class="headerlink" title="准备Hercules 4.2虚拟机配置文件"></a>准备Hercules 4.2虚拟机配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> mkdir ubuntu                                # Hercules 4.2虚拟机目录</span><br><span class="line"><span class="meta">$</span> dasd                                                # 硬盘目录</span><br><span class="line"><span class="meta">$</span> cd dasd</span><br></pre></td></tr></table></figure>
+
+<p>接下来创建一块硬盘，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> dasdinit -lfs -linux ubuntu.disk 3390-3 LIN120        # 这将创建一块2GB的硬盘</span><br></pre></td></tr></table></figure>
+
+<p>2GB对于ubuntu 来说是很小的，基本上在上面安装不了多少软件，可以使用以下命令常见更大的硬盘：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> dasdinit -lfs -linux ubuntu.disk 3390-3 LIN120 8000        # 这将创建一块6.8GB的硬盘</span><br></pre></td></tr></table></figure>
+
+<p>如果你不希望s390虚拟机硬盘占用太大空间，可以牺牲部分运行时的性能来压缩硬盘，你可以使用以下命令来节省部分空间：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> dasdinit -z -lfs -linux ubuntu.disk 3390-3 LIN120            # 2GB</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909001743522.png" alt="image-20190909001743522"></p>
+<p>接下来编辑虚拟机配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> vim ubuntu.cnf</span><br></pre></td></tr></table></figure>
+
+<p>在里面粘贴以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">CPUMODEL  2086</span><br><span class="line">MAINSIZE  6000</span><br><span class="line">NUMCPU    4</span><br><span class="line">MAXCPU    4</span><br><span class="line">OSTAILOR  LINUX</span><br><span class="line">PANRATE   SLOW</span><br><span class="line">ARCHMODE  z/Arch</span><br><span class="line">ALRF     ENABLE</span><br><span class="line">DIAG8CMD ENABLE</span><br><span class="line">ECPSVM YES</span><br><span class="line">ARCHLVL  ENABLE BIT44</span><br><span class="line">ARCHLVL  ENABLE BIT45</span><br><span class="line">ARCHLVL  ENABLE BIT37</span><br><span class="line">ARCHLVL  ENABLE BIT49</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Display Terminals</span><br><span class="line"></span><br><span class="line">0700 3270</span><br><span class="line">0701 3270</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># dasd</span><br><span class="line">0120 3390 ./dasd/ubuntu.disk</span><br><span class="line"></span><br><span class="line"># tape</span><br><span class="line">0581    3420</span><br><span class="line"></span><br><span class="line"># network                               s390     realbox</span><br><span class="line">0A00,0A01  CTCI -n /dev/net/tun -t 1500 10.1.1.2 10.1.1.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909002225126.png" alt="image-20190909002225126"></p>
+<p>请注意这里配置了<strong>挂载的硬盘</strong>以及<strong>网络信息</strong>。具体的字段含义可以参考👆的<a href="http://www.josefsipek.net/docs/s390-linux/hercules-s390.html" target="_blank" rel="noopener">第二篇文章</a></p>
+<h3 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h3><p>请先查看自己电脑的网卡信息：</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909002346028.png" alt="image-20190909002346028"></p>
+<p>如上图所示，我的出口网卡为enp0s5，对应下方第一条命令的网卡：（如果你的是eth0，iptables的命令中也需要更改为eth0）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> su</span><br><span class="line"><span class="meta">#</span> iptables -t nat -A POSTROUTING -o enp0s5 -s 10.1.1.0/24 -j MASQUERADE  </span><br><span class="line"><span class="meta">#</span> iptables -A FORWARD -s 10.1.1.0/24 -j ACCEPT</span><br><span class="line"><span class="meta">#</span> iptables -A FORWARD -d 10.1.1.0/24 -j ACCEPT</span><br><span class="line"><span class="meta">#</span> echo 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br><span class="line"><span class="meta">#</span> echo 1 &gt; /proc/sys/net/ipv4/conf/all/proxy_arp</span><br></pre></td></tr></table></figure>
+
+<h3 id="准备Ubuntu-18-04-s390x镜像"><a href="#准备Ubuntu-18-04-s390x镜像" class="headerlink" title="准备Ubuntu 18.04 s390x镜像"></a>准备Ubuntu 18.04 s390x镜像</h3><p>在官网<a href="https://wiki.ubuntu.com/S390X下载，下载链接为：http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.3-server-s390x.iso。" target="_blank" rel="noopener">https://wiki.ubuntu.com/S390X下载，下载链接为：http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.3-server-s390x.iso。</a></p>
+<p>挂载镜像：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> mkdir /tmp/zubuntu/</span><br><span class="line"><span class="meta">$</span> sudo mount -o loop /path/to/iso/ubuntu-18.04.2-server-s390x.iso /tmp/zubuntu/</span><br><span class="line"><span class="meta">$</span> ls /tmp/zubuntu/</span><br><span class="line">boot          boot-hwe  doc      md5sum.txt  pool     README.diskdefines  ubuntu-hwe.ins  ubuntu-ports    boot.catalog  dists     install  pics        preseed  ubuntu              ubuntu.ins</span><br></pre></td></tr></table></figure>
+
+<h3 id="系统开机"><a href="#系统开机" class="headerlink" title="系统开机"></a>系统开机</h3><p>使用以下命令，用hercules加载配置文件ubuntu.cnf：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> sudo hercules -f ubuntu.cnf</span><br></pre></td></tr></table></figure>
+
+<p>会出现如下画面：</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003307056.png" alt="image-20190909003307056"></p>
+<p>可以按option/alt+1查看硬件信息，如下：</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003346648.png" alt="image-20190909003346648"></p>
+<p>可以看到cpu都是停止状态，挂载的硬盘./dasd/ubuntu.disk，按下<strong>ESC</strong>可以返回</p>
+<p>输入以下命令开始从镜像启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">herc =====&gt; ipl /tmp/zubuntu/ubuntu.ins</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003517388.png" alt="image-20190909003517388"></p>
+<p><strong>回车</strong>，正常的话可以看到：</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003725950.png" alt="image-20190909003725950"></p>
+<p>寄存器在不断变化，cpu也处于忙碌状态</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003753888.png" alt="image-20190909003753888"></p>
+<p>大约30秒后会出现：</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003829794.png" alt="image-20190909003829794"></p>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003920821.png" alt="image-20190909003920821"></p>
+<p>选择输入设备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909003956451.png" alt="image-20190909003956451"></p>
+<p>选择输出设备</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004010577.png" alt="image-20190909004010577"></p>
+<p>协议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004044706.png" alt="image-20190909004044706"></p>
+<p>自动配置网络，否</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004121171.png" alt="image-20190909004121171"></p>
+<p>本机ip地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.10.1.1.2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909004155657.png" alt="image-20190909004155657"></p>
+<p>子网掩码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010153230.png" alt="image-20190909010153230"></p>
+<p>网关</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.10.1.1.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010216933.png" alt="image-20190909010216933"></p>
+<p>DNS服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010316971.png" alt="image-20190909010316971"></p>
+<p>Hostname</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.ubuntu-framed</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010352061.png" alt="image-20190909010352061"></p>
+<p>Domain</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.virtual</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010429879.png" alt="image-20190909010429879"></p>
+<p>ssh 密码，输入两次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.password</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010501376.png" alt="image-20190909010501376"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.password</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909010527097.png" alt="image-20190909010527097"></p>
+<p>配置成功，此时我们可以在另一个命令行通过ssh登陆，这个ssh密码仅用于安装系统。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh install@10.1.1.2</span><br></pre></td></tr></table></figure>
+
+<p>密码是刚才设置的“password”</p>
+<h3 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h3><p>从刚才的ssh进入：</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013042929.png" alt="image-20190909013042929"></p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013706938.png" alt="image-20190909013706938"></p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013725327.png" alt="image-20190909013725327"></p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013751581.png" alt="image-20190909013751581"></p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013809415.png" alt="image-20190909013809415"></p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909013822391.png" alt="image-20190909013822391"></p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909014154814.png" alt="image-20190909014154814"></p>
+<p>进入漫长的下载环节…</p>
+<blockquote>
+<p>如果出现bad mirror的错误，可以设置http代理服务器，比如像我物理机ip为10.211.50.2，物理机上运行着ClashX(一个基于v2ray的代理)，其http代理端口为7890，则设置http代理：<a href="http://10.211.50.2:7890。" target="_blank" rel="noopener">http://10.211.50.2:7890。</a></p>
+<p>如果使用代理还是失败，请检查网络设置。方法为ssh上去或herc ===&gt;进入，start shell，检查dns服务器，检查网络状况，检查虚拟机设置的iptables转发是否有效……</p>
+</blockquote>
+<p>:hourglass_flowing_sand::hourglass::crescent_moon:……</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909123800471.png" alt="image-20190909123800471"></p>
+<p>现在跟安装普通ubuntu差不多了，设置用户和密码</p>
+<p>接下来的安装过程比较简单，参考：[<a href="https://wiki.ubuntu.com/S390X/Installation%20In%20LPAR]" target="_blank" rel="noopener">https://wiki.ubuntu.com/S390X/Installation%20In%20LPAR]</a>(<a href="https://wiki.ubuntu.com/S390X/Installation" target="_blank" rel="noopener">https://wiki.ubuntu.com/S390X/Installation</a> In LPAR)</p>
+<p>更加漫长的等待⌛️……</p>
+<p>安装好后会提示你重启系统，</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909223722177.png" alt="image-20190909223722177"></p>
+<p>接下来回到Hercules命令行，按下ESC进入硬件界面，依次按下”l”和”c”，再按下ESC返回，即可启动，</p>
+<blockquote>
+<p>c代表从设备C 0120 3390 DASD ./dasd/ubuntu.disk [8000 cyls] IO[117155] 启动</p>
+</blockquote>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909224015896.png" alt="image-20190909224015896"></p>
+<blockquote>
+<p>如果没有反应可以exit退出重新进入，再从硬盘启动</p>
+</blockquote>
+<h3 id="安装成功"><a href="#安装成功" class="headerlink" title="安装成功"></a>安装成功</h3><p>ssh登陆</p>
+<p><img src="/2019/09/09/installing-Ubuntu-18-04-s390-in-hercules/image-20190909230215978.png" alt="image-20190909230215978"></p>
+<p>后续：</p>
+<ul>
+<li>在s390上安装sshfs挂载远端文件夹，方便文件传输</li>
+<li>一点小问题：</li>
+<li>安装了proxychains，配置好socks5代理后，无法通过pwoxychains代理上网。只好为apt配置http代理。</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>hercules 4.2：<a href="http://www.softdevlabs.com/hyperion.html" target="_blank" rel="noopener">http://www.softdevlabs.com/hyperion.html</a></p>
+<p>较老的一篇在hercules安装debian教程：<a href="http://www.josefsipek.net/docs/s390-linux/hercules-s390.html" target="_blank" rel="noopener">http://www.josefsipek.net/docs/s390-linux/hercules-s390.html</a></p>
+<p>繁琐的视频教程：<a href="https://www.youtube.com/watch?v=QTBNt32ERWE" target="_blank" rel="noopener">https://www.youtube.com/watch?v=QTBNt32ERWE</a></p>
+<p>在hercules安装ubuntu教程：<a href="https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-mainframe-simulator/" target="_blank" rel="noopener">https://astr0baby.wordpress.com/2018/06/03/installing-ubuntu-18-04-server-s390x-in-hercules-mainframe-simulator/</a></p>
+<p>ubuntu s390下载链接：<a href="https://wiki.ubuntu.com/S390X" target="_blank" rel="noopener">https://wiki.ubuntu.com/S390X</a></p>
+<p>Ubuntu安装引导：[<a href="https://wiki.ubuntu.com/S390X/Installation%20In%20LPAR]" target="_blank" rel="noopener">https://wiki.ubuntu.com/S390X/Installation%20In%20LPAR]</a>(<a href="https://wiki.ubuntu.com/S390X/Installation" target="_blank" rel="noopener">https://wiki.ubuntu.com/S390X/Installation</a> In LPAR)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/24/GOSSIP-summerschool-2019-day5/" rel="next" title="GOSSIP-summerschool-2019-day5">
+                <i class="fa fa-chevron-left"></i> GOSSIP-summerschool-2019-day5
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/09/Bytectf_2019_s390_Writeup/" rel="prev" title="Bytectf 2019 s390 Writeup">
+                Bytectf 2019 s390 Writeup <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在hercules上安装Ubuntu-18-04-s390x"><span class="nav-number">1.</span> <span class="nav-text">在hercules上安装Ubuntu 18.04 s390x</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地环境"><span class="nav-number">1.2.</span> <span class="nav-text">本地环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络环境"><span class="nav-number">1.3.</span> <span class="nav-text">网络环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">1.4.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Hercules-4-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">安装Hercules 4.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备Hercules-4-2虚拟机配置文件"><span class="nav-number">1.4.2.</span> <span class="nav-text">准备Hercules 4.2虚拟机配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置网络"><span class="nav-number">1.4.3.</span> <span class="nav-text">配置网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备Ubuntu-18-04-s390x镜像"><span class="nav-number">1.4.4.</span> <span class="nav-text">准备Ubuntu 18.04 s390x镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统开机"><span class="nav-number">1.4.5.</span> <span class="nav-text">系统开机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装系统"><span class="nav-number">1.4.6.</span> <span class="nav-text">安装系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装成功"><span class="nav-number">1.4.7.</span> <span class="nav-text">安装成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">1.4.8.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
