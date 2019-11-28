@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,Reverse,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="D^3CTF 2019 ch1pfs wp Category: RE Solved: 1  拿到一堆文件，先运行一下，要求输入key，进到/test/，里面有文件，但是cat出来一堆乱码。 把CH1P_fs.ko拖到IDA里面看看，可以发现是自己写的一个文件系统，insmod的时候要一个key，key生成f_key，f_key在文件读写的时候进行异或加密。 然后到处看了看（strings root">
+<meta name="keywords" content="CTF,Reverse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="D^3CTF 2019 ch1pfs wp">
+<meta property="og:url" content="https://gange666.github.io/2019/11/28/D^3CTF_2019_ch1pfs_wp/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="D^3CTF 2019 ch1pfs wp Category: RE Solved: 1  拿到一堆文件，先运行一下，要求输入key，进到/test/，里面有文件，但是cat出来一堆乱码。 把CH1P_fs.ko拖到IDA里面看看，可以发现是自己写的一个文件系统，insmod的时候要一个key，key生成f_key，f_key在文件读写的时候进行异或加密。 然后到处看了看（strings root">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2019/11/28/D%5E3CTF_2019_ch1pfs_wp/image-20191123140941037.png">
+<meta property="og:image" content="https://gange666.github.io/2019/11/28/D%5E3CTF_2019_ch1pfs_wp/image-20191123142257464.png">
+<meta property="og:image" content="https://gange666.github.io/2019/11/28/D%5E3CTF_2019_ch1pfs_wp/image-20191123142223308.png">
+<meta property="og:updated_time" content="2019-11-28T14:33:35.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="D^3CTF 2019 ch1pfs wp">
+<meta name="twitter:description" content="D^3CTF 2019 ch1pfs wp Category: RE Solved: 1  拿到一堆文件，先运行一下，要求输入key，进到/test/，里面有文件，但是cat出来一堆乱码。 把CH1P_fs.ko拖到IDA里面看看，可以发现是自己写的一个文件系统，insmod的时候要一个key，key生成f_key，f_key在文件读写的时候进行异或加密。 然后到处看了看（strings root">
+<meta name="twitter:image" content="https://gange666.github.io/2019/11/28/D%5E3CTF_2019_ch1pfs_wp/image-20191123140941037.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2019/11/28/D^3CTF_2019_ch1pfs_wp/">
+
+
+
+
+
+  <title>D^3CTF 2019 ch1pfs wp | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2019/11/28/D^3CTF_2019_ch1pfs_wp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">D^3CTF 2019 ch1pfs wp</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-28T22:00:00+08:00">
+                2019-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/Reverse/" itemprop="url" rel="index">
+                    <span itemprop="name">Reverse</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/28/D^3CTF_2019_ch1pfs_wp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/28/D^3CTF_2019_ch1pfs_wp/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="D-3CTF-2019-ch1pfs-wp"><a href="#D-3CTF-2019-ch1pfs-wp" class="headerlink" title="D^3CTF 2019 ch1pfs wp"></a>D^3CTF 2019 ch1pfs wp</h1><blockquote>
+<p>Category: RE</p>
+<p>Solved: 1</p>
+</blockquote>
+<p>拿到一堆文件，先运行一下，要求输入key，进到/test/，里面有文件，但是cat出来一堆乱码。</p>
+<p>把CH1P_fs.ko拖到IDA里面看看，可以发现是自己写的一个文件系统，insmod的时候要一个key，key生成f_key，f_key在文件读写的时候进行异或加密。</p>
+<p>然后到处看了看（strings rootfs.img、网上找了一下相关的代码、找到个假的getkey），明确给的各个文件的用途：</p>
+<ul>
+<li>CH1P_fs.ko 文件系统的驱动</li>
+<li>image CH1P_fs加密后的文件系统，系统启动后挂载到/test/目录</li>
+<li>waifu.png 明文图片，image里面也有一张</li>
+<li>其他qemu所需的文件</li>
+</ul>
+<p>至此，</p>
+<h3 id="明确解题思路："><a href="#明确解题思路：" class="headerlink" title="明确解题思路："></a>明确解题思路：</h3><ul>
+<li>因为是使用顺序的异或加解密，可以通过waifu.png的明密文对找出f_key</li>
+<li>使用f_key查看其他文件或反推出key</li>
+</ul>
+<h3 id="Step1-找出png的明密文对"><a href="#Step1-找出png的明密文对" class="headerlink" title="Step1  找出png的明密文对"></a>Step1  找出png的明密文对</h3><p>我patch了rootfs.img中的CH1P_fs.ko，将读取文件时的异或加密nop掉，直接输出raw的文件，使得我们能够定位密文在image中的位置。</p>
+<p>png: 0x23bda0-0x732da0</p>
+<p>png很大，在image文件中并不是完全连续的，中间还有一些数据，借助hexedit在patch过的文件系统上对比，可以将png密文完全提取出来（但是没有必要</p>
+<h3 id="Step2-根据明密文对恢复f-key"><a href="#Step2-根据明密文对恢复f-key" class="headerlink" title="Step2 根据明密文对恢复f_key"></a>Step2 根据明密文对恢复f_key</h3><p>拿到明密文对直接异或即能得到f_key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">"ctf/waifu.png"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    m_data = f.read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"ctf/png_c"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    c_data = f.read()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> r <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    f_key = []</span><br><span class="line">    m = m_data[<span class="number">4096</span>*r:<span class="number">4096</span>*(r+<span class="number">1</span>)]</span><br><span class="line">    c = c_data[<span class="number">4096</span>*r:<span class="number">4096</span>*(r+<span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4096</span>):</span><br><span class="line">        f_key.append(ord(m[i])^ord(c[i]))</span><br><span class="line">    <span class="keyword">print</span> f_key</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">f_key = [<span class="number">255</span>, <span class="number">190</span>, <span class="number">241</span>, <span class="number">240</span>, <span class="number">224</span>, <span class="number">168</span>, <span class="number">167</span>, <span class="number">95</span>, <span class="number">148</span>, <span class="number">140</span>, <span class="number">12</span>, <span class="number">92</span>, <span class="number">26</span>, <span class="number">116</span>, <span class="number">75</span>, <span class="number">155</span>, <span class="number">245</span>, <span class="number">54</span>, <span class="number">107</span>, <span class="number">247</span>, <span class="number">70</span>, <span class="number">158</span>, <span class="number">181</span>, <span class="number">135</span>, <span class="number">131</span>, <span class="number">98</span>, <span class="number">103</span>, <span class="number">104</span>, <span class="number">79</span>, <span class="number">64</span>, <span class="number">87</span>, <span class="number">96</span>, <span class="number">50</span>, <span class="number">85</span>, <span class="number">45</span>, <span class="number">244</span>, <span class="number">120</span>, <span class="number">73</span>, <span class="number">114</span>, <span class="number">140</span>, <span class="number">223</span>, <span class="number">98</span>, <span class="number">36</span>, <span class="number">219</span>, <span class="number">248</span>, <span class="number">200</span>, <span class="number">20</span>, <span class="number">178</span>, <span class="number">110</span>, <span class="number">163</span>, <span class="number">188</span>, <span class="number">60</span>, <span class="number">176</span>, <span class="number">114</span>, <span class="number">82</span>, <span class="number">214</span>, <span class="number">243</span>, <span class="number">192</span>, <span class="number">127</span>, <span class="number">57</span>, <span class="number">122</span>, <span class="number">225</span>, <span class="number">187</span>, <span class="number">118</span>, <span class="number">92</span>, <span class="number">244</span>, <span class="number">21</span>, <span class="number">80</span>, <span class="number">174</span>, <span class="number">77</span>, <span class="number">247</span>, <span class="number">172</span>, <span class="number">132</span>, <span class="number">153</span>, <span class="number">88</span>, <span class="number">101</span>, <span class="number">178</span>, <span class="number">129</span>, <span class="number">154</span>, <span class="number">180</span>, <span class="number">231</span>, <span class="number">137</span>, <span class="number">173</span>, <span class="number">232</span>, <span class="number">225</span>, <span class="number">241</span>, <span class="number">163</span>, <span class="number">190</span>, <span class="number">13</span>, <span class="number">16</span>, <span class="number">237</span>, <span class="number">141</span>, <span class="number">95</span>, <span class="number">148</span>, <span class="number">0</span>, <span class="number">117</span>, <span class="number">109</span>, <span class="number">43</span>, <span class="number">75</span>, <span class="number">82</span>, <span class="number">253</span>, <span class="number">200</span>, <span class="number">230</span>, <span class="number">37</span>, <span class="number">217</span>, <span class="number">67</span>, <span class="number">250</span>, <span class="number">86</span>, <span class="number">91</span>, <span class="number">227</span>, <span class="number">123</span>, <span class="number">95</span>, <span class="number">242</span>, <span class="number">20</span>, <span class="number">189</span>, <span class="number">21</span>, <span class="number">69</span>, <span class="number">92</span>, <span class="number">184</span>, <span class="number">169</span>, <span class="number">126</span>, <span class="number">200</span>, <span class="number">210</span>, <span class="number">185</span>, <span class="number">46</span>, <span class="number">82</span>, <span class="number">192</span>, <span class="number">228</span>, <span class="number">75</span>, <span class="number">236</span>, <span class="number">47</span>, <span class="number">247</span>, <span class="number">158</span>, <span class="number">53</span>, <span class="number">26</span>, <span class="number">169</span>, <span class="number">27</span>, <span class="number">101</span>, <span class="number">62</span>, <span class="number">189</span>, <span class="number">169</span>, <span class="number">235</span>, <span class="number">193</span>, <span class="number">209</span>, <span class="number">130</span>, <span class="number">171</span>, <span class="number">186</span>, <span class="number">91</span>, <span class="number">199</span>, <span class="number">46</span>, <span class="number">181</span>, <span class="number">129</span>, <span class="number">203</span>, <span class="number">236</span>, <span class="number">124</span>, <span class="number">245</span>, <span class="number">156</span>, <span class="number">169</span>, <span class="number">92</span>, <span class="number">48</span>, <span class="number">183</span>, <span class="number">4</span>, <span class="number">225</span>, <span class="number">183</span>, <span class="number">61</span>, <span class="number">250</span>, <span class="number">6</span>, <span class="number">174</span>, <span class="number">139</span>, <span class="number">208</span>, <span class="number">89</span>, <span class="number">222</span>, <span class="number">4</span>, <span class="number">20</span>, <span class="number">252</span>, <span class="number">108</span>, <span class="number">32</span>, <span class="number">50</span>, <span class="number">41</span>, <span class="number">150</span>, <span class="number">113</span>, <span class="number">17</span>, <span class="number">12</span>, <span class="number">232</span>, <span class="number">209</span>, <span class="number">70</span>, <span class="number">172</span>, <span class="number">250</span>, <span class="number">123</span>, <span class="number">204</span>, <span class="number">254</span>, <span class="number">107</span>, <span class="number">225</span>, <span class="number">127</span>, <span class="number">250</span>, <span class="number">17</span>, <span class="number">88</span>, <span class="number">79</span>, <span class="number">170</span>, <span class="number">187</span>, <span class="number">162</span>, <span class="number">112</span>, <span class="number">139</span>, <span class="number">154</span>, <span class="number">125</span>, <span class="number">159</span>, <span class="number">228</span>, <span class="number">180</span>, <span class="number">37</span>, <span class="number">172</span>, <span class="number">175</span>, <span class="number">166</span>, <span class="number">254</span>, <span class="number">126</span>, <span class="number">112</span>, <span class="number">134</span>, <span class="number">117</span>, <span class="number">237</span>, <span class="number">20</span>, <span class="number">42</span>, <span class="number">15</span>, <span class="number">212</span>, <span class="number">245</span>, <span class="number">78</span>, <span class="number">32</span>, <span class="number">22</span>, <span class="number">111</span>, <span class="number">132</span>, <span class="number">71</span>, <span class="number">239</span>, <span class="number">218</span>, <span class="number">174</span>, <span class="number">146</span>, <span class="number">226</span>, <span class="number">77</span>, <span class="number">68</span>, <span class="number">171</span>, <span class="number">80</span>, <span class="number">103</span>, <span class="number">161</span>, <span class="number">164</span>, <span class="number">166</span>, <span class="number">214</span>, <span class="number">141</span>, <span class="number">167</span>, <span class="number">115</span>, <span class="number">96</span>, <span class="number">39</span>, <span class="number">157</span>, <span class="number">36</span>, <span class="number">63</span>, <span class="number">76</span>, <span class="number">20</span>, <span class="number">62</span>, <span class="number">56</span>, <span class="number">191</span>, <span class="number">124</span>, <span class="number">24</span>, <span class="number">170</span>, <span class="number">37</span>, <span class="number">30</span>, <span class="number">202</span>, <span class="number">144</span>, <span class="number">180</span>, <span class="number">117</span>, <span class="number">255</span>, <span class="number">61</span>, <span class="number">38</span>, <span class="number">29</span>, <span class="number">146</span>, <span class="number">101</span>, <span class="number">42</span>, <span class="number">59</span>, <span class="number">170</span>, <span class="number">127</span>, <span class="number">57</span>, <span class="number">212</span>, <span class="number">30</span>, <span class="number">168</span>, <span class="number">210</span>, <span class="number">93</span>, <span class="number">149</span>, <span class="number">194</span>, <span class="number">70</span>, <span class="number">185</span>, <span class="number">35</span>, <span class="number">75</span>, <span class="number">63</span>, <span class="number">219</span>, <span class="number">226</span>, <span class="number">154</span>, <span class="number">145</span>, <span class="number">97</span>, <span class="number">57</span>, <span class="number">182</span>, <span class="number">97</span>, <span class="number">12</span>, <span class="number">176</span>, <span class="number">65</span>, <span class="number">223</span>, <span class="number">109</span>, <span class="number">241</span>, <span class="number">26</span>, <span class="number">250</span>, <span class="number">241</span>, <span class="number">157</span>, <span class="number">251</span>, <span class="number">97</span>, <span class="number">251</span>, <span class="number">29</span>, <span class="number">188</span>, <span class="number">29</span>, <span class="number">174</span>, <span class="number">139</span>, <span class="number">148</span>, <span class="number">181</span>, <span class="number">80</span>, <span class="number">38</span>, <span class="number">118</span>, <span class="number">2</span>, <span class="number">111</span>, <span class="number">59</span>, <span class="number">195</span>, <span class="number">11</span>, <span class="number">68</span>, <span class="number">159</span>, <span class="number">143</span>, <span class="number">191</span>, <span class="number">203</span>, <span class="number">3</span>, <span class="number">101</span>, <span class="number">68</span>, <span class="number">168</span>, <span class="number">252</span>, <span class="number">97</span>, <span class="number">187</span>, <span class="number">165</span>, <span class="number">96</span>, <span class="number">22</span>, <span class="number">118</span>, <span class="number">109</span>, <span class="number">176</span>, <span class="number">156</span>, <span class="number">30</span>, <span class="number">49</span>, <span class="number">222</span>, <span class="number">165</span>, <span class="number">186</span>, <span class="number">253</span>, <span class="number">53</span>, <span class="number">163</span>, <span class="number">237</span>, <span class="number">38</span>, <span class="number">140</span>, <span class="number">164</span>, <span class="number">191</span>, <span class="number">162</span>, <span class="number">105</span>, <span class="number">86</span>, <span class="number">136</span>, <span class="number">209</span>, <span class="number">87</span>, <span class="number">136</span>, <span class="number">78</span>, <span class="number">150</span>, <span class="number">134</span>, <span class="number">133</span>, <span class="number">113</span>, <span class="number">177</span>, <span class="number">42</span>, <span class="number">82</span>, <span class="number">8</span>, <span class="number">104</span>, <span class="number">203</span>, <span class="number">33</span>, <span class="number">86</span>, <span class="number">12</span>, <span class="number">122</span>, <span class="number">157</span>, <span class="number">108</span>, <span class="number">132</span>, <span class="number">2</span>, <span class="number">123</span>, <span class="number">238</span>, <span class="number">52</span>, <span class="number">72</span>, <span class="number">203</span>, <span class="number">203</span>, <span class="number">123</span>, <span class="number">70</span>, <span class="number">240</span>, <span class="number">109</span>, <span class="number">27</span>, <span class="number">5</span>, <span class="number">139</span>, <span class="number">209</span>, <span class="number">173</span>, <span class="number">1</span>, <span class="number">96</span>, <span class="number">151</span>, <span class="number">13</span>, <span class="number">212</span>, <span class="number">12</span>, <span class="number">249</span>, <span class="number">156</span>, <span class="number">158</span>, <span class="number">41</span>, <span class="number">205</span>, <span class="number">184</span>, <span class="number">229</span>, <span class="number">178</span>, <span class="number">212</span>, <span class="number">236</span>, <span class="number">155</span>, <span class="number">236</span>, <span class="number">211</span>, <span class="number">178</span>, <span class="number">195</span>, <span class="number">8</span>, <span class="number">21</span>, <span class="number">245</span>, <span class="number">161</span>, <span class="number">64</span>, <span class="number">5</span>, <span class="number">204</span>, <span class="number">71</span>, <span class="number">75</span>, <span class="number">250</span>, <span class="number">4</span>, <span class="number">44</span>, <span class="number">208</span>, <span class="number">206</span>, <span class="number">108</span>, <span class="number">87</span>, <span class="number">173</span>, <span class="number">12</span>, <span class="number">189</span>, <span class="number">95</span>, <span class="number">217</span>, <span class="number">121</span>, <span class="number">112</span>, <span class="number">45</span>, <span class="number">250</span>, <span class="number">253</span>, <span class="number">121</span>, <span class="number">219</span>, <span class="number">171</span>, <span class="number">212</span>, <span class="number">204</span>, <span class="number">157</span>, <span class="number">72</span>, <span class="number">172</span>, <span class="number">125</span>, <span class="number">229</span>, <span class="number">251</span>, <span class="number">243</span>, <span class="number">217</span>, <span class="number">220</span>, <span class="number">183</span>, <span class="number">114</span>, <span class="number">168</span>, <span class="number">25</span>, <span class="number">172</span>, <span class="number">218</span>, <span class="number">47</span>, <span class="number">85</span>, <span class="number">91</span>, <span class="number">248</span>, <span class="number">34</span>, <span class="number">5</span>, <span class="number">49</span>, <span class="number">142</span>, <span class="number">108</span>, <span class="number">71</span>, <span class="number">192</span>, <span class="number">42</span>, <span class="number">234</span>, <span class="number">57</span>, <span class="number">78</span>, <span class="number">86</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">76</span>, <span class="number">239</span>, <span class="number">121</span>, <span class="number">169</span>, <span class="number">220</span>, <span class="number">61</span>, <span class="number">50</span>, <span class="number">81</span>, <span class="number">29</span>, <span class="number">229</span>, <span class="number">173</span>, <span class="number">50</span>, <span class="number">78</span>, <span class="number">199</span>, <span class="number">41</span>, <span class="number">240</span>, <span class="number">63</span>, <span class="number">32</span>, <span class="number">24</span>, <span class="number">230</span>, <span class="number">86</span>, <span class="number">94</span>, <span class="number">161</span>, <span class="number">185</span>, <span class="number">147</span>, <span class="number">32</span>, <span class="number">232</span>, <span class="number">231</span>, <span class="number">158</span>, <span class="number">144</span>, <span class="number">72</span>, <span class="number">19</span>, <span class="number">159</span>, <span class="number">222</span>, <span class="number">234</span>, <span class="number">210</span>, <span class="number">235</span>, <span class="number">173</span>, <span class="number">59</span>, <span class="number">171</span>, <span class="number">148</span>, <span class="number">178</span>, <span class="number">245</span>, <span class="number">183</span>, <span class="number">96</span>, <span class="number">242</span>, <span class="number">67</span>, <span class="number">58</span>, <span class="number">96</span>, <span class="number">34</span>, <span class="number">60</span>, <span class="number">175</span>, <span class="number">188</span>, <span class="number">98</span>, <span class="number">213</span>, <span class="number">137</span>, <span class="number">41</span>, <span class="number">184</span>, <span class="number">222</span>, <span class="number">178</span>, <span class="number">126</span>, <span class="number">192</span>, <span class="number">53</span>, <span class="number">32</span>, <span class="number">155</span>, <span class="number">92</span>, <span class="number">106</span>, <span class="number">137</span>, <span class="number">80</span>, <span class="number">135</span>, <span class="number">100</span>, <span class="number">214</span>, <span class="number">123</span>, <span class="number">203</span>, <span class="number">207</span>, <span class="number">171</span>, <span class="number">12</span>, <span class="number">223</span>, <span class="number">138</span>, <span class="number">7</span>, <span class="number">235</span>, <span class="number">67</span>, <span class="number">177</span>, <span class="number">37</span>, <span class="number">11</span>, <span class="number">197</span>, <span class="number">125</span>, <span class="number">149</span>, <span class="number">91</span>, <span class="number">146</span>, <span class="number">144</span>, <span class="number">75</span>, <span class="number">119</span>, <span class="number">174</span>, <span class="number">252</span>, <span class="number">207</span>, <span class="number">35</span>, <span class="number">105</span>, <span class="number">64</span>, <span class="number">87</span>, <span class="number">135</span>, <span class="number">121</span>, <span class="number">138</span>, <span class="number">123</span>, <span class="number">255</span>, <span class="number">212</span>, <span class="number">64</span>, <span class="number">95</span>, <span class="number">118</span>, <span class="number">249</span>, <span class="number">152</span>, <span class="number">82</span>, <span class="number">215</span>, <span class="number">63</span>, <span class="number">128</span>, <span class="number">4</span>, <span class="number">236</span>, <span class="number">73</span>, <span class="number">106</span>, <span class="number">106</span>, <span class="number">145</span>, <span class="number">237</span>, <span class="number">99</span>, <span class="number">42</span>, <span class="number">212</span>, <span class="number">88</span>, <span class="number">177</span>, <span class="number">7</span>, <span class="number">168</span>, <span class="number">69</span>, <span class="number">248</span>, <span class="number">254</span>, <span class="number">117</span>, <span class="number">214</span>, <span class="number">109</span>, <span class="number">172</span>, <span class="number">106</span>, <span class="number">101</span>, <span class="number">237</span>, <span class="number">15</span>, <span class="number">3</span>, <span class="number">109</span>, <span class="number">207</span>, <span class="number">0</span>, <span class="number">254</span>, <span class="number">3</span>, <span class="number">212</span>, <span class="number">140</span>, <span class="number">250</span>, <span class="number">51</span>, <span class="number">220</span>, <span class="number">56</span>, <span class="number">203</span>, <span class="number">122</span>, <span class="number">146</span>, <span class="number">160</span>, <span class="number">155</span>, <span class="number">121</span>, <span class="number">36</span>, <span class="number">127</span>, <span class="number">72</span>, <span class="number">147</span>, <span class="number">97</span>, <span class="number">161</span>, <span class="number">238</span>, <span class="number">28</span>, <span class="number">171</span>, <span class="number">231</span>, <span class="number">116</span>, <span class="number">192</span>, <span class="number">51</span>, <span class="number">82</span>, <span class="number">47</span>, <span class="number">78</span>, <span class="number">25</span>, <span class="number">180</span>, <span class="number">137</span>, <span class="number">77</span>, <span class="number">253</span>, <span class="number">192</span>, <span class="number">111</span>, <span class="number">49</span>, <span class="number">82</span>, <span class="number">234</span>, <span class="number">31</span>, <span class="number">114</span>, <span class="number">20</span>, <span class="number">139</span>, <span class="number">200</span>, <span class="number">234</span>, <span class="number">249</span>, <span class="number">241</span>, <span class="number">204</span>, <span class="number">50</span>, <span class="number">55</span>, <span class="number">227</span>, <span class="number">21</span>, <span class="number">220</span>, <span class="number">101</span>, <span class="number">79</span>, <span class="number">42</span>, <span class="number">155</span>, <span class="number">185</span>, <span class="number">172</span>, <span class="number">179</span>, <span class="number">156</span>, <span class="number">82</span>, <span class="number">199</span>, <span class="number">40</span>, <span class="number">239</span>, <span class="number">10</span>, <span class="number">247</span>, <span class="number">170</span>, <span class="number">0</span>, <span class="number">198</span>, <span class="number">93</span>, <span class="number">80</span>, <span class="number">161</span>, <span class="number">211</span>, <span class="number">155</span>, <span class="number">252</span>, <span class="number">1</span>, <span class="number">175</span>, <span class="number">37</span>, <span class="number">214</span>, <span class="number">202</span>, <span class="number">234</span>, <span class="number">190</span>, <span class="number">122</span>, <span class="number">99</span>, <span class="number">2</span>, <span class="number">110</span>, <span class="number">138</span>, <span class="number">21</span>, <span class="number">105</span>, <span class="number">193</span>, <span class="number">125</span>, <span class="number">102</span>, <span class="number">34</span>, <span class="number">212</span>, <span class="number">63</span>, <span class="number">162</span>, <span class="number">73</span>, <span class="number">103</span>, <span class="number">120</span>, <span class="number">10</span>, <span class="number">212</span>, <span class="number">167</span>, <span class="number">34</span>, <span class="number">198</span>, <span class="number">77</span>, <span class="number">231</span>, <span class="number">7</span>, <span class="number">90</span>, <span class="number">173</span>, <span class="number">210</span>, <span class="number">54</span>, <span class="number">108</span>, <span class="number">4</span>, <span class="number">15</span>, <span class="number">43</span>, <span class="number">89</span>, <span class="number">149</span>, <span class="number">123</span>, <span class="number">212</span>, <span class="number">73</span>, <span class="number">101</span>, <span class="number">239</span>, <span class="number">109</span>, <span class="number">228</span>, <span class="number">85</span>, <span class="number">130</span>, <span class="number">224</span>, <span class="number">204</span>, <span class="number">41</span>, <span class="number">10</span>, <span class="number">236</span>, <span class="number">172</span>, <span class="number">69</span>, <span class="number">159</span>, <span class="number">9</span>, <span class="number">190</span>, <span class="number">191</span>, <span class="number">184</span>, <span class="number">148</span>, <span class="number">108</span>, <span class="number">242</span>, <span class="number">108</span>, <span class="number">141</span>, <span class="number">135</span>, <span class="number">23</span>, <span class="number">40</span>, <span class="number">1</span>, <span class="number">142</span>, <span class="number">105</span>, <span class="number">55</span>, <span class="number">85</span>, <span class="number">68</span>, <span class="number">215</span>, <span class="number">183</span>, <span class="number">118</span>, <span class="number">86</span>, <span class="number">184</span>, <span class="number">236</span>, <span class="number">160</span>, <span class="number">41</span>, <span class="number">192</span>, <span class="number">65</span>, <span class="number">154</span>, <span class="number">84</span>, <span class="number">83</span>, <span class="number">30</span>, <span class="number">93</span>, <span class="number">224</span>, <span class="number">193</span>, <span class="number">157</span>, <span class="number">200</span>, <span class="number">239</span>, <span class="number">32</span>, <span class="number">229</span>, <span class="number">154</span>, <span class="number">226</span>, <span class="number">158</span>, <span class="number">223</span>, <span class="number">42</span>, <span class="number">248</span>, <span class="number">1</span>, <span class="number">39</span>, <span class="number">77</span>, <span class="number">161</span>, <span class="number">136</span>, <span class="number">119</span>, <span class="number">238</span>, <span class="number">223</span>, <span class="number">21</span>, <span class="number">78</span>, <span class="number">209</span>, <span class="number">197</span>, <span class="number">221</span>, <span class="number">119</span>, <span class="number">206</span>, <span class="number">133</span>, <span class="number">5</span>, <span class="number">104</span>, <span class="number">234</span>, <span class="number">6</span>, <span class="number">88</span>, <span class="number">212</span>, <span class="number">17</span>, <span class="number">207</span>, <span class="number">109</span>, <span class="number">131</span>, <span class="number">139</span>, <span class="number">115</span>, <span class="number">216</span>, <span class="number">70</span>, <span class="number">29</span>, <span class="number">245</span>, <span class="number">152</span>, <span class="number">165</span>, <span class="number">80</span>, <span class="number">115</span>, <span class="number">164</span>, <span class="number">26</span>, <span class="number">50</span>, <span class="number">75</span>, <span class="number">88</span>, <span class="number">241</span>, <span class="number">219</span>, <span class="number">198</span>, <span class="number">191</span>, <span class="number">170</span>, <span class="number">64</span>, <span class="number">2</span>, <span class="number">135</span>, <span class="number">253</span>, <span class="number">13</span>, <span class="number">217</span>, <span class="number">254</span>, <span class="number">170</span>, <span class="number">140</span>, <span class="number">252</span>, <span class="number">216</span>, <span class="number">7</span>, <span class="number">162</span>, <span class="number">4</span>, <span class="number">122</span>, <span class="number">196</span>, <span class="number">65</span>, <span class="number">60</span>, <span class="number">62</span>, <span class="number">148</span>, <span class="number">207</span>, <span class="number">156</span>, <span class="number">114</span>, <span class="number">37</span>, <span class="number">167</span>, <span class="number">121</span>, <span class="number">147</span>, <span class="number">168</span>, <span class="number">215</span>, <span class="number">123</span>, <span class="number">228</span>, <span class="number">134</span>, <span class="number">147</span>, <span class="number">116</span>, <span class="number">200</span>, <span class="number">195</span>, <span class="number">173</span>, <span class="number">250</span>, <span class="number">234</span>, <span class="number">111</span>, <span class="number">136</span>, <span class="number">204</span>, <span class="number">187</span>, <span class="number">188</span>, <span class="number">148</span>, <span class="number">31</span>, <span class="number">135</span>, <span class="number">32</span>, <span class="number">79</span>, <span class="number">57</span>, <span class="number">202</span>, <span class="number">183</span>, <span class="number">220</span>, <span class="number">1</span>, <span class="number">41</span>, <span class="number">3</span>, <span class="number">137</span>, <span class="number">126</span>, <span class="number">173</span>, <span class="number">219</span>, <span class="number">118</span>, <span class="number">118</span>, <span class="number">101</span>, <span class="number">172</span>, <span class="number">123</span>, <span class="number">110</span>, <span class="number">105</span>, <span class="number">78</span>, <span class="number">151</span>, <span class="number">116</span>, <span class="number">131</span>, <span class="number">77</span>, <span class="number">213</span>, <span class="number">159</span>, <span class="number">97</span>, <span class="number">159</span>, <span class="number">211</span>, <span class="number">141</span>, <span class="number">244</span>, <span class="number">159</span>, <span class="number">195</span>, <span class="number">54</span>, <span class="number">249</span>, <span class="number">49</span>, <span class="number">231</span>, <span class="number">196</span>, <span class="number">52</span>, <span class="number">73</span>, <span class="number">67</span>, <span class="number">218</span>, <span class="number">142</span>, <span class="number">236</span>, <span class="number">206</span>, <span class="number">135</span>, <span class="number">128</span>, <span class="number">50</span>, <span class="number">84</span>, <span class="number">116</span>, <span class="number">90</span>, <span class="number">96</span>, <span class="number">141</span>, <span class="number">27</span>, <span class="number">208</span>, <span class="number">138</span>, <span class="number">243</span>, <span class="number">214</span>, <span class="number">66</span>, <span class="number">82</span>, <span class="number">112</span>, <span class="number">240</span>, <span class="number">237</span>, <span class="number">183</span>, <span class="number">41</span>, <span class="number">186</span>, <span class="number">235</span>, <span class="number">236</span>, <span class="number">236</span>, <span class="number">45</span>, <span class="number">237</span>, <span class="number">221</span>, <span class="number">17</span>, <span class="number">226</span>, <span class="number">21</span>, <span class="number">209</span>, <span class="number">20</span>, <span class="number">252</span>, <span class="number">229</span>, <span class="number">231</span>, <span class="number">166</span>, <span class="number">194</span>, <span class="number">158</span>, <span class="number">50</span>, <span class="number">38</span>, <span class="number">85</span>, <span class="number">168</span>, <span class="number">83</span>, <span class="number">41</span>, <span class="number">247</span>, <span class="number">70</span>, <span class="number">153</span>, <span class="number">176</span>, <span class="number">177</span>, <span class="number">134</span>, <span class="number">214</span>, <span class="number">248</span>, <span class="number">176</span>, <span class="number">23</span>, <span class="number">252</span>, <span class="number">234</span>, <span class="number">39</span>, <span class="number">85</span>, <span class="number">209</span>, <span class="number">86</span>, <span class="number">170</span>, <span class="number">36</span>, <span class="number">236</span>, <span class="number">67</span>, <span class="number">213</span>, <span class="number">179</span>, <span class="number">50</span>, <span class="number">243</span>, <span class="number">88</span>, <span class="number">239</span>, <span class="number">248</span>, <span class="number">200</span>, <span class="number">128</span>, <span class="number">73</span>, <span class="number">64</span>, <span class="number">201</span>, <span class="number">139</span>, <span class="number">239</span>, <span class="number">125</span>, <span class="number">46</span>, <span class="number">201</span>, <span class="number">8</span>, <span class="number">160</span>, <span class="number">146</span>, <span class="number">103</span>, <span class="number">37</span>, <span class="number">63</span>, <span class="number">191</span>, <span class="number">100</span>, <span class="number">108</span>, <span class="number">95</span>, <span class="number">228</span>, <span class="number">116</span>, <span class="number">163</span>, <span class="number">255</span>, <span class="number">10</span>, <span class="number">25</span>, <span class="number">122</span>, <span class="number">64</span>, <span class="number">93</span>, <span class="number">137</span>, <span class="number">149</span>, <span class="number">166</span>, <span class="number">231</span>, <span class="number">125</span>, <span class="number">61</span>, <span class="number">38</span>, <span class="number">130</span>, <span class="number">125</span>, <span class="number">172</span>, <span class="number">22</span>, <span class="number">153</span>, <span class="number">10</span>, <span class="number">166</span>, <span class="number">64</span>, <span class="number">218</span>, <span class="number">204</span>, <span class="number">202</span>, <span class="number">51</span>, <span class="number">66</span>, <span class="number">239</span>, <span class="number">0</span>, <span class="number">46</span>, <span class="number">233</span>, <span class="number">66</span>, <span class="number">45</span>, <span class="number">93</span>, <span class="number">142</span>, <span class="number">150</span>, <span class="number">125</span>, <span class="number">164</span>, <span class="number">187</span>, <span class="number">117</span>, <span class="number">175</span>, <span class="number">126</span>, <span class="number">96</span>, <span class="number">181</span>, <span class="number">183</span>, <span class="number">146</span>, <span class="number">88</span>, <span class="number">147</span>, <span class="number">85</span>, <span class="number">94</span>, <span class="number">132</span>, <span class="number">130</span>, <span class="number">180</span>, <span class="number">37</span>, <span class="number">253</span>, <span class="number">170</span>, <span class="number">206</span>, <span class="number">101</span>, <span class="number">211</span>, <span class="number">180</span>, <span class="number">153</span>, <span class="number">190</span>, <span class="number">95</span>, <span class="number">178</span>, <span class="number">49</span>, <span class="number">16</span>, <span class="number">115</span>, <span class="number">83</span>, <span class="number">239</span>, <span class="number">207</span>, <span class="number">31</span>, <span class="number">119</span>, <span class="number">206</span>, <span class="number">139</span>, <span class="number">151</span>, <span class="number">110</span>, <span class="number">211</span>, <span class="number">205</span>, <span class="number">243</span>, <span class="number">61</span>, <span class="number">44</span>, <span class="number">5</span>, <span class="number">50</span>, <span class="number">4</span>, <span class="number">228</span>, <span class="number">39</span>, <span class="number">109</span>, <span class="number">41</span>, <span class="number">106</span>, <span class="number">112</span>, <span class="number">147</span>, <span class="number">21</span>, <span class="number">188</span>, <span class="number">105</span>, <span class="number">197</span>, <span class="number">101</span>, <span class="number">117</span>, <span class="number">51</span>, <span class="number">203</span>, <span class="number">219</span>, <span class="number">111</span>, <span class="number">22</span>, <span class="number">192</span>, <span class="number">145</span>, <span class="number">255</span>, <span class="number">168</span>, <span class="number">176</span>, <span class="number">3</span>, <span class="number">52</span>, <span class="number">170</span>, <span class="number">206</span>, <span class="number">82</span>, <span class="number">209</span>, <span class="number">69</span>, <span class="number">211</span>, <span class="number">8</span>, <span class="number">120</span>, <span class="number">219</span>, <span class="number">116</span>, <span class="number">26</span>, <span class="number">151</span>, <span class="number">10</span>, <span class="number">217</span>, <span class="number">123</span>, <span class="number">93</span>, <span class="number">28</span>, <span class="number">241</span>, <span class="number">113</span>, <span class="number">44</span>, <span class="number">32</span>, <span class="number">112</span>, <span class="number">37</span>, <span class="number">212</span>, <span class="number">16</span>, <span class="number">97</span>, <span class="number">31</span>, <span class="number">255</span>, <span class="number">30</span>, <span class="number">5</span>, <span class="number">207</span>, <span class="number">55</span>, <span class="number">9</span>, <span class="number">110</span>, <span class="number">23</span>, <span class="number">63</span>, <span class="number">156</span>, <span class="number">133</span>, <span class="number">130</span>, <span class="number">72</span>, <span class="number">157</span>, <span class="number">14</span>, <span class="number">223</span>, <span class="number">127</span>, <span class="number">123</span>, <span class="number">175</span>, <span class="number">190</span>, <span class="number">104</span>, <span class="number">185</span>, <span class="number">176</span>, <span class="number">108</span>, <span class="number">213</span>, <span class="number">230</span>, <span class="number">162</span>, <span class="number">199</span>, <span class="number">70</span>, <span class="number">55</span>, <span class="number">11</span>, <span class="number">248</span>, <span class="number">92</span>, <span class="number">29</span>, <span class="number">61</span>, <span class="number">56</span>, <span class="number">49</span>, <span class="number">96</span>, <span class="number">51</span>, <span class="number">47</span>, <span class="number">213</span>, <span class="number">111</span>, <span class="number">254</span>, <span class="number">3</span>, <span class="number">112</span>, <span class="number">158</span>, <span class="number">169</span>, <span class="number">102</span>, <span class="number">75</span>, <span class="number">55</span>, <span class="number">148</span>, <span class="number">26</span>, <span class="number">174</span>, <span class="number">195</span>, <span class="number">80</span>, <span class="number">241</span>, <span class="number">130</span>, <span class="number">16</span>, <span class="number">143</span>, <span class="number">180</span>, <span class="number">110</span>, <span class="number">100</span>, <span class="number">74</span>, <span class="number">60</span>, <span class="number">151</span>, <span class="number">58</span>, <span class="number">40</span>, <span class="number">72</span>, <span class="number">177</span>, <span class="number">13</span>, <span class="number">234</span>, <span class="number">141</span>, <span class="number">119</span>, <span class="number">110</span>, <span class="number">25</span>, <span class="number">127</span>, <span class="number">253</span>, <span class="number">93</span>, <span class="number">129</span>, <span class="number">202</span>, <span class="number">169</span>, <span class="number">60</span>, <span class="number">112</span>, <span class="number">101</span>, <span class="number">100</span>, <span class="number">8</span>, <span class="number">246</span>, <span class="number">185</span>, <span class="number">164</span>, <span class="number">5</span>, <span class="number">41</span>, <span class="number">95</span>, <span class="number">92</span>, <span class="number">10</span>, <span class="number">222</span>, <span class="number">5</span>, <span class="number">93</span>, <span class="number">110</span>, <span class="number">63</span>, <span class="number">175</span>, <span class="number">117</span>, <span class="number">41</span>, <span class="number">111</span>, <span class="number">179</span>, <span class="number">7</span>, <span class="number">121</span>, <span class="number">196</span>, <span class="number">142</span>, <span class="number">168</span>, <span class="number">70</span>, <span class="number">43</span>, <span class="number">75</span>, <span class="number">162</span>, <span class="number">155</span>, <span class="number">247</span>, <span class="number">187</span>, <span class="number">72</span>, <span class="number">193</span>, <span class="number">226</span>, <span class="number">3</span>, <span class="number">43</span>, <span class="number">162</span>, <span class="number">39</span>, <span class="number">241</span>, <span class="number">199</span>, <span class="number">68</span>, <span class="number">136</span>, <span class="number">5</span>, <span class="number">148</span>, <span class="number">196</span>, <span class="number">16</span>, <span class="number">200</span>, <span class="number">209</span>, <span class="number">142</span>, <span class="number">77</span>, <span class="number">255</span>, <span class="number">20</span>, <span class="number">144</span>, <span class="number">245</span>, <span class="number">26</span>, <span class="number">43</span>, <span class="number">186</span>, <span class="number">145</span>, <span class="number">54</span>, <span class="number">53</span>, <span class="number">174</span>, <span class="number">68</span>, <span class="number">212</span>, <span class="number">105</span>, <span class="number">250</span>, <span class="number">240</span>, <span class="number">213</span>, <span class="number">255</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">55</span>, <span class="number">133</span>, <span class="number">39</span>, <span class="number">187</span>, <span class="number">200</span>, <span class="number">160</span>, <span class="number">119</span>, <span class="number">134</span>, <span class="number">240</span>, <span class="number">37</span>, <span class="number">180</span>, <span class="number">66</span>, <span class="number">22</span>, <span class="number">193</span>, <span class="number">66</span>, <span class="number">79</span>, <span class="number">63</span>, <span class="number">123</span>, <span class="number">109</span>, <span class="number">157</span>, <span class="number">101</span>, <span class="number">133</span>, <span class="number">11</span>, <span class="number">219</span>, <span class="number">59</span>, <span class="number">196</span>, <span class="number">79</span>, <span class="number">217</span>, <span class="number">36</span>, <span class="number">185</span>, <span class="number">91</span>, <span class="number">232</span>, <span class="number">96</span>, <span class="number">67</span>, <span class="number">148</span>, <span class="number">77</span>, <span class="number">74</span>, <span class="number">165</span>, <span class="number">220</span>, <span class="number">152</span>, <span class="number">106</span>, <span class="number">113</span>, <span class="number">139</span>, <span class="number">91</span>, <span class="number">114</span>, <span class="number">231</span>, <span class="number">119</span>, <span class="number">113</span>, <span class="number">231</span>, <span class="number">42</span>, <span class="number">174</span>, <span class="number">146</span>, <span class="number">41</span>, <span class="number">131</span>, <span class="number">150</span>, <span class="number">97</span>, <span class="number">44</span>, <span class="number">232</span>, <span class="number">235</span>, <span class="number">128</span>, <span class="number">207</span>, <span class="number">10</span>, <span class="number">120</span>, <span class="number">0</span>, <span class="number">122</span>, <span class="number">58</span>, <span class="number">126</span>, <span class="number">75</span>, <span class="number">117</span>, <span class="number">51</span>, <span class="number">3</span>, <span class="number">239</span>, <span class="number">118</span>, <span class="number">218</span>, <span class="number">131</span>, <span class="number">70</span>, <span class="number">105</span>, <span class="number">76</span>, <span class="number">200</span>, <span class="number">24</span>, <span class="number">247</span>, <span class="number">53</span>, <span class="number">204</span>, <span class="number">135</span>, <span class="number">25</span>, <span class="number">105</span>, <span class="number">200</span>, <span class="number">230</span>, <span class="number">68</span>, <span class="number">162</span>, <span class="number">98</span>, <span class="number">233</span>, <span class="number">157</span>, <span class="number">195</span>, <span class="number">154</span>, <span class="number">131</span>, <span class="number">97</span>, <span class="number">213</span>, <span class="number">66</span>, <span class="number">60</span>, <span class="number">2</span>, <span class="number">49</span>, <span class="number">109</span>, <span class="number">56</span>, <span class="number">5</span>, <span class="number">243</span>, <span class="number">201</span>, <span class="number">37</span>, <span class="number">224</span>, <span class="number">23</span>, <span class="number">236</span>, <span class="number">80</span>, <span class="number">169</span>, <span class="number">166</span>, <span class="number">185</span>, <span class="number">198</span>, <span class="number">239</span>, <span class="number">31</span>, <span class="number">229</span>, <span class="number">141</span>, <span class="number">36</span>, <span class="number">201</span>, <span class="number">220</span>, <span class="number">209</span>, <span class="number">246</span>, <span class="number">182</span>, <span class="number">37</span>, <span class="number">155</span>, <span class="number">78</span>, <span class="number">74</span>, <span class="number">239</span>, <span class="number">113</span>, <span class="number">53</span>, <span class="number">177</span>, <span class="number">54</span>, <span class="number">64</span>, <span class="number">60</span>, <span class="number">70</span>, <span class="number">89</span>, <span class="number">114</span>, <span class="number">148</span>, <span class="number">17</span>, <span class="number">207</span>, <span class="number">140</span>, <span class="number">52</span>, <span class="number">254</span>, <span class="number">35</span>, <span class="number">199</span>, <span class="number">34</span>, <span class="number">20</span>, <span class="number">82</span>, <span class="number">107</span>, <span class="number">206</span>, <span class="number">1</span>, <span class="number">113</span>, <span class="number">154</span>, <span class="number">255</span>, <span class="number">76</span>, <span class="number">89</span>, <span class="number">173</span>, <span class="number">225</span>, <span class="number">217</span>, <span class="number">43</span>, <span class="number">218</span>, <span class="number">65</span>, <span class="number">129</span>, <span class="number">83</span>, <span class="number">32</span>, <span class="number">115</span>, <span class="number">2</span>, <span class="number">246</span>, <span class="number">203</span>, <span class="number">6</span>, <span class="number">49</span>, <span class="number">255</span>, <span class="number">42</span>, <span class="number">166</span>, <span class="number">96</span>, <span class="number">242</span>, <span class="number">133</span>, <span class="number">32</span>, <span class="number">133</span>, <span class="number">138</span>, <span class="number">142</span>, <span class="number">202</span>, <span class="number">35</span>, <span class="number">137</span>, <span class="number">24</span>, <span class="number">244</span>, <span class="number">196</span>, <span class="number">59</span>, <span class="number">24</span>, <span class="number">3</span>, <span class="number">193</span>, <span class="number">167</span>, <span class="number">138</span>, <span class="number">186</span>, <span class="number">18</span>, <span class="number">101</span>, <span class="number">223</span>, <span class="number">120</span>, <span class="number">108</span>, <span class="number">114</span>, <span class="number">150</span>, <span class="number">123</span>, <span class="number">13</span>, <span class="number">51</span>, <span class="number">75</span>, <span class="number">30</span>, <span class="number">33</span>, <span class="number">95</span>, <span class="number">153</span>, <span class="number">221</span>, <span class="number">47</span>, <span class="number">57</span>, <span class="number">119</span>, <span class="number">29</span>, <span class="number">28</span>, <span class="number">85</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">228</span>, <span class="number">254</span>, <span class="number">96</span>, <span class="number">238</span>, <span class="number">150</span>, <span class="number">44</span>, <span class="number">75</span>, <span class="number">114</span>, <span class="number">253</span>, <span class="number">244</span>, <span class="number">131</span>, <span class="number">59</span>, <span class="number">95</span>, <span class="number">90</span>, <span class="number">48</span>, <span class="number">53</span>, <span class="number">212</span>, <span class="number">26</span>, <span class="number">18</span>, <span class="number">226</span>, <span class="number">90</span>, <span class="number">150</span>, <span class="number">112</span>, <span class="number">98</span>, <span class="number">40</span>, <span class="number">5</span>, <span class="number">100</span>, <span class="number">43</span>, <span class="number">190</span>, <span class="number">212</span>, <span class="number">3</span>, <span class="number">206</span>, <span class="number">126</span>, <span class="number">212</span>, <span class="number">206</span>, <span class="number">85</span>, <span class="number">87</span>, <span class="number">155</span>, <span class="number">253</span>, <span class="number">171</span>, <span class="number">235</span>, <span class="number">164</span>, <span class="number">234</span>, <span class="number">158</span>, <span class="number">37</span>, <span class="number">184</span>, <span class="number">44</span>, <span class="number">61</span>, <span class="number">122</span>, <span class="number">112</span>, <span class="number">182</span>, <span class="number">112</span>, <span class="number">44</span>, <span class="number">103</span>, <span class="number">30</span>, <span class="number">78</span>, <span class="number">248</span>, <span class="number">153</span>, <span class="number">171</span>, <span class="number">174</span>, <span class="number">41</span>, <span class="number">50</span>, <span class="number">103</span>, <span class="number">120</span>, <span class="number">181</span>, <span class="number">121</span>, <span class="number">83</span>, <span class="number">120</span>, <span class="number">226</span>, <span class="number">10</span>, <span class="number">148</span>, <span class="number">11</span>, <span class="number">104</span>, <span class="number">220</span>, <span class="number">132</span>, <span class="number">41</span>, <span class="number">96</span>, <span class="number">154</span>, <span class="number">56</span>, <span class="number">75</span>, <span class="number">144</span>, <span class="number">117</span>, <span class="number">108</span>, <span class="number">205</span>, <span class="number">63</span>, <span class="number">96</span>, <span class="number">234</span>, <span class="number">79</span>, <span class="number">222</span>, <span class="number">45</span>, <span class="number">215</span>, <span class="number">201</span>, <span class="number">184</span>, <span class="number">166</span>, <span class="number">231</span>, <span class="number">68</span>, <span class="number">115</span>, <span class="number">186</span>, <span class="number">118</span>, <span class="number">192</span>, <span class="number">184</span>, <span class="number">212</span>, <span class="number">96</span>, <span class="number">189</span>, <span class="number">15</span>, <span class="number">211</span>, <span class="number">35</span>, <span class="number">44</span>, <span class="number">135</span>, <span class="number">125</span>, <span class="number">87</span>, <span class="number">173</span>, <span class="number">89</span>, <span class="number">58</span>, <span class="number">254</span>, <span class="number">111</span>, <span class="number">200</span>, <span class="number">141</span>, <span class="number">212</span>, <span class="number">123</span>, <span class="number">117</span>, <span class="number">152</span>, <span class="number">201</span>, <span class="number">106</span>, <span class="number">108</span>, <span class="number">240</span>, <span class="number">234</span>, <span class="number">46</span>, <span class="number">39</span>, <span class="number">60</span>, <span class="number">49</span>, <span class="number">124</span>, <span class="number">141</span>, <span class="number">59</span>, <span class="number">78</span>, <span class="number">19</span>, <span class="number">236</span>, <span class="number">132</span>, <span class="number">75</span>, <span class="number">33</span>, <span class="number">115</span>, <span class="number">20</span>, <span class="number">166</span>, <span class="number">94</span>, <span class="number">179</span>, <span class="number">239</span>, <span class="number">158</span>, <span class="number">44</span>, <span class="number">22</span>, <span class="number">78</span>, <span class="number">187</span>, <span class="number">137</span>, <span class="number">59</span>, <span class="number">76</span>, <span class="number">172</span>, <span class="number">105</span>, <span class="number">129</span>, <span class="number">145</span>, <span class="number">81</span>, <span class="number">41</span>, <span class="number">148</span>, <span class="number">4</span>, <span class="number">15</span>, <span class="number">192</span>, <span class="number">34</span>, <span class="number">48</span>, <span class="number">0</span>, <span class="number">135</span>, <span class="number">137</span>, <span class="number">68</span>, <span class="number">199</span>, <span class="number">52</span>, <span class="number">137</span>, <span class="number">101</span>, <span class="number">211</span>, <span class="number">194</span>, <span class="number">215</span>, <span class="number">129</span>, <span class="number">81</span>, <span class="number">148</span>, <span class="number">61</span>, <span class="number">168</span>, <span class="number">172</span>, <span class="number">171</span>, <span class="number">229</span>, <span class="number">94</span>, <span class="number">218</span>, <span class="number">59</span>, <span class="number">89</span>, <span class="number">159</span>, <span class="number">238</span>, <span class="number">59</span>, <span class="number">194</span>, <span class="number">160</span>, <span class="number">110</span>, <span class="number">39</span>, <span class="number">149</span>, <span class="number">229</span>, <span class="number">77</span>, <span class="number">150</span>, <span class="number">55</span>, <span class="number">59</span>, <span class="number">178</span>, <span class="number">72</span>, <span class="number">226</span>, <span class="number">239</span>, <span class="number">252</span>, <span class="number">44</span>, <span class="number">45</span>, <span class="number">206</span>, <span class="number">79</span>, <span class="number">17</span>, <span class="number">20</span>, <span class="number">135</span>, <span class="number">189</span>, <span class="number">14</span>, <span class="number">225</span>, <span class="number">91</span>, <span class="number">125</span>, <span class="number">231</span>, <span class="number">244</span>, <span class="number">130</span>, <span class="number">154</span>, <span class="number">194</span>, <span class="number">14</span>, <span class="number">18</span>, <span class="number">109</span>, <span class="number">103</span>, <span class="number">206</span>, <span class="number">160</span>, <span class="number">97</span>, <span class="number">83</span>, <span class="number">208</span>, <span class="number">140</span>, <span class="number">224</span>, <span class="number">153</span>, <span class="number">134</span>, <span class="number">163</span>, <span class="number">205</span>, <span class="number">131</span>, <span class="number">36</span>, <span class="number">100</span>, <span class="number">5</span>, <span class="number">214</span>, <span class="number">220</span>, <span class="number">189</span>, <span class="number">191</span>, <span class="number">201</span>, <span class="number">13</span>, <span class="number">211</span>, <span class="number">176</span>, <span class="number">254</span>, <span class="number">37</span>, <span class="number">27</span>, <span class="number">168</span>, <span class="number">252</span>, <span class="number">46</span>, <span class="number">242</span>, <span class="number">54</span>, <span class="number">57</span>, <span class="number">86</span>, <span class="number">127</span>, <span class="number">175</span>, <span class="number">178</span>, <span class="number">101</span>, <span class="number">192</span>, <span class="number">193</span>, <span class="number">247</span>, <span class="number">138</span>, <span class="number">21</span>, <span class="number">151</span>, <span class="number">11</span>, <span class="number">52</span>, <span class="number">114</span>, <span class="number">128</span>, <span class="number">188</span>, <span class="number">21</span>, <span class="number">191</span>, <span class="number">20</span>, <span class="number">218</span>, <span class="number">167</span>, <span class="number">96</span>, <span class="number">196</span>, <span class="number">90</span>, <span class="number">127</span>, <span class="number">104</span>, <span class="number">147</span>, <span class="number">83</span>, <span class="number">115</span>, <span class="number">142</span>, <span class="number">158</span>, <span class="number">252</span>, <span class="number">166</span>, <span class="number">142</span>, <span class="number">40</span>, <span class="number">203</span>, <span class="number">58</span>, <span class="number">85</span>, <span class="number">179</span>, <span class="number">16</span>, <span class="number">239</span>, <span class="number">97</span>, <span class="number">195</span>, <span class="number">191</span>, <span class="number">167</span>, <span class="number">168</span>, <span class="number">124</span>, <span class="number">78</span>, <span class="number">30</span>, <span class="number">109</span>, <span class="number">7</span>, <span class="number">17</span>, <span class="number">222</span>, <span class="number">58</span>, <span class="number">111</span>, <span class="number">49</span>, <span class="number">23</span>, <span class="number">89</span>, <span class="number">56</span>, <span class="number">141</span>, <span class="number">40</span>, <span class="number">176</span>, <span class="number">90</span>, <span class="number">115</span>, <span class="number">248</span>, <span class="number">84</span>, <span class="number">158</span>, <span class="number">188</span>, <span class="number">225</span>, <span class="number">220</span>, <span class="number">29</span>, <span class="number">173</span>, <span class="number">203</span>, <span class="number">242</span>, <span class="number">214</span>, <span class="number">61</span>, <span class="number">49</span>, <span class="number">102</span>, <span class="number">184</span>, <span class="number">185</span>, <span class="number">98</span>, <span class="number">36</span>, <span class="number">243</span>, <span class="number">57</span>, <span class="number">178</span>, <span class="number">210</span>, <span class="number">85</span>, <span class="number">138</span>, <span class="number">106</span>, <span class="number">253</span>, <span class="number">7</span>, <span class="number">15</span>, <span class="number">54</span>, <span class="number">51</span>, <span class="number">79</span>, <span class="number">85</span>, <span class="number">137</span>, <span class="number">164</span>, <span class="number">4</span>, <span class="number">246</span>, <span class="number">12</span>, <span class="number">46</span>, <span class="number">49</span>, <span class="number">14</span>, <span class="number">9</span>, <span class="number">88</span>, <span class="number">217</span>, <span class="number">119</span>, <span class="number">230</span>, <span class="number">227</span>, <span class="number">200</span>, <span class="number">146</span>, <span class="number">27</span>, <span class="number">212</span>, <span class="number">123</span>, <span class="number">121</span>, <span class="number">142</span>, <span class="number">108</span>, <span class="number">209</span>, <span class="number">94</span>, <span class="number">127</span>, <span class="number">75</span>, <span class="number">115</span>, <span class="number">182</span>, <span class="number">146</span>, <span class="number">57</span>, <span class="number">101</span>, <span class="number">233</span>, <span class="number">127</span>, <span class="number">31</span>, <span class="number">84</span>, <span class="number">75</span>, <span class="number">134</span>, <span class="number">163</span>, <span class="number">56</span>, <span class="number">91</span>, <span class="number">68</span>, <span class="number">131</span>, <span class="number">1</span>, <span class="number">106</span>, <span class="number">110</span>, <span class="number">177</span>, <span class="number">14</span>, <span class="number">229</span>, <span class="number">214</span>, <span class="number">49</span>, <span class="number">199</span>, <span class="number">230</span>, <span class="number">241</span>, <span class="number">192</span>, <span class="number">19</span>, <span class="number">169</span>, <span class="number">170</span>, <span class="number">227</span>, <span class="number">153</span>, <span class="number">40</span>, <span class="number">95</span>, <span class="number">63</span>, <span class="number">8</span>, <span class="number">144</span>, <span class="number">89</span>, <span class="number">198</span>, <span class="number">240</span>, <span class="number">194</span>, <span class="number">138</span>, <span class="number">94</span>, <span class="number">88</span>, <span class="number">195</span>, <span class="number">75</span>, <span class="number">103</span>, <span class="number">240</span>, <span class="number">21</span>, <span class="number">243</span>, <span class="number">22</span>, <span class="number">174</span>, <span class="number">68</span>, <span class="number">189</span>, <span class="number">170</span>, <span class="number">249</span>, <span class="number">191</span>, <span class="number">245</span>, <span class="number">164</span>, <span class="number">78</span>, <span class="number">112</span>, <span class="number">13</span>, <span class="number">42</span>, <span class="number">126</span>, <span class="number">127</span>, <span class="number">31</span>, <span class="number">232</span>, <span class="number">9</span>, <span class="number">241</span>, <span class="number">142</span>, <span class="number">115</span>, <span class="number">13</span>, <span class="number">105</span>, <span class="number">93</span>, <span class="number">123</span>, <span class="number">204</span>, <span class="number">204</span>, <span class="number">61</span>, <span class="number">176</span>, <span class="number">249</span>, <span class="number">151</span>, <span class="number">110</span>, <span class="number">242</span>, <span class="number">74</span>, <span class="number">63</span>, <span class="number">235</span>, <span class="number">147</span>, <span class="number">42</span>, <span class="number">111</span>, <span class="number">94</span>, <span class="number">133</span>, <span class="number">146</span>, <span class="number">179</span>, <span class="number">207</span>, <span class="number">186</span>, <span class="number">9</span>, <span class="number">145</span>, <span class="number">69</span>, <span class="number">59</span>, <span class="number">89</span>, <span class="number">158</span>, <span class="number">74</span>, <span class="number">231</span>, <span class="number">208</span>, <span class="number">161</span>, <span class="number">112</span>, <span class="number">88</span>, <span class="number">130</span>, <span class="number">255</span>, <span class="number">51</span>, <span class="number">254</span>, <span class="number">13</span>, <span class="number">251</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">160</span>, <span class="number">99</span>, <span class="number">233</span>, <span class="number">187</span>, <span class="number">159</span>, <span class="number">218</span>, <span class="number">116</span>, <span class="number">50</span>, <span class="number">33</span>, <span class="number">246</span>, <span class="number">117</span>, <span class="number">78</span>, <span class="number">186</span>, <span class="number">88</span>, <span class="number">116</span>, <span class="number">36</span>, <span class="number">62</span>, <span class="number">34</span>, <span class="number">60</span>, <span class="number">132</span>, <span class="number">35</span>, <span class="number">184</span>, <span class="number">142</span>, <span class="number">216</span>, <span class="number">253</span>, <span class="number">227</span>, <span class="number">121</span>, <span class="number">59</span>, <span class="number">31</span>, <span class="number">39</span>, <span class="number">239</span>, <span class="number">187</span>, <span class="number">235</span>, <span class="number">254</span>, <span class="number">49</span>, <span class="number">160</span>, <span class="number">53</span>, <span class="number">16</span>, <span class="number">92</span>, <span class="number">66</span>, <span class="number">221</span>, <span class="number">220</span>, <span class="number">131</span>, <span class="number">35</span>, <span class="number">155</span>, <span class="number">142</span>, <span class="number">123</span>, <span class="number">56</span>, <span class="number">14</span>, <span class="number">248</span>, <span class="number">72</span>, <span class="number">242</span>, <span class="number">108</span>, <span class="number">199</span>, <span class="number">88</span>, <span class="number">43</span>, <span class="number">80</span>, <span class="number">179</span>, <span class="number">22</span>, <span class="number">251</span>, <span class="number">89</span>, <span class="number">43</span>, <span class="number">76</span>, <span class="number">161</span>, <span class="number">151</span>, <span class="number">70</span>, <span class="number">243</span>, <span class="number">149</span>, <span class="number">173</span>, <span class="number">2</span>, <span class="number">26</span>, <span class="number">45</span>, <span class="number">211</span>, <span class="number">227</span>, <span class="number">197</span>, <span class="number">239</span>, <span class="number">29</span>, <span class="number">125</span>, <span class="number">254</span>, <span class="number">46</span>, <span class="number">119</span>, <span class="number">144</span>, <span class="number">71</span>, <span class="number">126</span>, <span class="number">179</span>, <span class="number">118</span>, <span class="number">164</span>, <span class="number">52</span>, <span class="number">37</span>, <span class="number">226</span>, <span class="number">96</span>, <span class="number">41</span>, <span class="number">139</span>, <span class="number">144</span>, <span class="number">223</span>, <span class="number">124</span>, <span class="number">38</span>, <span class="number">63</span>, <span class="number">140</span>, <span class="number">250</span>, <span class="number">229</span>, <span class="number">181</span>, <span class="number">1</span>, <span class="number">64</span>, <span class="number">90</span>, <span class="number">186</span>, <span class="number">29</span>, <span class="number">173</span>, <span class="number">39</span>, <span class="number">190</span>, <span class="number">215</span>, <span class="number">228</span>, <span class="number">45</span>, <span class="number">10</span>, <span class="number">143</span>, <span class="number">242</span>, <span class="number">59</span>, <span class="number">252</span>, <span class="number">94</span>, <span class="number">129</span>, <span class="number">117</span>, <span class="number">93</span>, <span class="number">234</span>, <span class="number">94</span>, <span class="number">127</span>, <span class="number">84</span>, <span class="number">96</span>, <span class="number">109</span>, <span class="number">61</span>, <span class="number">96</span>, <span class="number">52</span>, <span class="number">214</span>, <span class="number">169</span>, <span class="number">199</span>, <span class="number">52</span>, <span class="number">46</span>, <span class="number">18</span>, <span class="number">126</span>, <span class="number">28</span>, <span class="number">136</span>, <span class="number">134</span>, <span class="number">104</span>, <span class="number">20</span>, <span class="number">194</span>, <span class="number">97</span>, <span class="number">58</span>, <span class="number">65</span>, <span class="number">72</span>, <span class="number">137</span>, <span class="number">24</span>, <span class="number">156</span>, <span class="number">86</span>, <span class="number">195</span>, <span class="number">62</span>, <span class="number">236</span>, <span class="number">20</span>, <span class="number">246</span>, <span class="number">99</span>, <span class="number">33</span>, <span class="number">239</span>, <span class="number">87</span>, <span class="number">9</span>, <span class="number">116</span>, <span class="number">94</span>, <span class="number">114</span>, <span class="number">53</span>, <span class="number">44</span>, <span class="number">112</span>, <span class="number">80</span>, <span class="number">87</span>, <span class="number">200</span>, <span class="number">140</span>, <span class="number">189</span>, <span class="number">154</span>, <span class="number">164</span>, <span class="number">47</span>, <span class="number">26</span>, <span class="number">162</span>, <span class="number">198</span>, <span class="number">50</span>, <span class="number">165</span>, <span class="number">0</span>, <span class="number">218</span>, <span class="number">170</span>, <span class="number">201</span>, <span class="number">156</span>, <span class="number">88</span>, <span class="number">50</span>, <span class="number">235</span>, <span class="number">31</span>, <span class="number">95</span>, <span class="number">46</span>, <span class="number">81</span>, <span class="number">48</span>, <span class="number">206</span>, <span class="number">56</span>, <span class="number">73</span>, <span class="number">93</span>, <span class="number">154</span>, <span class="number">193</span>, <span class="number">84</span>, <span class="number">151</span>, <span class="number">231</span>, <span class="number">190</span>, <span class="number">113</span>, <span class="number">0</span>, <span class="number">42</span>, <span class="number">107</span>, <span class="number">42</span>, <span class="number">125</span>, <span class="number">103</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">107</span>, <span class="number">253</span>, <span class="number">136</span>, <span class="number">142</span>, <span class="number">104</span>, <span class="number">226</span>, <span class="number">19</span>, <span class="number">238</span>, <span class="number">144</span>, <span class="number">60</span>, <span class="number">16</span>, <span class="number">114</span>, <span class="number">168</span>, <span class="number">132</span>, <span class="number">197</span>, <span class="number">188</span>, <span class="number">114</span>, <span class="number">28</span>, <span class="number">118</span>, <span class="number">242</span>, <span class="number">37</span>, <span class="number">121</span>, <span class="number">12</span>, <span class="number">50</span>, <span class="number">49</span>, <span class="number">237</span>, <span class="number">150</span>, <span class="number">254</span>, <span class="number">244</span>, <span class="number">108</span>, <span class="number">190</span>, <span class="number">101</span>, <span class="number">215</span>, <span class="number">20</span>, <span class="number">89</span>, <span class="number">88</span>, <span class="number">74</span>, <span class="number">209</span>, <span class="number">25</span>, <span class="number">100</span>, <span class="number">184</span>, <span class="number">223</span>, <span class="number">3</span>, <span class="number">213</span>, <span class="number">165</span>, <span class="number">6</span>, <span class="number">149</span>, <span class="number">175</span>, <span class="number">12</span>, <span class="number">187</span>, <span class="number">25</span>, <span class="number">67</span>, <span class="number">127</span>, <span class="number">136</span>, <span class="number">220</span>, <span class="number">144</span>, <span class="number">66</span>, <span class="number">52</span>, <span class="number">176</span>, <span class="number">76</span>, <span class="number">155</span>, <span class="number">252</span>, <span class="number">137</span>, <span class="number">139</span>, <span class="number">176</span>, <span class="number">51</span>, <span class="number">197</span>, <span class="number">39</span>, <span class="number">38</span>, <span class="number">44</span>, <span class="number">178</span>, <span class="number">219</span>, <span class="number">97</span>, <span class="number">246</span>, <span class="number">226</span>, <span class="number">226</span>, <span class="number">40</span>, <span class="number">241</span>, <span class="number">189</span>, <span class="number">199</span>, <span class="number">254</span>, <span class="number">22</span>, <span class="number">154</span>, <span class="number">214</span>, <span class="number">191</span>, <span class="number">154</span>, <span class="number">98</span>, <span class="number">16</span>, <span class="number">1</span>, <span class="number">235</span>, <span class="number">82</span>, <span class="number">203</span>, <span class="number">44</span>, <span class="number">146</span>, <span class="number">200</span>, <span class="number">252</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">56</span>, <span class="number">252</span>, <span class="number">203</span>, <span class="number">224</span>, <span class="number">74</span>, <span class="number">21</span>, <span class="number">168</span>, <span class="number">107</span>, <span class="number">167</span>, <span class="number">209</span>, <span class="number">163</span>, <span class="number">95</span>, <span class="number">194</span>, <span class="number">195</span>, <span class="number">40</span>, <span class="number">209</span>, <span class="number">225</span>, <span class="number">94</span>, <span class="number">27</span>, <span class="number">159</span>, <span class="number">162</span>, <span class="number">211</span>, <span class="number">187</span>, <span class="number">33</span>, <span class="number">72</span>, <span class="number">75</span>, <span class="number">226</span>, <span class="number">225</span>, <span class="number">202</span>, <span class="number">120</span>, <span class="number">99</span>, <span class="number">87</span>, <span class="number">224</span>, <span class="number">165</span>, <span class="number">211</span>, <span class="number">248</span>, <span class="number">252</span>, <span class="number">176</span>, <span class="number">191</span>, <span class="number">232</span>, <span class="number">182</span>, <span class="number">33</span>, <span class="number">221</span>, <span class="number">43</span>, <span class="number">226</span>, <span class="number">219</span>, <span class="number">48</span>, <span class="number">162</span>, <span class="number">119</span>, <span class="number">172</span>, <span class="number">243</span>, <span class="number">236</span>, <span class="number">59</span>, <span class="number">227</span>, <span class="number">116</span>, <span class="number">81</span>, <span class="number">239</span>, <span class="number">174</span>, <span class="number">199</span>, <span class="number">131</span>, <span class="number">180</span>, <span class="number">159</span>, <span class="number">128</span>, <span class="number">151</span>, <span class="number">42</span>, <span class="number">205</span>, <span class="number">56</span>, <span class="number">104</span>, <span class="number">122</span>, <span class="number">90</span>, <span class="number">111</span>, <span class="number">194</span>, <span class="number">134</span>, <span class="number">168</span>, <span class="number">103</span>, <span class="number">153</span>, <span class="number">117</span>, <span class="number">191</span>, <span class="number">241</span>, <span class="number">39</span>, <span class="number">217</span>, <span class="number">109</span>, <span class="number">124</span>, <span class="number">32</span>, <span class="number">42</span>, <span class="number">240</span>, <span class="number">54</span>, <span class="number">246</span>, <span class="number">5</span>, <span class="number">37</span>, <span class="number">46</span>, <span class="number">43</span>, <span class="number">146</span>, <span class="number">216</span>, <span class="number">162</span>, <span class="number">119</span>, <span class="number">199</span>, <span class="number">8</span>, <span class="number">46</span>, <span class="number">222</span>, <span class="number">246</span>, <span class="number">85</span>, <span class="number">57</span>, <span class="number">14</span>, <span class="number">117</span>, <span class="number">255</span>, <span class="number">64</span>, <span class="number">107</span>, <span class="number">53</span>, <span class="number">55</span>, <span class="number">92</span>, <span class="number">141</span>, <span class="number">165</span>, <span class="number">215</span>, <span class="number">89</span>, <span class="number">38</span>, <span class="number">181</span>, <span class="number">70</span>, <span class="number">95</span>, <span class="number">10</span>, <span class="number">250</span>, <span class="number">227</span>, <span class="number">108</span>, <span class="number">221</span>, <span class="number">174</span>, <span class="number">106</span>, <span class="number">118</span>, <span class="number">206</span>, <span class="number">29</span>, <span class="number">190</span>, <span class="number">15</span>, <span class="number">86</span>, <span class="number">94</span>, <span class="number">53</span>, <span class="number">4</span>, <span class="number">203</span>, <span class="number">90</span>, <span class="number">5</span>, <span class="number">74</span>, <span class="number">159</span>, <span class="number">12</span>, <span class="number">121</span>, <span class="number">201</span>, <span class="number">196</span>, <span class="number">166</span>, <span class="number">8</span>, <span class="number">106</span>, <span class="number">151</span>, <span class="number">33</span>, <span class="number">137</span>, <span class="number">178</span>, <span class="number">225</span>, <span class="number">148</span>, <span class="number">14</span>, <span class="number">8</span>, <span class="number">58</span>, <span class="number">206</span>, <span class="number">175</span>, <span class="number">20</span>, <span class="number">167</span>, <span class="number">57</span>, <span class="number">148</span>, <span class="number">7</span>, <span class="number">102</span>, <span class="number">202</span>, <span class="number">167</span>, <span class="number">36</span>, <span class="number">203</span>, <span class="number">31</span>, <span class="number">209</span>, <span class="number">28</span>, <span class="number">14</span>, <span class="number">243</span>, <span class="number">93</span>, <span class="number">4</span>, <span class="number">65</span>, <span class="number">210</span>, <span class="number">255</span>, <span class="number">19</span>, <span class="number">70</span>, <span class="number">205</span>, <span class="number">12</span>, <span class="number">71</span>, <span class="number">31</span>, <span class="number">224</span>, <span class="number">126</span>, <span class="number">152</span>, <span class="number">142</span>, <span class="number">154</span>, <span class="number">250</span>, <span class="number">134</span>, <span class="number">248</span>, <span class="number">22</span>, <span class="number">26</span>, <span class="number">186</span>, <span class="number">123</span>, <span class="number">197</span>, <span class="number">205</span>, <span class="number">66</span>, <span class="number">185</span>, <span class="number">110</span>, <span class="number">212</span>, <span class="number">61</span>, <span class="number">204</span>, <span class="number">248</span>, <span class="number">219</span>, <span class="number">26</span>, <span class="number">171</span>, <span class="number">65</span>, <span class="number">28</span>, <span class="number">94</span>, <span class="number">106</span>, <span class="number">86</span>, <span class="number">82</span>, <span class="number">214</span>, <span class="number">98</span>, <span class="number">72</span>, <span class="number">186</span>, <span class="number">128</span>, <span class="number">108</span>, <span class="number">116</span>, <span class="number">119</span>, <span class="number">155</span>, <span class="number">188</span>, <span class="number">70</span>, <span class="number">177</span>, <span class="number">176</span>, <span class="number">228</span>, <span class="number">156</span>, <span class="number">31</span>, <span class="number">73</span>, <span class="number">66</span>, <span class="number">254</span>, <span class="number">190</span>, <span class="number">160</span>, <span class="number">35</span>, <span class="number">22</span>, <span class="number">131</span>, <span class="number">131</span>, <span class="number">146</span>, <span class="number">1</span>, <span class="number">139</span>, <span class="number">80</span>, <span class="number">91</span>, <span class="number">114</span>, <span class="number">172</span>, <span class="number">21</span>, <span class="number">54</span>, <span class="number">218</span>, <span class="number">208</span>, <span class="number">52</span>, <span class="number">141</span>, <span class="number">112</span>, <span class="number">157</span>, <span class="number">223</span>, <span class="number">35</span>, <span class="number">94</span>, <span class="number">199</span>, <span class="number">22</span>, <span class="number">86</span>, <span class="number">178</span>, <span class="number">63</span>, <span class="number">131</span>, <span class="number">163</span>, <span class="number">135</span>, <span class="number">60</span>, <span class="number">238</span>, <span class="number">107</span>, <span class="number">175</span>, <span class="number">87</span>, <span class="number">221</span>, <span class="number">116</span>, <span class="number">73</span>, <span class="number">218</span>, <span class="number">122</span>, <span class="number">91</span>, <span class="number">134</span>, <span class="number">119</span>, <span class="number">202</span>, <span class="number">186</span>, <span class="number">31</span>, <span class="number">133</span>, <span class="number">225</span>, <span class="number">101</span>, <span class="number">198</span>, <span class="number">197</span>, <span class="number">98</span>, <span class="number">55</span>, <span class="number">125</span>, <span class="number">155</span>, <span class="number">107</span>, <span class="number">128</span>, <span class="number">27</span>, <span class="number">41</span>, <span class="number">57</span>, <span class="number">151</span>, <span class="number">158</span>, <span class="number">176</span>, <span class="number">30</span>, <span class="number">245</span>, <span class="number">2</span>, <span class="number">245</span>, <span class="number">35</span>, <span class="number">102</span>, <span class="number">231</span>, <span class="number">16</span>, <span class="number">61</span>, <span class="number">124</span>, <span class="number">109</span>, <span class="number">232</span>, <span class="number">226</span>, <span class="number">136</span>, <span class="number">133</span>, <span class="number">99</span>, <span class="number">195</span>, <span class="number">253</span>, <span class="number">216</span>, <span class="number">34</span>, <span class="number">197</span>, <span class="number">229</span>, <span class="number">27</span>, <span class="number">248</span>, <span class="number">66</span>, <span class="number">130</span>, <span class="number">7</span>, <span class="number">13</span>, <span class="number">243</span>, <span class="number">34</span>, <span class="number">43</span>, <span class="number">145</span>, <span class="number">46</span>, <span class="number">138</span>, <span class="number">109</span>, <span class="number">82</span>, <span class="number">124</span>, <span class="number">114</span>, <span class="number">28</span>, <span class="number">36</span>, <span class="number">68</span>, <span class="number">179</span>, <span class="number">236</span>, <span class="number">199</span>, <span class="number">67</span>, <span class="number">227</span>, <span class="number">10</span>, <span class="number">48</span>, <span class="number">214</span>, <span class="number">149</span>, <span class="number">82</span>, <span class="number">249</span>, <span class="number">163</span>, <span class="number">10</span>, <span class="number">181</span>, <span class="number">126</span>, <span class="number">145</span>, <span class="number">140</span>, <span class="number">22</span>, <span class="number">158</span>, <span class="number">201</span>, <span class="number">20</span>, <span class="number">101</span>, <span class="number">175</span>, <span class="number">122</span>, <span class="number">165</span>, <span class="number">211</span>, <span class="number">171</span>, <span class="number">129</span>, <span class="number">135</span>, <span class="number">186</span>, <span class="number">26</span>, <span class="number">60</span>, <span class="number">179</span>, <span class="number">68</span>, <span class="number">9</span>, <span class="number">173</span>, <span class="number">50</span>, <span class="number">73</span>, <span class="number">137</span>, <span class="number">180</span>, <span class="number">211</span>, <span class="number">111</span>, <span class="number">146</span>, <span class="number">250</span>, <span class="number">227</span>, <span class="number">217</span>, <span class="number">181</span>, <span class="number">208</span>, <span class="number">200</span>, <span class="number">205</span>, <span class="number">24</span>, <span class="number">133</span>, <span class="number">148</span>, <span class="number">142</span>, <span class="number">40</span>, <span class="number">88</span>, <span class="number">127</span>, <span class="number">1</span>, <span class="number">244</span>, <span class="number">201</span>, <span class="number">245</span>, <span class="number">91</span>, <span class="number">226</span>, <span class="number">80</span>, <span class="number">248</span>, <span class="number">161</span>, <span class="number">83</span>, <span class="number">213</span>, <span class="number">242</span>, <span class="number">147</span>, <span class="number">50</span>, <span class="number">19</span>, <span class="number">203</span>, <span class="number">186</span>, <span class="number">85</span>, <span class="number">98</span>, <span class="number">75</span>, <span class="number">49</span>, <span class="number">251</span>, <span class="number">163</span>, <span class="number">158</span>, <span class="number">153</span>, <span class="number">162</span>, <span class="number">26</span>, <span class="number">21</span>, <span class="number">104</span>, <span class="number">76</span>, <span class="number">17</span>, <span class="number">40</span>, <span class="number">111</span>, <span class="number">59</span>, <span class="number">168</span>, <span class="number">232</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">46</span>, <span class="number">241</span>, <span class="number">225</span>, <span class="number">72</span>, <span class="number">213</span>, <span class="number">88</span>, <span class="number">154</span>, <span class="number">65</span>, <span class="number">186</span>, <span class="number">203</span>, <span class="number">105</span>, <span class="number">193</span>, <span class="number">154</span>, <span class="number">115</span>, <span class="number">107</span>, <span class="number">179</span>, <span class="number">0</span>, <span class="number">9</span>, <span class="number">204</span>, <span class="number">162</span>, <span class="number">144</span>, <span class="number">166</span>, <span class="number">209</span>, <span class="number">139</span>, <span class="number">144</span>, <span class="number">216</span>, <span class="number">120</span>, <span class="number">99</span>, <span class="number">205</span>, <span class="number">188</span>, <span class="number">225</span>, <span class="number">17</span>, <span class="number">220</span>, <span class="number">176</span>, <span class="number">43</span>, <span class="number">113</span>, <span class="number">29</span>, <span class="number">66</span>, <span class="number">188</span>, <span class="number">97</span>, <span class="number">239</span>, <span class="number">4</span>, <span class="number">93</span>, <span class="number">107</span>, <span class="number">242</span>, <span class="number">220</span>, <span class="number">189</span>, <span class="number">159</span>, <span class="number">61</span>, <span class="number">171</span>, <span class="number">76</span>, <span class="number">9</span>, <span class="number">13</span>, <span class="number">229</span>, <span class="number">80</span>, <span class="number">129</span>, <span class="number">23</span>, <span class="number">134</span>, <span class="number">73</span>, <span class="number">179</span>, <span class="number">88</span>, <span class="number">126</span>, <span class="number">204</span>, <span class="number">186</span>, <span class="number">234</span>, <span class="number">176</span>, <span class="number">11</span>, <span class="number">42</span>, <span class="number">19</span>, <span class="number">50</span>, <span class="number">56</span>, <span class="number">162</span>, <span class="number">166</span>, <span class="number">208</span>, <span class="number">76</span>, <span class="number">200</span>, <span class="number">49</span>, <span class="number">195</span>, <span class="number">230</span>, <span class="number">249</span>, <span class="number">49</span>, <span class="number">99</span>, <span class="number">76</span>, <span class="number">106</span>, <span class="number">188</span>, <span class="number">39</span>, <span class="number">250</span>, <span class="number">240</span>, <span class="number">169</span>, <span class="number">178</span>, <span class="number">71</span>, <span class="number">42</span>, <span class="number">3</span>, <span class="number">106</span>, <span class="number">74</span>, <span class="number">243</span>, <span class="number">132</span>, <span class="number">171</span>, <span class="number">186</span>, <span class="number">250</span>, <span class="number">226</span>, <span class="number">158</span>, <span class="number">167</span>, <span class="number">198</span>, <span class="number">115</span>, <span class="number">149</span>, <span class="number">212</span>, <span class="number">64</span>, <span class="number">97</span>, <span class="number">159</span>, <span class="number">171</span>, <span class="number">236</span>, <span class="number">254</span>, <span class="number">50</span>, <span class="number">250</span>, <span class="number">80</span>, <span class="number">208</span>, <span class="number">182</span>, <span class="number">105</span>, <span class="number">69</span>, <span class="number">80</span>, <span class="number">215</span>, <span class="number">206</span>, <span class="number">13</span>, <span class="number">120</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">151</span>, <span class="number">8</span>, <span class="number">111</span>, <span class="number">253</span>, <span class="number">183</span>, <span class="number">248</span>, <span class="number">76</span>, <span class="number">155</span>, <span class="number">161</span>, <span class="number">117</span>, <span class="number">124</span>, <span class="number">38</span>, <span class="number">144</span>, <span class="number">121</span>, <span class="number">29</span>, <span class="number">229</span>, <span class="number">146</span>, <span class="number">15</span>, <span class="number">62</span>, <span class="number">172</span>, <span class="number">18</span>, <span class="number">166</span>, <span class="number">220</span>, <span class="number">106</span>, <span class="number">122</span>, <span class="number">98</span>, <span class="number">134</span>, <span class="number">246</span>, <span class="number">243</span>, <span class="number">126</span>, <span class="number">253</span>, <span class="number">95</span>, <span class="number">46</span>, <span class="number">151</span>, <span class="number">157</span>, <span class="number">163</span>, <span class="number">78</span>, <span class="number">118</span>, <span class="number">122</span>, <span class="number">162</span>, <span class="number">119</span>, <span class="number">208</span>, <span class="number">130</span>, <span class="number">215</span>, <span class="number">130</span>, <span class="number">148</span>, <span class="number">152</span>, <span class="number">224</span>, <span class="number">85</span>, <span class="number">82</span>, <span class="number">170</span>, <span class="number">149</span>, <span class="number">212</span>, <span class="number">109</span>, <span class="number">76</span>, <span class="number">190</span>, <span class="number">106</span>, <span class="number">186</span>, <span class="number">134</span>, <span class="number">124</span>, <span class="number">82</span>, <span class="number">68</span>, <span class="number">160</span>, <span class="number">244</span>, <span class="number">15</span>, <span class="number">49</span>, <span class="number">243</span>, <span class="number">71</span>, <span class="number">118</span>, <span class="number">206</span>, <span class="number">31</span>, <span class="number">99</span>, <span class="number">153</span>, <span class="number">24</span>, <span class="number">217</span>, <span class="number">73</span>, <span class="number">113</span>, <span class="number">10</span>, <span class="number">164</span>, <span class="number">0</span>, <span class="number">172</span>, <span class="number">7</span>, <span class="number">29</span>, <span class="number">74</span>, <span class="number">83</span>, <span class="number">207</span>, <span class="number">153</span>, <span class="number">139</span>, <span class="number">180</span>, <span class="number">244</span>, <span class="number">242</span>, <span class="number">117</span>, <span class="number">247</span>, <span class="number">223</span>, <span class="number">206</span>, <span class="number">181</span>, <span class="number">36</span>, <span class="number">167</span>, <span class="number">47</span>, <span class="number">22</span>, <span class="number">75</span>, <span class="number">217</span>, <span class="number">33</span>, <span class="number">79</span>, <span class="number">145</span>, <span class="number">124</span>, <span class="number">113</span>, <span class="number">237</span>, <span class="number">125</span>, <span class="number">84</span>, <span class="number">50</span>, <span class="number">187</span>, <span class="number">84</span>, <span class="number">245</span>, <span class="number">87</span>, <span class="number">63</span>, <span class="number">204</span>, <span class="number">74</span>, <span class="number">94</span>, <span class="number">46</span>, <span class="number">143</span>, <span class="number">90</span>, <span class="number">213</span>, <span class="number">15</span>, <span class="number">109</span>, <span class="number">252</span>, <span class="number">209</span>, <span class="number">13</span>, <span class="number">133</span>, <span class="number">234</span>, <span class="number">123</span>, <span class="number">97</span>, <span class="number">87</span>, <span class="number">91</span>, <span class="number">236</span>, <span class="number">250</span>, <span class="number">140</span>, <span class="number">61</span>, <span class="number">40</span>, <span class="number">7</span>, <span class="number">45</span>, <span class="number">91</span>, <span class="number">17</span>, <span class="number">58</span>, <span class="number">165</span>, <span class="number">148</span>, <span class="number">69</span>, <span class="number">164</span>, <span class="number">25</span>, <span class="number">155</span>, <span class="number">121</span>, <span class="number">54</span>, <span class="number">82</span>, <span class="number">121</span>, <span class="number">156</span>, <span class="number">93</span>, <span class="number">182</span>, <span class="number">119</span>, <span class="number">2</span>, <span class="number">120</span>, <span class="number">162</span>, <span class="number">39</span>, <span class="number">103</span>, <span class="number">241</span>, <span class="number">170</span>, <span class="number">71</span>, <span class="number">147</span>, <span class="number">98</span>, <span class="number">118</span>, <span class="number">140</span>, <span class="number">21</span>, <span class="number">102</span>, <span class="number">149</span>, <span class="number">128</span>, <span class="number">253</span>, <span class="number">19</span>, <span class="number">214</span>, <span class="number">67</span>, <span class="number">180</span>, <span class="number">204</span>, <span class="number">205</span>, <span class="number">193</span>, <span class="number">156</span>, <span class="number">133</span>, <span class="number">16</span>, <span class="number">202</span>, <span class="number">171</span>, <span class="number">113</span>, <span class="number">148</span>, <span class="number">245</span>, <span class="number">241</span>, <span class="number">57</span>, <span class="number">199</span>, <span class="number">114</span>, <span class="number">243</span>, <span class="number">68</span>, <span class="number">104</span>, <span class="number">68</span>, <span class="number">14</span>, <span class="number">6</span>, <span class="number">125</span>, <span class="number">79</span>, <span class="number">152</span>, <span class="number">200</span>, <span class="number">81</span>, <span class="number">217</span>, <span class="number">176</span>, <span class="number">169</span>, <span class="number">42</span>, <span class="number">42</span>, <span class="number">158</span>, <span class="number">182</span>, <span class="number">147</span>, <span class="number">97</span>, <span class="number">13</span>, <span class="number">12</span>, <span class="number">86</span>, <span class="number">34</span>, <span class="number">144</span>, <span class="number">116</span>, <span class="number">135</span>, <span class="number">132</span>, <span class="number">209</span>, <span class="number">209</span>, <span class="number">254</span>, <span class="number">172</span>, <span class="number">39</span>, <span class="number">23</span>, <span class="number">193</span>, <span class="number">242</span>, <span class="number">160</span>, <span class="number">193</span>, <span class="number">192</span>, <span class="number">243</span>, <span class="number">166</span>, <span class="number">243</span>, <span class="number">203</span>, <span class="number">180</span>, <span class="number">116</span>, <span class="number">139</span>, <span class="number">56</span>, <span class="number">142</span>, <span class="number">168</span>, <span class="number">183</span>, <span class="number">12</span>, <span class="number">151</span>, <span class="number">139</span>, <span class="number">228</span>, <span class="number">114</span>, <span class="number">129</span>, <span class="number">156</span>, <span class="number">112</span>, <span class="number">22</span>, <span class="number">1</span>, <span class="number">182</span>, <span class="number">84</span>, <span class="number">150</span>, <span class="number">81</span>, <span class="number">156</span>, <span class="number">135</span>, <span class="number">139</span>, <span class="number">42</span>, <span class="number">103</span>, <span class="number">177</span>, <span class="number">184</span>, <span class="number">187</span>, <span class="number">254</span>, <span class="number">126</span>, <span class="number">161</span>, <span class="number">135</span>, <span class="number">12</span>, <span class="number">44</span>, <span class="number">252</span>, <span class="number">212</span>, <span class="number">91</span>, <span class="number">226</span>, <span class="number">148</span>, <span class="number">196</span>, <span class="number">110</span>, <span class="number">120</span>, <span class="number">29</span>, <span class="number">27</span>, <span class="number">70</span>, <span class="number">222</span>, <span class="number">6</span>, <span class="number">149</span>, <span class="number">1</span>, <span class="number">231</span>, <span class="number">11</span>, <span class="number">195</span>, <span class="number">213</span>, <span class="number">7</span>, <span class="number">236</span>, <span class="number">41</span>, <span class="number">80</span>, <span class="number">60</span>, <span class="number">167</span>, <span class="number">140</span>, <span class="number">76</span>, <span class="number">87</span>, <span class="number">250</span>, <span class="number">213</span>, <span class="number">46</span>, <span class="number">104</span>, <span class="number">80</span>, <span class="number">59</span>, <span class="number">74</span>, <span class="number">243</span>, <span class="number">186</span>, <span class="number">188</span>, <span class="number">115</span>, <span class="number">4</span>, <span class="number">154</span>, <span class="number">97</span>, <span class="number">27</span>, <span class="number">109</span>, <span class="number">118</span>, <span class="number">153</span>, <span class="number">73</span>, <span class="number">159</span>, <span class="number">137</span>, <span class="number">140</span>, <span class="number">41</span>, <span class="number">145</span>, <span class="number">228</span>, <span class="number">132</span>, <span class="number">139</span>, <span class="number">152</span>, <span class="number">9</span>, <span class="number">88</span>, <span class="number">31</span>, <span class="number">51</span>, <span class="number">200</span>, <span class="number">186</span>, <span class="number">142</span>, <span class="number">150</span>, <span class="number">128</span>, <span class="number">29</span>, <span class="number">169</span>, <span class="number">225</span>, <span class="number">56</span>, <span class="number">211</span>, <span class="number">96</span>, <span class="number">8</span>, <span class="number">241</span>, <span class="number">98</span>, <span class="number">126</span>, <span class="number">123</span>, <span class="number">19</span>, <span class="number">240</span>, <span class="number">72</span>, <span class="number">123</span>, <span class="number">177</span>, <span class="number">231</span>, <span class="number">34</span>, <span class="number">182</span>, <span class="number">242</span>, <span class="number">82</span>, <span class="number">130</span>, <span class="number">194</span>, <span class="number">101</span>, <span class="number">35</span>, <span class="number">203</span>, <span class="number">33</span>, <span class="number">234</span>, <span class="number">127</span>, <span class="number">28</span>, <span class="number">174</span>, <span class="number">62</span>, <span class="number">88</span>, <span class="number">8</span>, <span class="number">39</span>, <span class="number">92</span>, <span class="number">65</span>, <span class="number">144</span>, <span class="number">208</span>, <span class="number">123</span>, <span class="number">223</span>, <span class="number">23</span>, <span class="number">21</span>, <span class="number">132</span>, <span class="number">48</span>, <span class="number">104</span>, <span class="number">200</span>, <span class="number">105</span>, <span class="number">110</span>, <span class="number">228</span>, <span class="number">154</span>, <span class="number">150</span>, <span class="number">202</span>, <span class="number">93</span>, <span class="number">91</span>, <span class="number">28</span>, <span class="number">33</span>, <span class="number">222</span>, <span class="number">184</span>, <span class="number">232</span>, <span class="number">90</span>, <span class="number">232</span>, <span class="number">135</span>, <span class="number">79</span>, <span class="number">230</span>, <span class="number">184</span>, <span class="number">77</span>, <span class="number">34</span>, <span class="number">205</span>, <span class="number">198</span>, <span class="number">112</span>, <span class="number">136</span>, <span class="number">199</span>, <span class="number">79</span>, <span class="number">169</span>, <span class="number">166</span>, <span class="number">216</span>, <span class="number">101</span>, <span class="number">247</span>, <span class="number">150</span>, <span class="number">214</span>, <span class="number">160</span>, <span class="number">193</span>, <span class="number">101</span>, <span class="number">1</span>, <span class="number">242</span>, <span class="number">211</span>, <span class="number">170</span>, <span class="number">9</span>, <span class="number">126</span>, <span class="number">193</span>, <span class="number">170</span>, <span class="number">227</span>, <span class="number">25</span>, <span class="number">217</span>, <span class="number">201</span>, <span class="number">7</span>, <span class="number">165</span>, <span class="number">218</span>, <span class="number">24</span>, <span class="number">163</span>, <span class="number">229</span>, <span class="number">152</span>, <span class="number">193</span>, <span class="number">36</span>, <span class="number">118</span>, <span class="number">182</span>, <span class="number">12</span>, <span class="number">173</span>, <span class="number">225</span>, <span class="number">55</span>, <span class="number">200</span>, <span class="number">147</span>, <span class="number">4</span>, <span class="number">253</span>, <span class="number">66</span>, <span class="number">100</span>, <span class="number">242</span>, <span class="number">251</span>, <span class="number">20</span>, <span class="number">70</span>, <span class="number">246</span>, <span class="number">102</span>, <span class="number">107</span>, <span class="number">169</span>, <span class="number">193</span>, <span class="number">151</span>, <span class="number">80</span>, <span class="number">227</span>, <span class="number">19</span>, <span class="number">14</span>, <span class="number">237</span>, <span class="number">68</span>, <span class="number">102</span>, <span class="number">159</span>, <span class="number">201</span>, <span class="number">14</span>, <span class="number">33</span>, <span class="number">58</span>, <span class="number">155</span>, <span class="number">7</span>, <span class="number">207</span>, <span class="number">154</span>, <span class="number">255</span>, <span class="number">205</span>, <span class="number">253</span>, <span class="number">128</span>, <span class="number">15</span>, <span class="number">214</span>, <span class="number">5</span>, <span class="number">194</span>, <span class="number">56</span>, <span class="number">170</span>, <span class="number">157</span>, <span class="number">41</span>, <span class="number">33</span>, <span class="number">215</span>, <span class="number">152</span>, <span class="number">104</span>, <span class="number">190</span>, <span class="number">244</span>, <span class="number">100</span>, <span class="number">25</span>, <span class="number">7</span>, <span class="number">237</span>, <span class="number">54</span>, <span class="number">216</span>, <span class="number">176</span>, <span class="number">239</span>, <span class="number">219</span>, <span class="number">100</span>, <span class="number">140</span>, <span class="number">45</span>, <span class="number">180</span>, <span class="number">186</span>, <span class="number">94</span>, <span class="number">3</span>, <span class="number">75</span>, <span class="number">164</span>, <span class="number">183</span>, <span class="number">85</span>, <span class="number">186</span>, <span class="number">34</span>, <span class="number">213</span>, <span class="number">128</span>, <span class="number">251</span>, <span class="number">188</span>, <span class="number">44</span>, <span class="number">120</span>, <span class="number">210</span>, <span class="number">63</span>, <span class="number">115</span>, <span class="number">87</span>, <span class="number">126</span>, <span class="number">196</span>, <span class="number">8</span>, <span class="number">207</span>, <span class="number">35</span>, <span class="number">240</span>, <span class="number">218</span>, <span class="number">157</span>, <span class="number">19</span>, <span class="number">152</span>, <span class="number">25</span>, <span class="number">181</span>, <span class="number">253</span>, <span class="number">7</span>, <span class="number">75</span>, <span class="number">183</span>, <span class="number">218</span>, <span class="number">61</span>, <span class="number">102</span>, <span class="number">180</span>, <span class="number">26</span>, <span class="number">43</span>, <span class="number">161</span>, <span class="number">3</span>, <span class="number">198</span>, <span class="number">249</span>, <span class="number">110</span>, <span class="number">130</span>, <span class="number">173</span>, <span class="number">16</span>, <span class="number">250</span>, <span class="number">229</span>, <span class="number">51</span>, <span class="number">204</span>, <span class="number">95</span>, <span class="number">247</span>, <span class="number">71</span>, <span class="number">25</span>, <span class="number">42</span>, <span class="number">85</span>, <span class="number">64</span>, <span class="number">101</span>, <span class="number">1</span>, <span class="number">71</span>, <span class="number">141</span>, <span class="number">222</span>, <span class="number">25</span>, <span class="number">94</span>, <span class="number">244</span>, <span class="number">168</span>, <span class="number">157</span>, <span class="number">206</span>, <span class="number">215</span>, <span class="number">149</span>, <span class="number">226</span>, <span class="number">234</span>, <span class="number">165</span>, <span class="number">104</span>, <span class="number">75</span>, <span class="number">116</span>, <span class="number">7</span>, <span class="number">159</span>, <span class="number">96</span>, <span class="number">16</span>, <span class="number">85</span>, <span class="number">86</span>, <span class="number">20</span>, <span class="number">204</span>, <span class="number">64</span>, <span class="number">133</span>, <span class="number">108</span>, <span class="number">37</span>, <span class="number">197</span>, <span class="number">116</span>, <span class="number">190</span>, <span class="number">179</span>, <span class="number">27</span>, <span class="number">246</span>, <span class="number">177</span>, <span class="number">219</span>, <span class="number">91</span>, <span class="number">161</span>, <span class="number">147</span>, <span class="number">175</span>, <span class="number">60</span>, <span class="number">208</span>, <span class="number">254</span>, <span class="number">52</span>, <span class="number">148</span>, <span class="number">165</span>, <span class="number">106</span>, <span class="number">175</span>, <span class="number">30</span>, <span class="number">186</span>, <span class="number">26</span>, <span class="number">244</span>, <span class="number">148</span>, <span class="number">203</span>, <span class="number">167</span>, <span class="number">8</span>, <span class="number">38</span>, <span class="number">150</span>, <span class="number">88</span>, <span class="number">188</span>, <span class="number">97</span>, <span class="number">207</span>, <span class="number">155</span>, <span class="number">198</span>, <span class="number">88</span>, <span class="number">52</span>, <span class="number">210</span>, <span class="number">172</span>, <span class="number">219</span>, <span class="number">35</span>, <span class="number">37</span>, <span class="number">207</span>, <span class="number">210</span>, <span class="number">194</span>, <span class="number">247</span>, <span class="number">57</span>, <span class="number">76</span>, <span class="number">140</span>, <span class="number">18</span>, <span class="number">220</span>, <span class="number">90</span>, <span class="number">227</span>, <span class="number">58</span>, <span class="number">10</span>, <span class="number">65</span>, <span class="number">223</span>, <span class="number">221</span>, <span class="number">161</span>, <span class="number">125</span>, <span class="number">35</span>, <span class="number">67</span>, <span class="number">170</span>, <span class="number">98</span>, <span class="number">190</span>, <span class="number">16</span>, <span class="number">142</span>, <span class="number">164</span>, <span class="number">103</span>, <span class="number">113</span>, <span class="number">242</span>, <span class="number">96</span>, <span class="number">59</span>, <span class="number">101</span>, <span class="number">175</span>, <span class="number">120</span>, <span class="number">53</span>, <span class="number">158</span>, <span class="number">19</span>, <span class="number">127</span>, <span class="number">94</span>, <span class="number">215</span>, <span class="number">84</span>, <span class="number">202</span>, <span class="number">132</span>, <span class="number">109</span>, <span class="number">139</span>, <span class="number">225</span>, <span class="number">11</span>, <span class="number">52</span>, <span class="number">166</span>, <span class="number">121</span>, <span class="number">225</span>, <span class="number">159</span>, <span class="number">80</span>, <span class="number">74</span>, <span class="number">78</span>, <span class="number">13</span>, <span class="number">158</span>, <span class="number">159</span>, <span class="number">178</span>, <span class="number">149</span>, <span class="number">192</span>, <span class="number">14</span>, <span class="number">64</span>, <span class="number">153</span>, <span class="number">128</span>, <span class="number">218</span>, <span class="number">20</span>, <span class="number">208</span>, <span class="number">120</span>, <span class="number">55</span>, <span class="number">248</span>, <span class="number">110</span>, <span class="number">188</span>, <span class="number">26</span>, <span class="number">240</span>, <span class="number">231</span>, <span class="number">224</span>, <span class="number">201</span>, <span class="number">188</span>, <span class="number">221</span>, <span class="number">55</span>, <span class="number">127</span>, <span class="number">142</span>, <span class="number">19</span>, <span class="number">210</span>, <span class="number">174</span>, <span class="number">7</span>, <span class="number">126</span>, <span class="number">95</span>, <span class="number">90</span>, <span class="number">230</span>, <span class="number">157</span>, <span class="number">66</span>, <span class="number">194</span>, <span class="number">61</span>, <span class="number">219</span>, <span class="number">201</span>, <span class="number">215</span>, <span class="number">236</span>, <span class="number">79</span>, <span class="number">47</span>, <span class="number">89</span>, <span class="number">2</span>, <span class="number">168</span>, <span class="number">178</span>, <span class="number">133</span>, <span class="number">245</span>, <span class="number">56</span>, <span class="number">188</span>, <span class="number">4</span>, <span class="number">17</span>, <span class="number">94</span>, <span class="number">97</span>, <span class="number">124</span>, <span class="number">85</span>, <span class="number">227</span>, <span class="number">43</span>, <span class="number">248</span>, <span class="number">201</span>, <span class="number">190</span>, <span class="number">243</span>, <span class="number">195</span>, <span class="number">73</span>, <span class="number">105</span>, <span class="number">50</span>, <span class="number">90</span>, <span class="number">79</span>, <span class="number">226</span>, <span class="number">110</span>, <span class="number">230</span>, <span class="number">77</span>, <span class="number">88</span>, <span class="number">165</span>, <span class="number">60</span>, <span class="number">180</span>, <span class="number">254</span>, <span class="number">27</span>, <span class="number">180</span>, <span class="number">153</span>, <span class="number">211</span>, <span class="number">97</span>, <span class="number">69</span>, <span class="number">137</span>, <span class="number">75</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">158</span>, <span class="number">74</span>, <span class="number">168</span>, <span class="number">53</span>, <span class="number">24</span>, <span class="number">194</span>, <span class="number">3</span>, <span class="number">208</span>, <span class="number">232</span>, <span class="number">101</span>, <span class="number">74</span>, <span class="number">202</span>, <span class="number">185</span>, <span class="number">122</span>, <span class="number">147</span>, <span class="number">78</span>, <span class="number">217</span>, <span class="number">109</span>, <span class="number">79</span>, <span class="number">169</span>, <span class="number">182</span>, <span class="number">116</span>, <span class="number">36</span>, <span class="number">182</span>, <span class="number">180</span>, <span class="number">69</span>, <span class="number">171</span>, <span class="number">101</span>, <span class="number">212</span>, <span class="number">168</span>, <span class="number">126</span>, <span class="number">96</span>, <span class="number">121</span>, <span class="number">109</span>, <span class="number">104</span>, <span class="number">142</span>, <span class="number">90</span>, <span class="number">115</span>, <span class="number">136</span>, <span class="number">155</span>, <span class="number">24</span>, <span class="number">115</span>, <span class="number">196</span>, <span class="number">83</span>, <span class="number">36</span>, <span class="number">136</span>, <span class="number">138</span>, <span class="number">149</span>, <span class="number">37</span>, <span class="number">6</span>, <span class="number">125</span>, <span class="number">206</span>, <span class="number">38</span>, <span class="number">151</span>, <span class="number">37</span>, <span class="number">185</span>, <span class="number">222</span>, <span class="number">90</span>, <span class="number">39</span>, <span class="number">253</span>, <span class="number">143</span>, <span class="number">12</span>, <span class="number">82</span>, <span class="number">10</span>, <span class="number">95</span>, <span class="number">1</span>, <span class="number">93</span>, <span class="number">53</span>, <span class="number">188</span>, <span class="number">48</span>, <span class="number">131</span>, <span class="number">129</span>, <span class="number">235</span>, <span class="number">156</span>, <span class="number">190</span>, <span class="number">68</span>, <span class="number">152</span>, <span class="number">204</span>, <span class="number">169</span>, <span class="number">253</span>, <span class="number">2</span>, <span class="number">12</span>, <span class="number">191</span>, <span class="number">238</span>, <span class="number">138</span>, <span class="number">236</span>, <span class="number">60</span>, <span class="number">254</span>, <span class="number">36</span>, <span class="number">99</span>, <span class="number">96</span>, <span class="number">44</span>, <span class="number">123</span>, <span class="number">33</span>, <span class="number">127</span>, <span class="number">78</span>, <span class="number">149</span>, <span class="number">128</span>, <span class="number">245</span>, <span class="number">54</span>, <span class="number">219</span>, <span class="number">162</span>, <span class="number">209</span>, <span class="number">215</span>, <span class="number">147</span>, <span class="number">43</span>, <span class="number">53</span>, <span class="number">102</span>, <span class="number">247</span>, <span class="number">66</span>, <span class="number">3</span>, <span class="number">243</span>, <span class="number">47</span>, <span class="number">237</span>, <span class="number">70</span>, <span class="number">131</span>, <span class="number">111</span>, <span class="number">2</span>, <span class="number">75</span>, <span class="number">90</span>, <span class="number">49</span>, <span class="number">130</span>, <span class="number">211</span>, <span class="number">163</span>, <span class="number">80</span>, <span class="number">201</span>, <span class="number">98</span>, <span class="number">172</span>, <span class="number">95</span>, <span class="number">195</span>, <span class="number">95</span>, <span class="number">63</span>, <span class="number">8</span>, <span class="number">43</span>, <span class="number">3</span>, <span class="number">206</span>, <span class="number">158</span>, <span class="number">62</span>, <span class="number">176</span>, <span class="number">245</span>, <span class="number">128</span>, <span class="number">173</span>, <span class="number">118</span>, <span class="number">7</span>, <span class="number">81</span>, <span class="number">217</span>, <span class="number">105</span>, <span class="number">104</span>, <span class="number">161</span>, <span class="number">179</span>, <span class="number">188</span>, <span class="number">137</span>, <span class="number">43</span>, <span class="number">115</span>, <span class="number">98</span>, <span class="number">81</span>, <span class="number">181</span>, <span class="number">35</span>, <span class="number">129</span>, <span class="number">199</span>, <span class="number">111</span>, <span class="number">192</span>, <span class="number">64</span>, <span class="number">247</span>, <span class="number">170</span>, <span class="number">87</span>, <span class="number">255</span>, <span class="number">228</span>, <span class="number">89</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">106</span>, <span class="number">2</span>, <span class="number">13</span>, <span class="number">175</span>, <span class="number">157</span>, <span class="number">49</span>, <span class="number">56</span>, <span class="number">128</span>, <span class="number">238</span>, <span class="number">231</span>, <span class="number">211</span>, <span class="number">223</span>, <span class="number">63</span>, <span class="number">159</span>, <span class="number">11</span>, <span class="number">203</span>, <span class="number">46</span>, <span class="number">31</span>, <span class="number">123</span>, <span class="number">168</span>, <span class="number">146</span>, <span class="number">75</span>, <span class="number">204</span>, <span class="number">49</span>, <span class="number">77</span>, <span class="number">60</span>, <span class="number">89</span>, <span class="number">77</span>, <span class="number">123</span>, <span class="number">244</span>, <span class="number">240</span>, <span class="number">66</span>, <span class="number">71</span>, <span class="number">43</span>, <span class="number">219</span>, <span class="number">221</span>, <span class="number">28</span>, <span class="number">89</span>, <span class="number">210</span>, <span class="number">142</span>, <span class="number">220</span>, <span class="number">158</span>, <span class="number">123</span>, <span class="number">132</span>, <span class="number">252</span>, <span class="number">102</span>, <span class="number">142</span>, <span class="number">170</span>, <span class="number">136</span>, <span class="number">97</span>, <span class="number">138</span>, <span class="number">218</span>, <span class="number">9</span>, <span class="number">250</span>, <span class="number">230</span>, <span class="number">59</span>, <span class="number">133</span>, <span class="number">26</span>, <span class="number">150</span>, <span class="number">68</span>, <span class="number">150</span>, <span class="number">116</span>, <span class="number">80</span>, <span class="number">125</span>, <span class="number">243</span>, <span class="number">252</span>, <span class="number">136</span>, <span class="number">136</span>, <span class="number">20</span>, <span class="number">76</span>, <span class="number">128</span>, <span class="number">219</span>, <span class="number">154</span>, <span class="number">203</span>, <span class="number">217</span>, <span class="number">110</span>, <span class="number">5</span>, <span class="number">218</span>, <span class="number">150</span>, <span class="number">144</span>, <span class="number">93</span>, <span class="number">185</span>, <span class="number">242</span>, <span class="number">62</span>, <span class="number">154</span>, <span class="number">156</span>, <span class="number">220</span>, <span class="number">211</span>, <span class="number">215</span>, <span class="number">29</span>, <span class="number">142</span>, <span class="number">22</span>, <span class="number">232</span>, <span class="number">244</span>, <span class="number">9</span>, <span class="number">79</span>, <span class="number">213</span>, <span class="number">194</span>, <span class="number">241</span>, <span class="number">230</span>, <span class="number">171</span>, <span class="number">82</span>, <span class="number">25</span>, <span class="number">51</span>, <span class="number">137</span>, <span class="number">108</span>, <span class="number">239</span>, <span class="number">134</span>, <span class="number">10</span>, <span class="number">96</span>, <span class="number">241</span>, <span class="number">98</span>, <span class="number">162</span>, <span class="number">80</span>, <span class="number">68</span>, <span class="number">102</span>, <span class="number">194</span>, <span class="number">168</span>, <span class="number">167</span>, <span class="number">229</span>, <span class="number">183</span>, <span class="number">38</span>, <span class="number">85</span>, <span class="number">214</span>, <span class="number">123</span>, <span class="number">111</span>, <span class="number">101</span>, <span class="number">140</span>, <span class="number">24</span>, <span class="number">55</span>, <span class="number">121</span>, <span class="number">54</span>, <span class="number">184</span>, <span class="number">28</span>, <span class="number">16</span>, <span class="number">140</span>, <span class="number">0</span>, <span class="number">227</span>, <span class="number">254</span>, <span class="number">50</span>, <span class="number">221</span>, <span class="number">229</span>, <span class="number">110</span>, <span class="number">108</span>, <span class="number">57</span>, <span class="number">185</span>, <span class="number">241</span>, <span class="number">209</span>, <span class="number">83</span>, <span class="number">3</span>, <span class="number">12</span>, <span class="number">86</span>, <span class="number">158</span>, <span class="number">55</span>, <span class="number">98</span>, <span class="number">205</span>, <span class="number">86</span>, <span class="number">237</span>, <span class="number">230</span>, <span class="number">225</span>, <span class="number">114</span>, <span class="number">169</span>, <span class="number">130</span>, <span class="number">98</span>, <span class="number">157</span>, <span class="number">36</span>, <span class="number">96</span>, <span class="number">132</span>, <span class="number">117</span>, <span class="number">105</span>, <span class="number">82</span>, <span class="number">115</span>, <span class="number">243</span>, <span class="number">234</span>, <span class="number">107</span>, <span class="number">44</span>, <span class="number">53</span>, <span class="number">12</span>, <span class="number">238</span>, <span class="number">72</span>, <span class="number">178</span>, <span class="number">189</span>, <span class="number">32</span>, <span class="number">184</span>, <span class="number">21</span>, <span class="number">54</span>, <span class="number">184</span>, <span class="number">177</span>, <span class="number">80</span>, <span class="number">30</span>, <span class="number">48</span>, <span class="number">141</span>, <span class="number">88</span>, <span class="number">170</span>, <span class="number">150</span>, <span class="number">68</span>, <span class="number">233</span>, <span class="number">217</span>, <span class="number">204</span>, <span class="number">85</span>, <span class="number">147</span>, <span class="number">237</span>, <span class="number">119</span>, <span class="number">65</span>, <span class="number">126</span>, <span class="number">136</span>, <span class="number">131</span>, <span class="number">67</span>, <span class="number">179</span>, <span class="number">157</span>, <span class="number">127</span>]</span><br></pre></td></tr></table></figure>
+
+<p>我只处理了前3*4096字节，发现key是一样的</p>
+<h3 id="Step3-解密其他数据"><a href="#Step3-解密其他数据" class="headerlink" title="Step3 解密其他数据"></a>Step3 解密其他数据</h3><p>观察加解密的代码。如下图所示，还有个v8不知道，不过爆破4096次肯定能过出来</p>
+<p><img src="/2019/11/28/D^3CTF_2019_ch1pfs_wp/image-20191123140941037.png" alt="image-20191123140941037"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_m</span><span class="params">(flag_c)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4096</span>):</span><br><span class="line"></span><br><span class="line">        flag_m = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(flag_c)):</span><br><span class="line">            flag_m += chr(int(flag_c[i], <span class="number">16</span>) ^ f_key[(i+_) % <span class="number">4096</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> string</span><br><span class="line">        f = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> flag_m:</span><br><span class="line">            <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> string.printable:</span><br><span class="line">                f = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> f:</span><br><span class="line">            <span class="keyword">print</span> flag_m</span><br><span class="line">            <span class="keyword">return</span> flag_m</span><br><span class="line"></span><br><span class="line">hint_c = <span class="string">"97 8F C7 C3 00 F6 F9 78 03 6E 1B 29 FE 96 59 05 83 2F F0 C0 E2 89"</span>.split(<span class="string">" "</span>)</span><br><span class="line"><span class="comment"># find_m(hint_c)</span></span><br><span class="line"><span class="comment"># good_but_tobecontinue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># find_m(flag_cc)</span></span><br><span class="line"><span class="comment"># not find</span></span><br><span class="line"></span><br><span class="line">key_c = <span class="string">"95 C3 BF EB EF 6E E4 EA 7F 7D 10"</span>.split(<span class="string">" "</span>)</span><br><span class="line">find_m(key_c)</span><br><span class="line"><span class="comment"># d3_CH1pfs!</span></span><br></pre></td></tr></table></figure>
+
+<p>flag还拿不到，其他数据都能够解密了，有个key文件，解密得到key: <code>d3_CH1pfs!</code>，用key进入文件系统。</p>
+<h3 id="还有下一关："><a href="#还有下一关：" class="headerlink" title="还有下一关："></a>还有下一关：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/test # cat make_flag.sh </span><br><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">gcc ../enc.c -o ./enc --static</span><br><span class="line">./enc ../flag &gt; flag</span><br></pre></td></tr></table></figure>
+
+<p>flag用enc加密过，但是并没有enc文件的影子，可能被删掉了，想到文件系统的删除并不是真·擦除，可能从image中恢复。</p>
+<p>根据观察，image中只有两个大文件：png和busybox，统计了一下非零字节的个数，验证以上的想法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">"ctf/image"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    image_data = f.read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> len(image_data)</span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> image_data:</span><br><span class="line">    <span class="keyword">if</span> ord(c) != <span class="number">0</span>:</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line"><span class="keyword">print</span> hex(count)</span><br></pre></td></tr></table></figure>
+
+<p>对比发现文件系统里还有一个大文件，又因为enc是静态链接的，绝壁就是它了</p>
+<p>如何提取：</p>
+<ul>
+<li>修改record（不太熟悉linux文件系统，没有尝试</li>
+<li>手动dump出raw的enc</li>
+</ul>
+<p>我用了下面这种比较笨的方法</p>
+<p>先拿f_key和ELF的开头四个字节定位到ELF的起始位置，手动从010editor中提取出来，中间夹杂着一些无用的数据。边用f_key恢复，拖到IDA里面查看，如果夹杂着没用的数据，汇编代码从那个位置开始很容易就能看出异常，微调即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">re_enc_binary</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"ctf/enc_c"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">        enc_a_data = list(f.read())</span><br><span class="line"></span><br><span class="line">    key_begin = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    res = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(enc_a_data)):</span><br><span class="line">        <span class="comment"># res.append(ord(enc_a_data[i]) ^ f_key[(key_begin+i) % 4096])</span></span><br><span class="line">        enc_a_data[i] = chr(ord(enc_a_data[i]) ^ f_key[(key_begin+i) % <span class="number">4096</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># print res</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"ctf/enc_m"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">""</span>.join(enc_a_data))</span><br></pre></td></tr></table></figure>
+
+<p>恢复出enc文件，拖到IDA中查看：</p>
+<p>恢复符号表，可以发现逻辑十分简单：</p>
+<p><img src="/2019/11/28/D^3CTF_2019_ch1pfs_wp/image-20191123142257464.png" alt="image-20191123142257464"></p>
+<p><img src="/2019/11/28/D^3CTF_2019_ch1pfs_wp/image-20191123142223308.png" alt="image-20191123142223308"></p>
+<p>又是异或而已，写出解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">xor_key = [</span><br><span class="line">    <span class="number">0x47</span>, <span class="number">0x27</span>, <span class="number">0x75</span>, <span class="number">0x7E</span>, <span class="number">0x14</span>, <span class="number">0xC2</span>, <span class="number">0x16</span>, <span class="number">0x52</span>, <span class="number">0xFD</span>, <span class="number">0xB7</span>,</span><br><span class="line">    <span class="number">0x80</span>, <span class="number">0xF3</span>, <span class="number">0xA4</span>, <span class="number">0x0B</span>, <span class="number">0xCD</span>, <span class="number">0xED</span>, <span class="number">0x3E</span>, <span class="number">0xED</span>, <span class="number">0x53</span>, <span class="number">0x9F</span>,</span><br><span class="line">    <span class="number">0xB7</span>, <span class="number">0x90</span>, <span class="number">0x8D</span>, <span class="number">0xE7</span>, <span class="number">0x1A</span>, <span class="number">0x55</span>, <span class="number">0x57</span>, <span class="number">0xC6</span>, <span class="number">0x0B</span>, <span class="number">0x36</span>,</span><br><span class="line">    <span class="number">0x88</span>, <span class="number">0x33</span>, <span class="number">0</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_flag</span><span class="params">()</span>:</span></span><br><span class="line">    flag_c = <span class="string">"8B B3 49 9E FE B5 0E 27 D6 85 74 73 CD 14 52 C2 CE 33 8B 6A B3 84 BA 99 29 5D 54 9B 30 6D 19 25 20 50 C5 DE 61"</span>.split(</span><br><span class="line">        <span class="string">" "</span>)</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4096</span>):</span><br><span class="line"></span><br><span class="line">        flag_m = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(flag_c)):</span><br><span class="line">            flag_m += chr(int(flag_c[i], <span class="number">16</span>) ^ f_key[(i+_) % <span class="number">4096</span>] ^ xor_key[i % <span class="number">33</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">import</span> string</span><br><span class="line">        f = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> flag_m:</span><br><span class="line">            <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> string.printable:</span><br><span class="line">                f = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> f:</span><br><span class="line">            <span class="keyword">print</span> flag_m</span><br><span class="line">            <span class="keyword">return</span> flag_m</span><br><span class="line"><span class="comment"># d3ctf&#123;Do_you_think_vfs_1s_convenient&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/09/Bytectf_2019_NaughtyBoy_Writeup/" rel="next" title="Bytectf 2019 NaughtyBoy Writeup">
+                <i class="fa fa-chevron-left"></i> Bytectf 2019 NaughtyBoy Writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/28/D^3CTF_2019_KeyGenMe_WP/" rel="prev" title="D^3CTF 2019 KeyGenMe WP">
+                D^3CTF 2019 KeyGenMe WP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#D-3CTF-2019-ch1pfs-wp"><span class="nav-number">1.</span> <span class="nav-text">D^3CTF 2019 ch1pfs wp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#明确解题思路："><span class="nav-number">1.0.1.</span> <span class="nav-text">明确解题思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1-找出png的明密文对"><span class="nav-number">1.0.2.</span> <span class="nav-text">Step1  找出png的明密文对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2-根据明密文对恢复f-key"><span class="nav-number">1.0.3.</span> <span class="nav-text">Step2 根据明密文对恢复f_key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3-解密其他数据"><span class="nav-number">1.0.4.</span> <span class="nav-text">Step3 解密其他数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#还有下一关："><span class="nav-number">1.0.5.</span> <span class="nav-text">还有下一关：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
