@@ -408,14 +408,14 @@
 <p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233452823.png" alt="image-20190909233452823"></p>
 <p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233523003.png" alt="image-20190909233523003"></p>
 <h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>查看所有段</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> objdump -h ./s390</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> objdump -h ./s390</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909233629848.png" alt="image-20190909233629848"></p>
 <p>使用objdump反汇编，并导出到文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> objdump -s ./s390 &gt; dis.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> objdump -s ./s390 &gt; dis.txt</span></span><br></pre></td></tr></table></figure>
 
 <p>使用objdump把rodata段dump出来，并在编辑器中打开，</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> objdump -j .rodata -s ./s390 &gt; rodata.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> objdump -j .rodata -s ./s390 &gt; rodata.txt</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/2019/09/09/Bytectf_2019_s390_Writeup/image-20190909145824879.png" alt="image-20190909145824879"></p>
 <p>定位到几个关键字符串地址，在反汇编代码中查找，顺利定位到main函数：</p>
