@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,Reverse,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2020 腾讯游戏安全技术竞赛 初赛-Android-Writeupjava层和libcrackme.so中逻辑很简单，调用libgoodluck.so中的Tell_me_the_key检查输入字符串 Tell_me_the_key函数逆向：构造输入为’1’，与调试结果匹配，验证快速幂算法，以及大数存储形式 1234567891011import binasciistr_n = &apos;+\x1B\x8">
+<meta name="keywords" content="CTF,Reverse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TGSTC_2020_qualify">
+<meta property="og:url" content="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2020 腾讯游戏安全技术竞赛 初赛-Android-Writeupjava层和libcrackme.so中逻辑很简单，调用libgoodluck.so中的Tell_me_the_key检查输入字符串 Tell_me_the_key函数逆向：构造输入为’1’，与调试结果匹配，验证快速幂算法，以及大数存储形式 1234567891011import binasciistr_n = &apos;+\x1B\x8">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/image-20200403145108524.png">
+<meta property="og:image" content="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/image-20200403145123453.png">
+<meta property="og:image" content="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/image-20200403170203356.png">
+<meta property="og:image" content="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/image-20200403170508746.png">
+<meta property="og:updated_time" content="2020-04-14T10:13:12.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TGSTC_2020_qualify">
+<meta name="twitter:description" content="2020 腾讯游戏安全技术竞赛 初赛-Android-Writeupjava层和libcrackme.so中逻辑很简单，调用libgoodluck.so中的Tell_me_the_key检查输入字符串 Tell_me_the_key函数逆向：构造输入为’1’，与调试结果匹配，验证快速幂算法，以及大数存储形式 1234567891011import binasciistr_n = &apos;+\x1B\x8">
+<meta name="twitter:image" content="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/image-20200403145108524.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/">
+
+
+
+
+
+  <title>TGSTC_2020_qualify | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2020/04/14/TGSTC-2020-qualify/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TGSTC_2020_qualify</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-14T18:07:35+08:00">
+                2020-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/Reverse/" itemprop="url" rel="index">
+                    <span itemprop="name">Reverse</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/14/TGSTC-2020-qualify/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/14/TGSTC-2020-qualify/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2020-腾讯游戏安全技术竞赛-初赛-Android-Writeup"><a href="#2020-腾讯游戏安全技术竞赛-初赛-Android-Writeup" class="headerlink" title="2020 腾讯游戏安全技术竞赛 初赛-Android-Writeup"></a>2020 腾讯游戏安全技术竞赛 初赛-Android-Writeup</h1><p>java层和libcrackme.so中逻辑很简单，调用libgoodluck.so中的Tell_me_the_key检查输入字符串</p>
+<h2 id="Tell-me-the-key函数逆向："><a href="#Tell-me-the-key函数逆向：" class="headerlink" title="Tell_me_the_key函数逆向："></a>Tell_me_the_key函数逆向：</h2><p>构造输入为’1’，与调试结果匹配，验证快速幂算法，以及大数存储形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">str_n = <span class="string">'+\x1B\x89=]\x04\xF0\x06A\xCA\x0B\x9EJ\xBC\xEDxp0f\xE3\x02\xB4^\x09\xBB\xCE\xDA.\x0F\xDF\xFE\xD5\x8A\xD1\x1Eu;\x03\xA9p\x1D\xD20\xB4Uq]!ze\xCFIb\x07"\xBBeC\xEDOQ()\x84\x8B\x132\x83\x94a\xB6\x03\x97N\xCA%\xE9\xAA_&amp;\x8Da\xC2?\xEAU\xB5m\xBA\xBC\xA4K|\x89\xDEM\xA9\x0Ea\x91\xB4\x99\x05\xDD\xE6)l\x15w\x8F\xE5\xD4B\x13\x03o\xDEWI\xAE&#125;\x0Ed\xDC\xEB\xD5\x10\xEF'</span></span><br><span class="line">n = int(binascii.b2a_hex(str_n[::<span class="number">-1</span>]), <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> hex(n)</span><br><span class="line"><span class="comment"># 0xef10d5ebdc640e7dae4957de6f031342d4e58f77156c29e6dd0599b491610ea94dde897c4ba4bcba6db555ea3fc2618d265faae925ca4e9703b661948332138b842928514fed4365bb22076249cf657a215d7155b430d21d70a9033b751ed18ad5fedf0f2edacebb095eb402e366307078edbc4a9e0bca4106f0045d3d891b2bL</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">m = ord(<span class="string">'1'</span>)</span><br><span class="line"><span class="keyword">print</span> hex(m ** <span class="number">0x10001</span> % n)</span><br><span class="line"><span class="comment"># 0xbc974acaa76d023f45e7a0b0d4071bffa333be9be468f55dc11a5a005cfef7fbadbf046d9b8c093d840ab6d06027c505eacdb0a62aa76ed6d33f6c993772cef3f4160d27407666f64006f8f7a7276f2fa0fb23927c9eab8c4296e16af8ce542853f9ddd6b58525de878e6a584625db190720ee862e9894ec471dda04c6f617d5L</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/14/TGSTC-2020-qualify/image-20200403145108524.png" alt="image-20200403145108524"></p>
+<p><img src="/2020/04/14/TGSTC-2020-qualify/image-20200403145123453.png" alt="image-20200403145123453"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exp_mod(&amp;c2, &amp;m, &amp;e2, &amp;n);</span><br><span class="line">exp_mod(&amp;c1, &amp;m, &amp;e1, &amp;n);</span><br></pre></td></tr></table></figure>
+
+<p>n为1024bit，通过共模攻击，恢复m。</p>
+<h3 id="恢复C1"><a href="#恢复C1" class="headerlink" title="恢复C1:"></a>恢复C1:</h3><p>sub_CC76D294函数：算法结构类似AES。</p>
+<p>与普通AES加密算法不同的是：roundkey的生成过程、SBOX使用时异或了0x6B、ciphertext出来的时候异或了0x27。</p>
+<p>求逆SBOX：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_inv_SBOX</span><span class="params">()</span>:</span></span><br><span class="line">SBOX = [</span><br><span class="line"><span class="number">0x08</span>, <span class="number">0x17</span>, <span class="number">0x1C</span>, <span class="number">0x10</span>, <span class="number">0x99</span>, <span class="number">0x00</span>, <span class="number">0x04</span>, <span class="number">0xAE</span>, <span class="number">0x5B</span>, <span class="number">0x6A</span>,</span><br><span class="line"><span class="number">0x0C</span>, <span class="number">0x40</span>, <span class="number">0x95</span>, <span class="number">0xBC</span>, <span class="number">0xC0</span>, <span class="number">0x1D</span>, <span class="number">0xA1</span>, <span class="number">0xE9</span>, <span class="number">0xA2</span>, <span class="number">0x16</span>,</span><br><span class="line"><span class="number">0x91</span>, <span class="number">0x32</span>, <span class="number">0x2C</span>, <span class="number">0x9B</span>, <span class="number">0xC6</span>, <span class="number">0xBF</span>, <span class="number">0xC9</span>, <span class="number">0xC4</span>, <span class="number">0xF7</span>, <span class="number">0xCF</span>,</span><br><span class="line"><span class="number">0x19</span>, <span class="number">0xAB</span>, <span class="number">0xDC</span>, <span class="number">0x96</span>, <span class="number">0xF8</span>, <span class="number">0x4D</span>, <span class="number">0x5D</span>, <span class="number">0x54</span>, <span class="number">0x9C</span>, <span class="number">0xA7</span>,</span><br><span class="line"><span class="number">0x5F</span>, <span class="number">0xCE</span>, <span class="number">0x8E</span>, <span class="number">0x9A</span>, <span class="number">0x1A</span>, <span class="number">0xB3</span>, <span class="number">0x5A</span>, <span class="number">0x7E</span>, <span class="number">0x6F</span>, <span class="number">0xAC</span>,</span><br><span class="line"><span class="number">0x48</span>, <span class="number">0xA8</span>, <span class="number">0x73</span>, <span class="number">0xFD</span>, <span class="number">0x6E</span>, <span class="number">0xF1</span>, <span class="number">0x6C</span>, <span class="number">0x79</span>, <span class="number">0xEB</span>, <span class="number">0x89</span>,</span><br><span class="line"><span class="number">0x80</span>, <span class="number">0x4C</span>, <span class="number">0xD9</span>, <span class="number">0x1E</span>, <span class="number">0x62</span>, <span class="number">0xE8</span>, <span class="number">0x47</span>, <span class="number">0x71</span>, <span class="number">0x70</span>, <span class="number">0x05</span>,</span><br><span class="line"><span class="number">0x31</span>, <span class="number">0xCB</span>, <span class="number">0x39</span>, <span class="number">0x50</span>, <span class="number">0xBD</span>, <span class="number">0xD8</span>, <span class="number">0x42</span>, <span class="number">0x88</span>, <span class="number">0x44</span>, <span class="number">0xEF</span>,</span><br><span class="line"><span class="number">0x38</span>, <span class="number">0xBA</span>, <span class="number">0x6B</span>, <span class="number">0x86</span>, <span class="number">0x4B</span>, <span class="number">0x97</span>, <span class="number">0xDA</span>, <span class="number">0x30</span>, <span class="number">0x01</span>, <span class="number">0xA0</span>,</span><br><span class="line"><span class="number">0xD5</span>, <span class="number">0x52</span>, <span class="number">0x21</span>, <span class="number">0x27</span>, <span class="number">0x33</span>, <span class="number">0xA4</span>, <span class="number">0xBB</span>, <span class="number">0x84</span>, <span class="number">0xC1</span>, <span class="number">0x90</span>,</span><br><span class="line"><span class="number">0x28</span>, <span class="number">0x26</span>, <span class="number">0x58</span>, <span class="number">0xEE</span>, <span class="number">0x2E</span>, <span class="number">0x92</span>, <span class="number">0x69</span>, <span class="number">0x14</span>, <span class="number">0x3B</span>, <span class="number">0x57</span>,</span><br><span class="line"><span class="number">0xF4</span>, <span class="number">0xC3</span>, <span class="number">0x3A</span>, <span class="number">0xC8</span>, <span class="number">0x2B</span>, <span class="number">0xE4</span>, <span class="number">0xF9</span>, <span class="number">0xF6</span>, <span class="number">0x53</span>, <span class="number">0x9E</span>,</span><br><span class="line"><span class="number">0xD7</span>, <span class="number">0xDD</span>, <span class="number">0xB1</span>, <span class="number">0x4A</span>, <span class="number">0x7B</span>, <span class="number">0x94</span>, <span class="number">0x98</span>, <span class="number">0xB9</span>, <span class="number">0xA6</span>, <span class="number">0x67</span>,</span><br><span class="line"><span class="number">0x78</span>, <span class="number">0x87</span>, <span class="number">0x34</span>, <span class="number">0xFC</span>, <span class="number">0x2F</span>, <span class="number">0x7C</span>, <span class="number">0xAF</span>, <span class="number">0xCC</span>, <span class="number">0x15</span>, <span class="number">0x56</span>,</span><br><span class="line"><span class="number">0x0F</span>, <span class="number">0x36</span>, <span class="number">0x72</span>, <span class="number">0x18</span>, <span class="number">0x0B</span>, <span class="number">0xEA</span>, <span class="number">0x24</span>, <span class="number">0xB7</span>, <span class="number">0x49</span>, <span class="number">0x41</span>,</span><br><span class="line"><span class="number">0xFB</span>, <span class="number">0xE3</span>, <span class="number">0x2D</span>, <span class="number">0x85</span>, <span class="number">0xD3</span>, <span class="number">0x7F</span>, <span class="number">0xB5</span>, <span class="number">0x35</span>, <span class="number">0x60</span>, <span class="number">0xB0</span>,</span><br><span class="line"><span class="number">0x8B</span>, <span class="number">0x59</span>, <span class="number">0x51</span>, <span class="number">0x61</span>, <span class="number">0x22</span>, <span class="number">0x6D</span>, <span class="number">0x4F</span>, <span class="number">0x37</span>, <span class="number">0xA9</span>, <span class="number">0xB8</span>,</span><br><span class="line"><span class="number">0xC7</span>, <span class="number">0x09</span>, <span class="number">0xFA</span>, <span class="number">0xFE</span>, <span class="number">0x8F</span>, <span class="number">0x12</span>, <span class="number">0x8C</span>, <span class="number">0xA3</span>, <span class="number">0x5C</span>, <span class="number">0x06</span>,</span><br><span class="line"><span class="number">0xE6</span>, <span class="number">0xBE</span>, <span class="number">0x25</span>, <span class="number">0xC2</span>, <span class="number">0x07</span>, <span class="number">0x3D</span>, <span class="number">0x9F</span>, <span class="number">0x81</span>, <span class="number">0x0E</span>, <span class="number">0x11</span>,</span><br><span class="line"><span class="number">0xC5</span>, <span class="number">0x63</span>, <span class="number">0xD1</span>, <span class="number">0x13</span>, <span class="number">0x4E</span>, <span class="number">0x45</span>, <span class="number">0x77</span>, <span class="number">0xCD</span>, <span class="number">0xDF</span>, <span class="number">0xAD</span>,</span><br><span class="line"><span class="number">0x83</span>, <span class="number">0xB6</span>, <span class="number">0x1F</span>, <span class="number">0x74</span>, <span class="number">0x20</span>, <span class="number">0xD6</span>, <span class="number">0xE0</span>, <span class="number">0xE1</span>, <span class="number">0x1B</span>, <span class="number">0x55</span>,</span><br><span class="line"><span class="number">0xDE</span>, <span class="number">0x0D</span>, <span class="number">0x23</span>, <span class="number">0x68</span>, <span class="number">0x9D</span>, <span class="number">0x65</span>, <span class="number">0x0A</span>, <span class="number">0x5E</span>, <span class="number">0x3C</span>, <span class="number">0xD2</span>,</span><br><span class="line"><span class="number">0xED</span>, <span class="number">0xAA</span>, <span class="number">0x76</span>, <span class="number">0xF5</span>, <span class="number">0x8A</span>, <span class="number">0x93</span>, <span class="number">0xF3</span>, <span class="number">0x7A</span>, <span class="number">0x02</span>, <span class="number">0xB2</span>,</span><br><span class="line"><span class="number">0xE5</span>, <span class="number">0xFF</span>, <span class="number">0xF0</span>, <span class="number">0x75</span>, <span class="number">0xEC</span>, <span class="number">0x82</span>, <span class="number">0xA5</span>, <span class="number">0x3E</span>, <span class="number">0x43</span>, <span class="number">0xB4</span>,</span><br><span class="line"><span class="number">0xE7</span>, <span class="number">0xCA</span>, <span class="number">0xE2</span>, <span class="number">0x66</span>, <span class="number">0xD4</span>, <span class="number">0x8D</span>, <span class="number">0x29</span>, <span class="number">0x03</span>, <span class="number">0x2A</span>, <span class="number">0xF2</span>,</span><br><span class="line"><span class="number">0x46</span>, <span class="number">0x64</span>, <span class="number">0xDB</span>, <span class="number">0x3F</span>, <span class="number">0xD0</span>, <span class="number">0x7D</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">inv_SBOX = [<span class="number">0</span>] * <span class="number">256</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(SBOX)):</span><br><span class="line">SBOX[i] = SBOX[i] ^ <span class="number">0x6B</span></span><br><span class="line"><span class="keyword">print</span> SBOX</span><br><span class="line"><span class="keyword">print</span> len(SBOX)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">v = SBOX[i*<span class="number">16</span>+j]</span><br><span class="line">vj = v &amp; <span class="number">0xF</span></span><br><span class="line">vi = (v &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0xF</span></span><br><span class="line">inv_SBOX[vi*<span class="number">16</span>+vj] = i*<span class="number">16</span>+j</span><br><span class="line"><span class="keyword">print</span> inv_SBOX</span><br></pre></td></tr></table></figure>
+
+<p>AES解密（详见aes-128.cpp），得C1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v20_m = [</span><br><span class="line">148, 232, 71, 16, 202, 146, 147, 126, 248, 93, 20, 224, 110, 74, 65, 190, 159, 224, 185, 57, 9, 98, 161, 10, 189, 138, 40, 68, 77, 87, 54, 75, 16, 213, 137, 221, 43, 6, 74, 172, 201, 95, 28, 22, 146, 83, 146, 74, 170, 113, 84, 13, 230, 87, 63, 107, 93, 60, 131, 195, 26, 210, 129, 145, 243, 27, 202, 9, 181, 6, 65, 237, 160, 70, 240, 215, 177, 198, 241, 114, 9, 202, 150, 219, 173, 61, 113, 117, 202, 37, 248, 248, 45, 30, 19, 27, 120, 246, 42, 224, 97, 8, 32, 252, 199, 227, 228, 230, 130, 181, 206, 25, 78, 3, 230, 231, 95, 27, 169, 143, 112, 124, 51, 103, 167, 33, 0, 4,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="恢复C2"><a href="#恢复C2" class="headerlink" title="恢复C2:"></a>恢复C2:</h3><p>sub_CC76EDC0、sub_CC76EA98函数：</p>
+<p>控制流平坦化，动态调试，sub_CC76EDC0比较好分析，4byte4byte传入sub_CC76EA98。</p>
+<p>sub_CC76EA98分析：</p>
+<p>根据0x61C88647，推断出为类TEA加密，动态调试发现轮数没有32轮</p>
+<p><img src="/2020/04/14/TGSTC-2020-qualify/image-20200403170203356.png" alt="image-20200403170203356"></p>
+<p>验证了一下，动态调出来的值为TEA中间变量，确认算法为8轮TEA。key为n的前4个uint32。（代码详见tea.cpp）</p>
+<p><img src="/2020/04/14/TGSTC-2020-qualify/image-20200403170508746.png" alt="image-20200403170508746"></p>
+<p>解密得C2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v19_m = [</span><br><span class="line">0, 147, 17, 173, 243, 118, 147, 244, 122, 83, 213, 121, 46, 14, 171, 80, 254, 107, 131, 122, 113, 140, 6, 122, 240, 173, 55, 19, 170, 0, 215, 16, 250, 59, 136, 42, 214, 84, 98, 102, 248, 200, 32, 55, 199, 65, 142, 240, 144, 155, 146, 251, 42, 26, 180, 117, 106, 52, 135, 141, 82, 50, 176, 10, 20, 5, 179, 193, 221, 26, 242, 25, 19, 65, 102, 211, 0, 152, 99, 181, 229, 49, 16, 57, 156, 197, 171, 154, 11, 140, 177, 67, 104, 127, 100, 59, 150, 37, 36, 139, 160, 172, 25, 163, 91, 0, 28, 185, 252, 32, 151, 37, 238, 2, 178, 146, 39, 230, 100, 26, 218, 52, 36, 247, 111, 155, 3, 108,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="共模攻击："><a href="#共模攻击：" class="headerlink" title="共模攻击："></a>共模攻击：</h3><p>C1最低位为止，爆破可出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="comment"># C2</span></span><br><span class="line">v19_m = [</span><br><span class="line"><span class="number">0</span>, <span class="number">147</span>, <span class="number">17</span>, <span class="number">173</span>, <span class="number">243</span>, <span class="number">118</span>, <span class="number">147</span>, <span class="number">244</span>, <span class="number">122</span>, <span class="number">83</span>, <span class="number">213</span>, <span class="number">121</span>, <span class="number">46</span>, <span class="number">14</span>, <span class="number">171</span>, <span class="number">80</span>, <span class="number">254</span>, <span class="number">107</span>, <span class="number">131</span>, <span class="number">122</span>, <span class="number">113</span>, <span class="number">140</span>, <span class="number">6</span>, <span class="number">122</span>, <span class="number">240</span>, <span class="number">173</span>, <span class="number">55</span>, <span class="number">19</span>, <span class="number">170</span>, <span class="number">0</span>, <span class="number">215</span>, <span class="number">16</span>, <span class="number">250</span>, <span class="number">59</span>, <span class="number">136</span>, <span class="number">42</span>, <span class="number">214</span>, <span class="number">84</span>, <span class="number">98</span>, <span class="number">102</span>, <span class="number">248</span>, <span class="number">200</span>, <span class="number">32</span>, <span class="number">55</span>, <span class="number">199</span>, <span class="number">65</span>, <span class="number">142</span>, <span class="number">240</span>, <span class="number">144</span>, <span class="number">155</span>, <span class="number">146</span>, <span class="number">251</span>, <span class="number">42</span>, <span class="number">26</span>, <span class="number">180</span>, <span class="number">117</span>, <span class="number">106</span>, <span class="number">52</span>, <span class="number">135</span>, <span class="number">141</span>, <span class="number">82</span>, <span class="number">50</span>, <span class="number">176</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">179</span>, <span class="number">193</span>, <span class="number">221</span>, <span class="number">26</span>, <span class="number">242</span>, <span class="number">25</span>, <span class="number">19</span>, <span class="number">65</span>, <span class="number">102</span>, <span class="number">211</span>, <span class="number">0</span>, <span class="number">152</span>, <span class="number">99</span>, <span class="number">181</span>, <span class="number">229</span>, <span class="number">49</span>, <span class="number">16</span>, <span class="number">57</span>, <span class="number">156</span>, <span class="number">197</span>, <span class="number">171</span>, <span class="number">154</span>, <span class="number">11</span>, <span class="number">140</span>, <span class="number">177</span>, <span class="number">67</span>, <span class="number">104</span>, <span class="number">127</span>, <span class="number">100</span>, <span class="number">59</span>, <span class="number">150</span>, <span class="number">37</span>, <span class="number">36</span>, <span class="number">139</span>, <span class="number">160</span>, <span class="number">172</span>, <span class="number">25</span>, <span class="number">163</span>, <span class="number">91</span>, <span class="number">0</span>, <span class="number">28</span>, <span class="number">185</span>, <span class="number">252</span>, <span class="number">32</span>, <span class="number">151</span>, <span class="number">37</span>, <span class="number">238</span>, <span class="number">2</span>, <span class="number">178</span>, <span class="number">146</span>, <span class="number">39</span>, <span class="number">230</span>, <span class="number">100</span>, <span class="number">26</span>, <span class="number">218</span>, <span class="number">52</span>, <span class="number">36</span>, <span class="number">247</span>, <span class="number">111</span>, <span class="number">155</span>, <span class="number">3</span>, <span class="number">108</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># C1</span></span><br><span class="line">v20_m = [</span><br><span class="line"><span class="number">148</span>, <span class="number">232</span>, <span class="number">71</span>, <span class="number">16</span>, <span class="number">202</span>, <span class="number">146</span>, <span class="number">147</span>, <span class="number">126</span>, <span class="number">248</span>, <span class="number">93</span>, <span class="number">20</span>, <span class="number">224</span>, <span class="number">110</span>, <span class="number">74</span>, <span class="number">65</span>, <span class="number">190</span>, <span class="number">159</span>, <span class="number">224</span>, <span class="number">185</span>, <span class="number">57</span>, <span class="number">9</span>, <span class="number">98</span>, <span class="number">161</span>, <span class="number">10</span>, <span class="number">189</span>, <span class="number">138</span>, <span class="number">40</span>, <span class="number">68</span>, <span class="number">77</span>, <span class="number">87</span>, <span class="number">54</span>, <span class="number">75</span>, <span class="number">16</span>, <span class="number">213</span>, <span class="number">137</span>, <span class="number">221</span>, <span class="number">43</span>, <span class="number">6</span>, <span class="number">74</span>, <span class="number">172</span>, <span class="number">201</span>, <span class="number">95</span>, <span class="number">28</span>, <span class="number">22</span>, <span class="number">146</span>, <span class="number">83</span>, <span class="number">146</span>, <span class="number">74</span>, <span class="number">170</span>, <span class="number">113</span>, <span class="number">84</span>, <span class="number">13</span>, <span class="number">230</span>, <span class="number">87</span>, <span class="number">63</span>, <span class="number">107</span>, <span class="number">93</span>, <span class="number">60</span>, <span class="number">131</span>, <span class="number">195</span>, <span class="number">26</span>, <span class="number">210</span>, <span class="number">129</span>, <span class="number">145</span>, <span class="number">243</span>, <span class="number">27</span>, <span class="number">202</span>, <span class="number">9</span>, <span class="number">181</span>, <span class="number">6</span>, <span class="number">65</span>, <span class="number">237</span>, <span class="number">160</span>, <span class="number">70</span>, <span class="number">240</span>, <span class="number">215</span>, <span class="number">177</span>, <span class="number">198</span>, <span class="number">241</span>, <span class="number">114</span>, <span class="number">9</span>, <span class="number">202</span>, <span class="number">150</span>, <span class="number">219</span>, <span class="number">173</span>, <span class="number">61</span>, <span class="number">113</span>, <span class="number">117</span>, <span class="number">202</span>, <span class="number">37</span>, <span class="number">248</span>, <span class="number">248</span>, <span class="number">45</span>, <span class="number">30</span>, <span class="number">19</span>, <span class="number">27</span>, <span class="number">120</span>, <span class="number">246</span>, <span class="number">42</span>, <span class="number">224</span>, <span class="number">97</span>, <span class="number">8</span>, <span class="number">32</span>, <span class="number">252</span>, <span class="number">199</span>, <span class="number">227</span>, <span class="number">228</span>, <span class="number">230</span>, <span class="number">130</span>, <span class="number">181</span>, <span class="number">206</span>, <span class="number">25</span>, <span class="number">78</span>, <span class="number">3</span>, <span class="number">230</span>, <span class="number">231</span>, <span class="number">95</span>, <span class="number">27</span>, <span class="number">169</span>, <span class="number">143</span>, <span class="number">112</span>, <span class="number">124</span>, <span class="number">51</span>, <span class="number">103</span>, <span class="number">167</span>, <span class="number">33</span>, <span class="number">0</span>, <span class="number">4</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">256</span>):</span><br><span class="line">v19_m[<span class="number">0</span>] = _</span><br><span class="line"></span><br><span class="line">c1_s = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> v20_m:</span><br><span class="line">c1_s += chr(i)</span><br><span class="line">c1 = int(binascii.b2a_hex(c1_s[::<span class="number">-1</span>]), <span class="number">16</span>)</span><br><span class="line">c2_s = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> v19_m:</span><br><span class="line">c2_s += chr(i)</span><br><span class="line">c2 = int(binascii.b2a_hex(c2_s[::<span class="number">-1</span>]), <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">str_n = <span class="string">'+\x1B\x89=]\x04\xF0\x06A\xCA\x0B\x9EJ\xBC\xEDxp0f\xE3\x02\xB4^\x09\xBB\xCE\xDA.\x0F\xDF\xFE\xD5\x8A\xD1\x1Eu;\x03\xA9p\x1D\xD20\xB4Uq]!ze\xCFIb\x07"\xBBeC\xEDOQ()\x84\x8B\x132\x83\x94a\xB6\x03\x97N\xCA%\xE9\xAA_&amp;\x8Da\xC2?\xEAU\xB5m\xBA\xBC\xA4K|\x89\xDEM\xA9\x0Ea\x91\xB4\x99\x05\xDD\xE6)l\x15w\x8F\xE5\xD4B\x13\x03o\xDEWI\xAE&#125;\x0Ed\xDC\xEB\xD5\x10\xEF'</span></span><br><span class="line">n = int(binascii.b2a_hex(str_n[::<span class="number">-1</span>]), <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">e1 = <span class="number">65537</span></span><br><span class="line">e2 = <span class="number">17</span></span><br><span class="line">s = gmpy2.gcdext(e1, e2)</span><br><span class="line">s1 = s[<span class="number">1</span>]</span><br><span class="line">s2 = -s[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">c2 = gmpy2.invert(c2, n)</span><br><span class="line">m = (pow(c1,s1,n) * pow(c2 , s2 , n)) % n</span><br><span class="line"></span><br><span class="line"><span class="comment"># print m</span></span><br><span class="line"><span class="comment"># print libnum.n2s(m)</span></span><br><span class="line">ss = libnum.n2s(m)</span><br><span class="line"><span class="keyword">if</span> ss.isalnum():</span><br><span class="line"><span class="keyword">print</span> ss</span><br><span class="line">f = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> ss:</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> c <span class="keyword">in</span> string.printable:</span><br><span class="line">f = <span class="number">0</span></span><br><span class="line"><span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> f == <span class="number">1</span>:</span><br><span class="line"><span class="keyword">pass</span></span><br><span class="line"><span class="keyword">print</span> ss</span><br><span class="line"><span class="comment"># Tencent_GSLab_Sec_2020</span></span><br></pre></td></tr></table></figure>
+
+<p>得flag：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tencent_GSLab_Sec_2020</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/D^3CTF_2019_KeyGenMe_WP/" rel="next" title="D^3CTF 2019 KeyGenMe WP">
+                <i class="fa fa-chevron-left"></i> D^3CTF 2019 KeyGenMe WP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/14/TGSTC-2020-final/" rel="prev" title="TGSTC_2020_final">
+                TGSTC_2020_final <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2020-腾讯游戏安全技术竞赛-初赛-Android-Writeup"><span class="nav-number">1.</span> <span class="nav-text">2020 腾讯游戏安全技术竞赛 初赛-Android-Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tell-me-the-key函数逆向："><span class="nav-number">1.1.</span> <span class="nav-text">Tell_me_the_key函数逆向：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#恢复C1"><span class="nav-number">1.1.1.</span> <span class="nav-text">恢复C1:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恢复C2"><span class="nav-number">1.1.2.</span> <span class="nav-text">恢复C2:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共模攻击："><span class="nav-number">1.1.3.</span> <span class="nav-text">共模攻击：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
