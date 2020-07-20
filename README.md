@@ -1,1 +1,0 @@
-https://gange666.github.io/

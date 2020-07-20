@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unexpected Data Dependency Creation and Chaining: A New Attack to SDN">
+<meta property="og:url" content="https://gange666.github.io/2020/06/12/paper_notes/2020 0612 D2C2 SP 20 41ad7c6a51244ba2be6582e9937a0f2e/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-07-20T06:53:34.403Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unexpected Data Dependency Creation and Chaining: A New Attack to SDN">
+<meta name="twitter:description" content="Here&apos;s something encrypted, password is required to continue reading.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2020/06/12/paper_notes/2020 0612 D2C2 SP 20 41ad7c6a51244ba2be6582e9937a0f2e/">
+
+
+
+
+
+  <title>Unexpected Data Dependency Creation and Chaining: A New Attack to SDN | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2020/06/12/paper_notes/2020 0612 D2C2 SP 20 41ad7c6a51244ba2be6582e9937a0f2e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Unexpected Data Dependency Creation and Chaining: A New Attack to SDN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-12T22:00:00+08:00">
+                2020-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/06/12/paper_notes/2020 0612 D2C2 SP 20 41ad7c6a51244ba2be6582e9937a0f2e/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/06/12/paper_notes/2020 0612 D2C2 SP 20 41ad7c6a51244ba2be6582e9937a0f2e/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder>
+    <label for="hbePass">Hey, password is required here.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="1711e1a2bca786aa14481b7fa687fcb9a317171f9a2714083948cd6113a060e7">0897230a5e34c6a3b4e384d82bbabe895882db4ec49e8a26f9b4f92e8f0f392be2eff602a0b974fb62c96386edc4460c87de76ec448d589fcecb366143f63b178a25e0018e1cff8ccada7c512fff59dfc49ca688c09cb75fcd6db3fc45033e48f6a3273440b664c264502dc117a9699bb9f0d81ae8f691e61b71e4133cb443785008a9a96ff3b0b456fd6c7a7e057e0dc81ebc935db1b41680da6e121c7942d6a4c48b6f2513a96b8bc6a9e74c89d1e49f138eb68f8bae93412edffd8060949523421756f836210d542dcf6053d214ebeb898867ec742b5b7fdfd50a8351aea28298c7cc1957405ae285f71152a6f9acd978bd630e26287f32a092a68475c4e7ed3a0e336ef8973ca3bf6017b91fdc2507a0643b449f9ffc89607f2c3209da3e0e100e10decd52c60829dd0e856936d4c4d3fedea0a39828dc8af5eb16d088262d918c4b431172661e6be0407aa752a181e4e3f2f618cfb8e12519ab1991fd30cc3efa43eaf0b5bf3fc487784e54cb8ffb87b1fda59fd4ca6ae427c2d9624b263190dfd6043573b1f04d1d5e0e7def10a0e1a24bb6f36544cc4f27d09caf4c01e145096691fa9e63c62d2f89d49c231ebf2e5b77b25584286fb4974ccc1496bee5362147e89f117d5869f0601c0652a72fe747794f75c8f5b9922a9c03036d569d0c06ddaa35320d9f58bd236b50cc6251eecb72f4231149aaabfaa4f078b0aec3155601cff9252e944d62ac68e6fb3ced49b43808026bff6cdf6970f1d841e70c73abe04f8fd4fc759fc380137bf40f14c435e213e6469b4c9458e56bfb9e0991769c7867ddd90e93b98fd92961eb51a7de7bb70d25f23b0a581b251ea9d968c29e14d922b28609190d2e399853618a2dc18bc7a99ee5942c8513963e741388c424b13dbcaba73af2628d35de82cbf9cfca512d650512c5dbac1ec85fa3be1940b5c356a11081e9a2728a9f42d334c9280250c368c1b4e8940bebaf74fefde266ebc053f68373f231ab0a7e62cd8a41051154cd2040a5da8f1761d23e86b01e89996db901a769e3523b02b3850e25166243cb060e41125133506ea4a0a4265dad013983108ed1c067c7a3773eb04d76b8463874e80a8b3bc542dbd62d84f7102082af166bb5b503f79ab3ccbd4d0c64b1ba9566e484f3695cac079d374e60ec0a3262470927c353c3f17056614b4fb1232aca34eb3d9ff83398a3cea2d25052f9e0d4f303e60e9242d72bafeee93bfb837b3de797b95843b2673cc2b0cdac49ea56be7b96130900b6425c2ee08aad7b33839d0e775329c04a9680477fff7bde7087eabd5f396489ebce2729220fa4dc2340dc4bd5d83ac58a642ceeb7933e0e20bc0f9c0b1f0121dee64f31479466f459b0afc7fad72a7176a49caad93246061ec42a1621a774f32d85495526fb27f1845ebf7ea5dc6a3f8ac5791750994410ff2a992dc26c66768b13915c9bec9d9fc98232e4bac0abb0c61842b23748d745c77de841d93bce7f865ade279b0b5cd8bafd30218d528484aefca3970d36261889fb8b7e2bd8e4ead790727de3c948847289cee94e1839b91f7fcffb2c77cf748cd04d549ad05d84f41b10c6b4e43c61cfa0073a84b392cac5e348350f84cadc7b4b4167a5c3ac4ae83b2642032eb5e4a1479eda84392373e0a51af14c785dc3d19781ae1122e355e337140691e2c060a288088258ba8333f823ec9b0157eecf61d0c89deaf10410fdec21cce5605f509a4789c557febd52d25e3555e039ff3003e646a9b3f076b5cf4863256cb04d2568fe987e82790e3a59f1ff4f37847b107c4bb5c70ccf9c7071698086b06b0dc946267876ce01c64efdc2afd219aa961606cfcf1bc86201377052fcf552f1d9742aa2c28e5a5f3c5f807a982e7a4b8189cd8e787bccaba7e40b9565d9abf77c1b8dc9a072b41c2da13c4d743e7a0668363f87e478b14a9f7785fa18d4c5f855368416be7db50496a46340e140fa44478fb4d25b5c4ee0e45bc1f904c6ab263b03b9a8945546fa6c2635267053c9d14491d102d0dca0aec2637f0a42520591e5bcb9729bc741a348f7debe721a2505779d5315d0be75bac6008607cd37c9e04aad3b6d2a4bd44c095ff4f991b2541d7978adb6cf974ce959d489d1b6b6780a5b43fe8de20d2ed3889ed1975f7288ae5515dc0864e4c0214024033832c92ee4d218111361f2b1492a14e5b8828e4a8ce41956108deba4476a245e91ba4fb7748d5196310948d4b6d7e1c05249d41da11e8cd51784877de71a7cec0647e284ef5bced7f71eeb3124e7ee9360ceffe343e8d58ffda1e25b088ea66513e2637cd105d8febe5ffb611b4cb556a334d713e66985b7fe891ee94dd31daaa8ae165f6b09fa71ed1a2a5f2e1390292aa898a97438e97a74b101d70a01cb9abacce1aaaf6f7c14140f2c3d726e767bc08335988a5ccdeb9c4fc24b2aca7b1bd518f1c301991760aa2ee43e672e8efcbd6e08d0e42081f8850fc250579df03da584518aee42ad53713373b19c8a2a67694be7ebd8ac8e11040b013c7ff1292af6488f225676c4201a54e0e55b1e0368199e67be3623e0cbf737c904f393acd590af6a1cd4b05254d27a1e9e875d6170d72747682a90085eb750bdd8e57c184b2eab48aab8f621097ed6c0f5c471ce8a9b66306b51159959df25bda5c9c9002017361c761ee9579757a6b27ac005439f38b71920e6c5580b82de3b8c8d68f2681d5ddb874c9590</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/06/building-IDA-Pro-plugins-on-macos/" rel="next" title="在MACOS上编译IDA Pro插件">
+                <i class="fa fa-chevron-left"></i> 在MACOS上编译IDA Pro插件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/" rel="prev" title="KShot: Live Kernel Patching with SMM and SGX">
+                KShot: Live Kernel Patching with SMM and SGX <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

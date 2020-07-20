@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KShot: Live Kernel Patching with SMM and SGX">
+<meta property="og:url" content="https://gange666.github.io/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-07-20T06:53:27.484Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KShot: Live Kernel Patching with SMM and SGX">
+<meta name="twitter:description" content="Here&apos;s something encrypted, password is required to continue reading.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/">
+
+
+
+
+
+  <title>KShot: Live Kernel Patching with SMM and SGX | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">KShot: Live Kernel Patching with SMM and SGX</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-06T22:00:00+08:00">
+                2020-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder>
+    <label for="hbePass">Hey, password is required here.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="ecc8f9408199a05aee7ad615dda3b09ada3dd61cd2abf9818c14841cf49ee890">183c60e62653a45769b73fee92f0a3eb279ba52dc50060eae0b26a235bcd4173f4fe8660bb5e0da6fdc736f121e6fd079bf33d29b80bfc99305e781655100eb1c82dcd6e3dafab1d5d6568b04a076a199f30ceced011b4ad0a184bd14c5327daa8e38d415209f4d71383915af816b4aeb9dc24cacda21869ce594bb9e7d793e15813d660ebcba68dc59835988b258c532d6f96be784f1c5162aab84a5994491f349942d3124a75c83546accaa34777241ebb1f2b7ba30eb3868f9007387dd6c5eb1c4ed543ae2ffa4db151f7d8df595879b2ca9d6c347670743c098b0c4855566670a634739fcc80f2c141dc6afbe601691b416fa00e0b11b89cacae50e25388e927dd96560e2a3628773887b65c19f1a0d8c4eaaf934508f5930ac1a12dfb56b479c471eabd6b2554bef8e632f34caa5a297abe9ebdfbe2fe7f26d8616336a63bd6d7575d0a567333d951c2717b1a43ff3d45e1aafc11088a695c2d1823379e16d839d8b5ad07b106951111ac4634ae1ae5519a9e37eb6d123c98bb5db35690bcd29014f8aa65ac87605af2dc050a0d8f26f83228195255d55c8cea9da0c644eed8fbd0d80eec6dff44ff7d7585f7b45dcf4c3a645d9189f2c0cbaf9a97d355bde9d4780468e1f0477bbe808c6efe13468a2c2cbef5aecf1cfeb29a740ceeea0b4c9ba4ad069ff3ea71f3992d0d9cd7de3212a6c775f1d508cb061d3d75ec77e5c3fcae77d3238848e8ca0ba737499733adb8f1fddd9c31a58dab1ca59155feb430aa641fdc7c3c8038535b0940bea98104f9e5570e9feeafe0fa4087a7a73795792394d5f5fc94f3c73e01e29645c8143d944075c67f9f3a034ec1406d9928ac3d3cb39f20eae73a339021c6bb633296cd18bb19ee4c9af25d3a652894412cfa64d83e0a363b0a54eef255b61a1bf4ee27e19882bc1e2d6297f9fc12c48e26fbc6106e58e76066962d3f6a9802c8c7021fa78139c63cc30c89bae999c8693fe316431367378b976ac8ba268b2013a9340102ea7a76e054a1eae98ed8f7a2df7ed2c7019d3cc88bd16e624e3d3772022b6d2d2bf26acca1d7acd58602a58abf541ab5633af659a51f1545efbf9fa4a9a232d8443219d482b5a4ef6988c155bb5d86b7c820ed9c1dd6516600cfa35aa0210f7e8be481d49387caebc28a9239a11761eb66c03a031be4f01b583dcbd784283abc75062068f796ac7f02a9386a3873d5e59759093e4ca3b6ef44c5dac4b2e6365f8e65cb514ff281a4a50800095ae3ac26d6ba9815974fd9b7a2a04bb9cfec1ebcec4de2d2cecf313d50dd92acdab6880fdb53acb55b7b7db869cf1624f67bf994528ecc0de8f226be7abbe14702e8b5d3a323d18c9951466e1609f578aad557b4bf6b4dc75add71b43632a472497d38c88cf8c14957e8fc1ced727a96a41cf5fd13648cfbaf29fe9f22f3665f565e13b710f498cc2b883cfdc7d4f9cb9edbba299da5c9ac53272e35181d4f89c351556805ca94cec642cd72ef174ccc24ce265a1f8a399e0c36ad3742f8c4f243a128fd68d0e7cd2a9d86c1a42d879669000a7614e31e41793738a0bc90f4da1fb0a271716378f29c4d5ad5bb848e19d820e08a799ce8008cb29be57a017a9917d0e0e0e04e256063a586816a6fd1a2fd47a1105834e943c7b795871f7e167994e04b2d3b86cdbd939e4135f1d2cf11a6a47e55684dffe44ad548090010ec6e5a1f85bb2204fe89842166c5942231ebbf1c9a8ba98261d10a95d197463dd1bca5d1b76cee5c56298b137495ffb9c3ffafa3fc5899ca7a6e8581387aa615d96339608a6a3eff5d79bc4417f92d969489869b0339378ed760ac2611348643a37fadec548393ad2dee4cdc7bfc7f98dd30807dfcb3c83aa356687903affc2b51357aa3730576302fe8c097b58f1ed27367cf3d22465bfc46d5820797ec4a8bb30fbaead0ed33bfeab1799e3a34d3688f14bc0a8b9ec848453e87b84b7636e634997149da69c7d55b21c3e7d024d2115789ad323aa69c3d71226249394959f3c9f666d104062cbe8531077a2ac47991f8298ea283e23c795d1ac403c3b1f92611b2b4023d247bd1f9958fb9827dd93d75e06c5de24217f15a4d8deacd410484efa1b018e838222db9550300ee855a3548c9dcb085b8972f658ea68e4c50d3bd3e982f781937d6915282a7dbfb62d08f1f44f4048632f1136e9edeae1b535b684628b161eb755d94f4d5fe110272a8ef2bd9be14ae79ef9c4644a1c7c6063d0d5b0cba2f85d6438f0c0169561e45ee4a89a43aab7d1061ed583cb3ed1d190dd1a465603409444936c3efa6928d6249f0d923f67d6349ab7c07aea420557fc0231f43700fb28377f006be618028ffc8fb3f3e57f9acf59c21394b1232789e52ce8400fba0258a1de44d47d7287466c4fb797d8ec65d3a15105b7a77f030aa99443c069e3faf1f63ba35e1d0eb8517bf23dc5b717d55a172ead7551aa52604065c02d9a4b1223d237eef9fa570beb6db88a5df4bd07f72822e39ac61671e6b95a3c3d70c5edb351fb91eaeaa9e49d42171e8ec7f0dcb7f4430c8306f36f6815ee95f25226ae4bbd93aa5c0fdaf407818b424d7870552beb4f0d83f0bc924f9b82d10a6cc2bb36d1195bbd09ee8862bae2271b3bf7a3c8666c8acd4f58c18d24fe23cda39712695d0e79bd97ac1ef3a4a8599b9178155d8f84946662b47daa0799170bb1ba2553516b18daffc986f42b44d98258cc115c5720832d0a24045fbc04644c87737d45f21014e8ae1b2dd063645e62b9aa351dd10e85530f71f187a08c3f4d04fc99e4f904aa2e02eb7fae4627a8f5cb8d69fb8eace2d9a8461aec8b7b9a82ee529283fa7a81246ba7f1ca1bb0a690f4afb51ff8f62ca7f444d340a3574a412281b3adc73483878056651a09c79586aeefdb6fbe54df2f944ac1636034acadad87f4c56beeba7ce2cd19dccb5d5b730584314b74000d9095989344155393814d25599a5e388864ec411e968f32d8be1056d9f2aec5c47fcc86ebdf94decd2ad1921eef7c83b6c11b803a2a64f25df031a6070509732c48c5ef397b6571efc590593c283cda788a9fb9ac83255617545d7291dc21c88b2a176665df7b5f0484514952f3e2b74a1c8d9f576436d2a804455bdd3a5b8fbd619493395721b3554907bb1ced311c48e436bb8d165cbbf4d43d928ba7cdcc6bf3b4dbb6a8e2c3e3b5b5093a968433510d0f002ae1730f2bb4e521bbceb0a37fcf91c469031781113a4b9a0bd7b392f993a5ab4d00d597ad16c7cf60146d958bdc0f682603cb11c1c69f492f268dd9b6cc24e9415dd091923353f52663ed73122a1b324f3ffc1373b0fad8704eddfe719c617b53e835453464afa46f583d0a2623ae83f4ee16485831cfa9cc13dc64f6f7120c50cd262acdcb70837d5ddf088a49320a2fb3846135a67241a6946b512a8d8b0bb0554ac0c12bfdefae714f1294ee4d2c000e65b893d0a73e4c7fde371d8e1e052525ab66859ce1e0c9125da39ac764b1bb7e9c439185b7639a8877f3e01231b26e1407e2508cd26e640106b0bba874491fac09a9fe5cddbdba704b7e88b65b4fa4dee256b179943ea51377b8c644e0fc57d20ae8e1af942c82b5f1140d30d06f05d3c13732eae78b86b742e4bb408efd0ecd21ec0fcbc96def9f9af1d89cdf7a7a07fc0790eaff8d19c99a9728cc8b26d6d2159fc3108e1b66fdf5e83327d57c32bdbbe1fc13f1a4fb86425791b8842bb2281ae2956c54acc04509c6773d52c4241c06737178c2f8ad4d3e316fff5dc774ab900a4765185fcffdc2e73db4629d11440c040d587d837431d105868fc713872d1279c7e98ce5c97ae22efb6979333b6ee55d92e99dba1c0f864a74120f081b1434df851e54f956c577ed129f322ac35e7d29795f4385e8189d54b407f0280f51e124f91b48428886a77ddda37ebb243bc49427fb30ef5a42f50af373e0a6245e1d67c67c61ddb543070f00b80aac1d26b587d80b6d3a8ab9b49b044af6293ff43dd5b70c6c6daaaa8a4148f59d94d7ee6989b37957134e65d823dccf1c147fca4c29c55bef7957b602ecb758c68c4307e7779c3df22</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/12/paper_notes/2020 0612 D2C2 SP 20 41ad7c6a51244ba2be6582e9937a0f2e/" rel="next" title="Unexpected Data Dependency Creation and Chaining: A New Attack to SDN">
+                <i class="fa fa-chevron-left"></i> Unexpected Data Dependency Creation and Chaining: A New Attack to SDN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/08/paper_notes/2020 0708 Neutaint f95ae5ae3cb24c5a95c9e153ed2ba3ca/" rel="prev" title="Neutaint: Efﬁcient Dynamic Taint Analysis with Neural Networks">
+                Neutaint: Efﬁcient Dynamic Taint Analysis with Neural Networks <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
