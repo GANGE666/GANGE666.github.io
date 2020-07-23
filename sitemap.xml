@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://gange666.github.io/2020/07/22/paper_notes/2020-0722-Binary%20Security%20of%20WebAssembly%2068b8e196fd154e2eaf9fccc8d94a6240/</loc>
+    
+    <lastmod>2020-07-23T11:02:32.695Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://gange666.github.io/2020/07/21/paper_notes/2020%200721%20SoK%20Vuls%20in%20TEE%20773876bae5ff46ccba6b47cda476d3cf/</loc>
+    
+    <lastmod>2020-07-23T11:02:30.466Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://gange666.github.io/2020/06/12/paper_notes/2020%200612%20D2C2%20SP%2020%2041ad7c6a51244ba2be6582e9937a0f2e/</loc>
     
     <lastmod>2020-07-21T12:09:11.006Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>https://gange666.github.io/2020/07/08/paper_notes/2020%200708%20Neutaint%20f95ae5ae3cb24c5a95c9e153ed2ba3ca/</loc>
     
     <lastmod>2020-07-21T12:09:01.589Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://gange666.github.io/2020/07/21/paper_notes/2020%200721%20SoK%20Vuls%20in%20TEE%20773876bae5ff46ccba6b47cda476d3cf/</loc>
-    
-    <lastmod>2020-07-21T12:08:56.862Z</lastmod>
     
   </url>
   
