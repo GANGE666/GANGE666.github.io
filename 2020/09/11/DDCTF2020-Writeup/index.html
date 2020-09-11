@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="DDCTF 2020 WriteupWebWeb签到题验证auth拿到client访问http://117.51.136.197/admin/login, username=admin&amp;amp;pwd=123456, 拿到一个jwt的token, 密钥是123456拿去jwt.io, 修改一下Role 改成ADMIN, 改个时间戳去访问http://117.51.136.197/admin/aut">
+<meta name="description" content="DDCTF 2020 WriteupDDCTF 2020部分题解 名次：第二名 队伍：Darkkkkkk 队友：JrXnm WebWeb签到题验证auth拿到client访问http://117.51.136.197/admin/login, username=admin&amp;amp;pwd=123456, 拿到一个jwt的token, 密钥是123456拿去jwt.io, 修改一下Role 改成AD">
 <meta name="keywords" content="CTF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DDCTF2020-Writeup">
 <meta property="og:url" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/index.html">
 <meta property="og:site_name" content="GANGE666&#39;s Blog">
-<meta property="og:description" content="DDCTF 2020 WriteupWebWeb签到题验证auth拿到client访问http://117.51.136.197/admin/login, username=admin&amp;amp;pwd=123456, 拿到一个jwt的token, 密钥是123456拿去jwt.io, 修改一下Role 改成ADMIN, 改个时间戳去访问http://117.51.136.197/admin/aut">
+<meta property="og:description" content="DDCTF 2020 WriteupDDCTF 2020部分题解 名次：第二名 队伍：Darkkkkkk 队友：JrXnm WebWeb签到题验证auth拿到client访问http://117.51.136.197/admin/login, username=admin&amp;amp;pwd=123456, 拿到一个jwt的token, 密钥是123456拿去jwt.io, 修改一下Role 改成AD">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/upload_52edbfa983821f265b2b10da0a96c997.png">
 <meta property="og:image" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/upload_69e98dd5d066acdf0be39017f5e19d04.png">
@@ -99,10 +99,10 @@
 <meta property="og:image" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/upload_529e19bbf978c43b073c13afef6fb349.png">
 <meta property="og:image" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/upload_97a9f30361c7a27cada89e645ab700f6.png">
 <meta property="og:image" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/upload_6b67ca2a2712ab304f0b03710e485097.png">
-<meta property="og:updated_time" content="2020-09-11T10:53:04.009Z">
+<meta property="og:updated_time" content="2020-09-11T11:09:08.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DDCTF2020-Writeup">
-<meta name="twitter:description" content="DDCTF 2020 WriteupWebWeb签到题验证auth拿到client访问http://117.51.136.197/admin/login, username=admin&amp;amp;pwd=123456, 拿到一个jwt的token, 密钥是123456拿去jwt.io, 修改一下Role 改成ADMIN, 改个时间戳去访问http://117.51.136.197/admin/aut">
+<meta name="twitter:description" content="DDCTF 2020 WriteupDDCTF 2020部分题解 名次：第二名 队伍：Darkkkkkk 队友：JrXnm WebWeb签到题验证auth拿到client访问http://117.51.136.197/admin/login, username=admin&amp;amp;pwd=123456, 拿到一个jwt的token, 密钥是123456拿去jwt.io, 修改一下Role 改成AD">
 <meta name="twitter:image" content="https://gange666.github.io/2020/09/11/DDCTF2020-Writeup/upload_52edbfa983821f265b2b10da0a96c997.png">
 
 
@@ -385,7 +385,11 @@
       
 
       
-        <h1 id="DDCTF-2020-Writeup"><a href="#DDCTF-2020-Writeup" class="headerlink" title="DDCTF 2020 Writeup"></a>DDCTF 2020 Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Web签到题"><a href="#Web签到题" class="headerlink" title="Web签到题"></a>Web签到题</h3><h4 id="验证auth拿到client"><a href="#验证auth拿到client" class="headerlink" title="验证auth拿到client"></a>验证auth拿到client</h4><p>访问<a href="http://117.51.136.197/admin/login" target="_blank" rel="noopener">http://117.51.136.197/admin/login</a>, username=admin&amp;pwd=123456, 拿到一个jwt的token, 密钥是123456<br>拿去jwt.io, 修改一下Role 改成ADMIN, 改个时间戳<br>去访问<a href="http://117.51.136.197/admin/auth" target="_blank" rel="noopener">http://117.51.136.197/admin/auth</a><br>这时可以拿到一个client二进制文件</p>
+        <h1 id="DDCTF-2020-Writeup"><a href="#DDCTF-2020-Writeup" class="headerlink" title="DDCTF 2020 Writeup"></a>DDCTF 2020 Writeup</h1><p>DDCTF 2020部分题解</p>
+<p>名次：第二名</p>
+<p>队伍：Darkkkkkk</p>
+<p>队友：<a href="https://blog.szfszf.top/" target="_blank" rel="noopener">JrXnm</a></p>
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="Web签到题"><a href="#Web签到题" class="headerlink" title="Web签到题"></a>Web签到题</h3><h4 id="验证auth拿到client"><a href="#验证auth拿到client" class="headerlink" title="验证auth拿到client"></a>验证auth拿到client</h4><p>访问<a href="http://117.51.136.197/admin/login" target="_blank" rel="noopener">http://117.51.136.197/admin/login</a>, username=admin&amp;pwd=123456, 拿到一个jwt的token, 密钥是123456<br>拿去jwt.io, 修改一下Role 改成ADMIN, 改个时间戳<br>去访问<a href="http://117.51.136.197/admin/auth" target="_blank" rel="noopener">http://117.51.136.197/admin/auth</a><br>这时可以拿到一个client二进制文件</p>
 <h4 id="client-逆向"><a href="#client-逆向" class="headerlink" title="client 逆向"></a>client 逆向</h4><p>golang编译的无符号ELF，使用GoUtils2.0恢复符号信息，结合命令行输出的提示以及wireshark抓包的结果，发现其向“<a href="http://117.51.136.197/server/health”、&quot;http://117.51.136.197/server/command&quot;" target="_blank" rel="noopener">http://117.51.136.197/server/health”、&quot;http://117.51.136.197/server/command&quot;</a> 发了两个请求，根据其发送的请求逆向binary，发现其使用”DDCTFWithYou”作为key，对”command|timestamp”做hmac-sha256后base64 encode</p>
 <p><img src="/2020/09/11/DDCTF2020-Writeup/upload_52edbfa983821f265b2b10da0a96c997.png" alt="img"><br><img src="/2020/09/11/DDCTF2020-Writeup/upload_69e98dd5d066acdf0be39017f5e19d04.png" alt="img"></p>
 <p>写出模拟发包脚本：</p>
