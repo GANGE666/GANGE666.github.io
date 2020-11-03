@@ -79,18 +79,26 @@
 
 
 
-<meta name="description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta name="description" content="2020-0706-KShot link: https://web.eecs.umich.edu/~weimerw/p/weimer-dsn2020-kshot.pdf 会议：DSN 2020 运行时内核漏洞修补技术（Live kernel patching）能够在不重启系统的条件下修复漏洞，从而减少系统不可用时间。但目前的运行时内核漏洞修补技术受限于：（1）依赖特定操作系统的支持，没有一种支持不">
 <meta name="keywords" content="paper_notes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【论文笔记】KShot: Live Kernel Patching with SMM and SGX">
 <meta property="og:url" content="https://gange666.github.io/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/index.html">
 <meta property="og:site_name" content="GANGE666&#39;s Blog">
-<meta property="og:description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta property="og:description" content="2020-0706-KShot link: https://web.eecs.umich.edu/~weimerw/p/weimer-dsn2020-kshot.pdf 会议：DSN 2020 运行时内核漏洞修补技术（Live kernel patching）能够在不重启系统的条件下修复漏洞，从而减少系统不可用时间。但目前的运行时内核漏洞修补技术受限于：（1）依赖特定操作系统的支持，没有一种支持不">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-07-21T12:09:06.255Z">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%206.png">
+<meta property="og:updated_time" content="2020-11-03T14:40:19.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】KShot: Live Kernel Patching with SMM and SGX">
-<meta name="twitter:description" content="Here&apos;s something encrypted, password is required to continue reading.">
+<meta name="twitter:description" content="2020-0706-KShot link: https://web.eecs.umich.edu/~weimerw/p/weimer-dsn2020-kshot.pdf 会议：DSN 2020 运行时内核漏洞修补技术（Live kernel patching）能够在不重启系统的条件下修复漏洞，从而减少系统不可用时间。但目前的运行时内核漏洞修补技术受限于：（1）依赖特定操作系统的支持，没有一种支持不">
+<meta name="twitter:image" content="https://gange666.github.io/2020/07/06/paper_notes/2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled.png">
 
 
 
@@ -372,15 +380,28 @@
       
 
       
-        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder>
-    <label for="hbePass">Hey, password is required here.</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="25cbe6d7024c73b784800b3ec0ed2c7ad0c780034a75dcc61d788b7d8fde5552">3927e2a47adf20b4cf016902550c9913a3076857b1943ba2853593f83dc9e9ea344df4d9a4adbdc03d46ab5633ec6fa48138cfdd1a785bc8a03fcbc7544978f9327d06c32d2237cd1061db77f92bacae64fc870c6506d35992556d443ef4588b0d7fdc9dfbe4f559afeeb49ce0c54dc761a11e96a102bc4c1b1307c3f87126e5ede8f85fa80b48cb35384eda3c7c4154164d9d93b44eefe83550f61d2c4cc3599e52ffd325337dd6240aed3555de355823310895447f22ea788bcf67b96c25f4ea4a4706ae87fe80c35bc04fb3ed6a7a82d0b1beb8a75d7634bab62db53c844ed07dfbc7a98db690e0c8ee5fd2e77e2999a811a0e6684a907f7701999ff2e6d1bec46d3efb87ec01dcd998bbe24ef88409a98cd24fd1ab0738ed27a7d097704bb8f66ab694a77945b6cf0cd991462e01e0de0c7a05a7e97583fd35e7c22d5af58b369840962e1cba41799fff73edb0731e5d07f3c7e6522d038acad6ad84c88dd8cc4b1af4055c185bb04f2c4a7c8d1122e07386a8d67bfd85b3d47f4d8b3624408981c9190d3b85c4737bac9c99f64f4971289c63ece5b67d96f84b7ec79e19353f7e6a69940477b05b3aedf2be15a7ad2234a1ca8117ec6d507569e99c62880aef2135428085b7ea5f0620a45e5762affe96b8f65a5aa4ab9559d073500c19750028695b48dc116922b28e539b2913a2f2564e9af4d1349b0531126e9c69a4ec51d658329e7ca18572b4fbc3eaf2f81b79eb4f24b6244002f978fc28b4e7880cc38559c30ae027a1e8083ef9162f48ed8599d04553408e519a430fae4f242718dcae26cde9cc7fd8e60caa3e1ba1e61c98a15fecaf16f34e452da93a98c2e2063f3d359ec842b17d3e335423c1f0ea80b61ef11004a2a9d04d94dd613c13b8fa234b662f803ef848a848964bc07ea2a672fae59c1950fabacc7dc2704f99fafbcda23f38643535e2e0cbd013ee8ea8f08023d9266eddeb52a358bdf8ac38d83655709a02474e06393e5d64cff3d533e50c65dc4d219278456569f9a4d3bbffc0699f2a904085c6f33cd3cdee6c376f1ab590053e55dc3ba0e66f85bec7ecd5eca5f675d3438a92ed39e81e6ee6375b978f6fe28984ab72d1419fb5460b721285aebcd6ea44e67e31a1d0af71af53a8694e86348e2f73e46b8c182cc8cbd7dd3689d37baee058fe2326d8310072cd39757ac76a97c273da1fe9a2ec538876cb87603e5d6729f3390e687ad7d8369b564a3280a4be0ede8ad98075af01963b5665373c92b2a06d7fe8d791e456bcdf63a87b9a648131ac98bf77d78f519bce9cd54e8db185580a9ddcd04c8badce6a3c8e297bf41d849beed36446dfa3e9281bb20ce0ee8be0154336f4adf74f05432f4b89d47825b3e675d6ff061c7bfc98c025d0205a7c7941689dfbe689b4a4c45cf29ce0b7340e724c22e1877eabe18940295dc4079abae84cca67c3626ac15468d9d3c08a085dd1366343e04f281faae0d340cbbcb0f566ba5c05c129d52045ac42ff0d653babaddbed937a92fb605a4081910f1759c1ac2a819416a7e9843f685571cf1b795773080e306880b7d1ab9956ba4e5a348f1da1735378c14efa3d5ba1c8b417429ef8bfff50e2c3fc318285be3d45b1c1982d4e460760104171990bb0bfc0d77fccc211ce2df8b41b3b35848b489558af4268084292896f3767cc402f99f65333c00e780cfe29ee1676dfcb47f71f829d12058e0f7177de9cac9993797d25864fd047cae88f2966f1e32dbe6f5f3ed6f9948f5581cbaeb7ccba74b2375887a8073261778370012f67cb0630a0793426da7c1dc692d797337028fb8ecaeece1b1f7dd4dd2b6b6dca7a64ec4b693fda1a7be8fd9bf61dbb67369265240285d6350e6f0fefe8ebda53ed6e79ceea9d28a77f30c99643679bb0ed72abcec42501d37250893a6ec3b478ec288ba47d8ea726a84e9fb8c7cc3a60f30d4e929ce683be1318b674dba29938ae2ef21d1c3a2d06f273d369385915a90e0a442d7590e5083bf2aae67e5085390c5ba81310d0237ed8e8659bdb6e9477d69a0c67e51895949cd6714eefebd26a048450dde6d07661ea53d537f055a6b0f4fb78776e930f9a8af09017aa6fdce116ff3bb30c294a96173d485da38d58f87b015a8902222fa927d701c88a6cbdc28a3a5afc5849f9054356db804a5b13ecf16c9e9d8060e70c7b87f1b0b4e351df0299718ef4d4b574e131afd73f1590c1ab31917a4f8332a9cd5eedbe9e1ebe84ed158b41d8afd7b484a7e61d41249b8c04b01917e9817e7e9c9812205abab1c9739a94722e1e148d30e9eeadd196af5cf50222873f2b88b797fdbfda4e9ede5e88817f1171527ff1fcba18b7d47f8ef8c8ad70c672ff0b6ee85416a71e185fe5445e91ca3fb317726632c6f2bc93698faf99a13a60b802db7730c1488237103a816528fc77e10099859d21a74d7ede82c07cf749e19fb1bc3455dba26bf5e6abffec51a405e1b8cd744886cfe9c734285ad933f586c1dc2bb3dd0f0508b0a2f70cb7b393b1a013ed1f7756de160deca76915e7640df13db4a25974dbbd6c6cd2f0ff23e86c070aac87615cb6050101e026ff714b9e279b62e90f4f684c190ce47888f2107452ca4d8167eaeb97c99c7c8e39fca04e1265884aeb3c86f88ccca054716255c16dc152f87397e62999d1071bd3a4dfbddf9d1ed61c6d058e9a47cdab84b289d7e9d356e72733cb40797543025363c62eb8bbcd67f04916ccfadc2f2658c80c78a0d34a02377d52c53a147f5897035ae7ec35ffccf72fff51f269d67814d15ed7853461396fa85fbd754cabbab19e3fb54dea622550f9dfee7d289fb30139b6028e1301b7cc3a64e21dbe310a7a12dbc10112ea65c29b587bf7ca8b91d699290f2243195e4e3959a492fabec5da63d2bb3634bfab31132e5ca84d5b73328e97b6faa3fa439145d526e99fb88fb714bde4416bd516d4747b714e4367fc5f293285b3c353c193c9c8e8cece898e92f46ff4b3b521dc39bd6d4778921f0f2094f868b6e770f5bc2a67692e07f3f987573cc7acfae1786bcc27ade6b1e0c627c55cd3c32597e85d5d8dde032826b507475df64d0699addb247dc2b0155516f32a6d20dc47ad5aa16eb33a82415d79e2ba8cc6990db2454f13a3daf8822c3c011c233ecf77aaeee34a4e5593b2efa8f0910109d8e600ec15fbc09f480c8e63ecec0fd6ac479e7a21a2ca7f0d45d77f95e17084f5eecb0f2e186c1c51be6a07800a63b329dd531d687747e18f8cb095c4808e001f5250cd2233312ec6f851b775b75cbf7fb10bc96cad51999a9ffeab8e30c5e5f0b4ef676e855c60f655a81e119cbc0811c012d1eef1959f2f204fc35e351bea09ccb77e3e8a4c1e7a69f05c159a85311bbeed4884dca711ef0405e02be42e0a282a9446904ea2fef67a8237989e03e0a15059174a3192ccb6aae0a1fabcc6efebcabae479e99fa8c41d05f650c05565dcc2083cd00151ff8bd03e5bed5efa50a4f934c5746486f67f643f7143316cc608145e14676a45e3f9c21c5e297237447ae73bc33b8887b386aa04bac1817a281a25292965d245419475684e387c1a66b705aa0375b2a4459a0fd4172f3d2e9eeb607f88c474597720ea39aab65f88b7645c7df768729c46fe04ad3c6c25fad06f4371185109cbced8d4dba7fccada57d638c1fb8527f1956bd4ab197d1d507cdadd936f134bcd61526cb3c4aeb4051b17f9d35a2f070bbc839979d424b1387f9ae04703f85a0686e6346b08cd941fcf9da4a5a96e3e517c8385c4c400b30155dff6ff6b19b1783e0f635588f9d0a93548533750e1ae2649c097a8c8d98618d46b543516f27270f1b0c6a2b974ba04f65ff9c1f2e4b9ced3c8704106b5bb35da0269411e0ec8d71eb1a1a1d254bda3b8c411505416d013e5341ba6468bd8c852f1a0226d84da821988aefc0acfec0ef63098276fa53a837a53855c6e6eea5625e2082549c78f664711bfc870fcc3af72b48b4dde375f1f3f4fe6a9500ee4f217bc346d9e9e8fb3f17801d4a293a7ab91ff08474e4216b0eba4e6d9e7e18a8d0b313aa32ded6e89d34522c1c53df782</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+        <h1 id="2020-0706-KShot"><a href="#2020-0706-KShot" class="headerlink" title="2020-0706-KShot"></a>2020-0706-KShot</h1><p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled.png"></p>
+<p>link: <a href="https://web.eecs.umich.edu/~weimerw/p/weimer-dsn2020-kshot.pdf" target="_blank" rel="noopener">https://web.eecs.umich.edu/~weimerw/p/weimer-dsn2020-kshot.pdf</a></p>
+<p>会议：DSN 2020</p>
+<p>运行时内核漏洞修补技术（Live kernel patching）能够在不重启系统的条件下修复漏洞，从而减少系统不可用时间。但目前的运行时内核漏洞修补技术受限于：（1）依赖特定操作系统的支持，没有一种支持不同类型操作系统的解决方案；（2）内核的完整性，若内核已经被攻击者攻陷，运行时内核漏洞修补很可能会失败。</p>
+<p>作者针对以上问题，提出了一种利用x86 SMM（System Management Mode）和Intel SGX进行运行时内核漏洞修复技术，KShot。下图为KShot的工作流程：</p>
+<p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled%201.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%201.png"></p>
+<ol>
+<li>从服务器获取Patch</li>
+<li>校验、解析Patch，为SMM Handler准备Patch（Fig. 3）</li>
+<li>通过System Management Interrupt (SMI)将控制权交给SMM Handler，并保存上下文</li>
+<li>SMM Handler利用trampolines的方式（Fig. 1中instruction-level）进行patch</li>
+<li>恢复上下文，将控制权交还给内核</li>
+</ol>
+<p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled%202.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%202.png"></p>
+<p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled%203.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%203.png"></p>
+<p>作者在Linux kernel 3.14、4.4中挑选了214格漏洞，并随机选取其中的30个进行实验，以验证KShot修复漏洞的能力，作者通过手动验证，发现这30个漏洞均成功修复。</p>
+<p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled%204.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%204.png"></p>
+<p>KShot在SGX准备阶段的开销：</p>
+<p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled%205.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%205.png"></p>
+<p>KShot在SMM中patch的开销：</p>
+<p><img src="/2020/07/06/paper_notes/2020 0706 KShot e96e0a65346140bca7c038578dbc250f/Untitled%206.png" alt="2020%200706%20KShot%20e96e0a65346140bca7c038578dbc250f/Untitled%206.png"></p>
+
       
     </div>
     
@@ -420,8 +441,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/07/08/paper_notes/2020 0708 Neutaint f95ae5ae3cb24c5a95c9e153ed2ba3ca/" rel="prev" title="【论文笔记】Neutaint: Efﬁcient Dynamic Taint Analysis with Neural Networks">
-                【论文笔记】Neutaint: Efﬁcient Dynamic Taint Analysis with Neural Networks <i class="fa fa-chevron-right"></i>
+              <a href="/2020/07/21/paper_notes/2020 0721 SoK Vuls in TEE 773876bae5ff46ccba6b47cda476d3cf/" rel="prev" title="【论文笔记】SoK: Understanding the Prevailing Security Vulnerabilities in TrustZone-assisted TEE Systems">
+                【论文笔记】SoK: Understanding the Prevailing Security Vulnerabilities in TrustZone-assisted TEE Systems <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -477,8 +498,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -493,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -548,6 +578,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2020-0706-KShot"><span class="nav-number">1.</span> <span class="nav-text">2020-0706-KShot</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
