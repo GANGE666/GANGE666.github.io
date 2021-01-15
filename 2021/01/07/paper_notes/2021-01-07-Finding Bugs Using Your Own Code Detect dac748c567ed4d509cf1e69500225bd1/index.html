@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0107-Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code 作者：Mansour Ahmadi, Reza Mirzazade Farkhani, Ryan Williams, Long Lu 单位：Northeastern University 会议：USENIX">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code">
+<meta property="og:url" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0107-Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code 作者：Mansour Ahmadi, Reza Mirzazade Farkhani, Ryan Williams, Long Lu 单位：Northeastern University 会议：USENIX">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%2010.png">
+<meta property="og:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%2011.png">
+<meta property="og:updated_time" content="2021-01-15T06:24:44.716Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code">
+<meta name="twitter:description" content="2021-0107-Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code 作者：Mansour Ahmadi, Reza Mirzazade Farkhani, Ryan Williams, Long Lu 单位：Northeastern University 会议：USENIX">
+<meta name="twitter:image" content="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/">
+
+
+
+
+
+  <title>【论文笔记】Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-01-07T22:00:00+08:00">
+                2021-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0107-Finding-Bugs-Using-Your-Own-Code-Detecting-Functionally-similar-yet-Inconsistent-Code"><a href="#2021-0107-Finding-Bugs-Using-Your-Own-Code-Detecting-Functionally-similar-yet-Inconsistent-Code" class="headerlink" title="2021-0107-Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code"></a>2021-0107-Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code</h1><blockquote>
+<p>作者：Mansour Ahmadi, Reza Mirzazade Farkhani, Ryan Williams, Long Lu</p>
+<p>单位：Northeastern University</p>
+<p>会议：USENIX SECURITY 2021</p>
+<p>论文链接：<a href="https://www.longlu.org/publication/fics/fics.pdf" target="_blank" rel="noopener">Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code</a></p>
+</blockquote>
+<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>通过机器学习的概率分类的方式能够成果检测出软件中的已知类型错误，但是需要大量的代码样本用于训练模型。作者提出了一种基于机器学习、不需要额外代码样本进行训练的bug检测方式。核心思想是通过发现同一功能代码在不同函数中的实现的不一致性，从而发现bug。与先前工作差异主要在：不需要额外的训练集、不需要指定bug类型、可以发现未知类型的bug。作者在包括QEMU、OpenSSL等5款开源软件上进行测试，发现了22个新的bug。</p>
+<a id="more"></a>
+
+
+
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>通过机器学习的方式检测软件bug被广泛研究且取得了不少的成果，然而现有的基于机器学习的错误检测技术的high-level idea基本相似：通过大量已知bug训练模型以发现类似的bug。这样的方式存在两个方面的局限性：1. 需要大量的已知漏洞样本，2. 仅对于特定类型漏洞的具有检测效果（bug-specific），对于不同类型的漏洞检测效果不同，且对于未知类型漏洞的检测效果较差。</p>
+<p>在部分较大规模的项目中，功能相似的代码片段通常由不同的开发者提交，个别开发者提交的有问题代码很可能与其他non-buggy的代码片段存在差异。因此，作者提出了一种基于机器学习、除带分析的codebase之外不需要额外代码样本的漏洞检测方式，命名为FICS（Functionally-similar yet Inconsistent Code Snippets）。其通过在codebase中发现相似功能代码的不一致实现定位可能有问题的代码。</p>
+<ul>
+<li><p>Figure 1: high-level workflow</p>
+<p>  <img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled.png"></p>
+</li>
+</ul>
+<p>FICS主要解决的两个问题：1. 找到一种合适的粒度，使之能够发现功能类似且具有不一致性的代码片段。 2. 使FICS可以扩展并应用到较大的codebase中。</p>
+<p>作者提出了一种名为Construct的过程内粒度，Construct是一个可配置大小的、过程内的数据依赖图子图，这种粒度既可以发现相似性与不一致性，又可以扩展至大型项目。作者还使用到了两种graph embedding技术：bag-to-nodes（coarse-grained）、graph2vec（ﬁne-grained）。作者使用这两项技术对Construct的相似性和不一致性进行较为精确的比较。</p>
+<p>作者的主要贡献在于：</p>
+<ul>
+<li>设计了FICS，第一个基于不一致性的、bug-generic的bug检测方式。</li>
+<li>使用FICS扫描了五个开源项目，包括QEMU、OpenSSL，发现了22个新的bug，并发现了95个疑似多余的检查。</li>
+<li>由于目前缺乏针对于不一致性检测工具的benchmark，作者提出了一个包含22个漏洞的benchmark，命名为iBench。</li>
+</ul>
+<h1 id="Background——不一致性"><a href="#Background——不一致性" class="headerlink" title="Background——不一致性"></a>Background——不一致性</h1><p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%201.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%201.png"></p>
+<h1 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h1><h2 id="ML-for-Bug-Discovery"><a href="#ML-for-Bug-Discovery" class="headerlink" title="ML for Bug Discovery"></a>ML for Bug Discovery</h2><p>有监督学习：常被用于对buggy和non-buggy的代码建模，例如使用含漏洞的代码片段训练LSTM。缺点在于需要大量的精力收集、标记大量样本。</p>
+<p>无监督学习：对已知漏洞的代码片段进行聚类，然后在每个cluster内搜索可能的漏洞变种。</p>
+<h2 id="Inconsistency-Detection"><a href="#Inconsistency-Detection" class="headerlink" title="Inconsistency Detection"></a>Inconsistency Detection</h2><ul>
+<li><p>基于AST来检测代码中的不一致性（AST中不包含语义信息）。</p>
+</li>
+<li><p>APIsan 通过符号执行和语义交叉检查来推断API是否正确使用。</p>
+</li>
+<li><p>CRIX（Detecting Missing-Check Bugs via Semantic- and Context-Aware Criticalness and Constraints Inferences）</p>
+<ul>
+<li>只检测miss check bugs</li>
+<li>majority voting-based approach 不能检测 one-to-one inconsistencies</li>
+</ul>
+</li>
+<li><p>Different is Good: Detecting the Use of Uninitialized Variables through Differential Replay</p>
+</li>
+</ul>
+<p>FICS与先前工作的主要区别在于：1. 不仅仅针对一种或几种指定的漏洞； 2.不需要为各种漏洞手动的设置启发式规则。</p>
+<h1 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h1><p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%202.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%202.png"></p>
+<ol>
+<li>将给定的codebase转为LLVM bitcode</li>
+</ol>
+<p>2-3. 提取出Constructs</p>
+<ol start="4">
+<li>对Constructs进行抽象转成通用形式</li>
+</ol>
+<p>5-8. two-step 聚类</p>
+<ol start="9">
+<li>人工分析</li>
+</ol>
+<h2 id="Code-Representation-and-Granularity"><a href="#Code-Representation-and-Granularity" class="headerlink" title="Code Representation and Granularity"></a>Code Representation and Granularity</h2><ul>
+<li>Code representations<ul>
+<li>Program Dependence Graph (PDG)，说明了数据和控制流的依赖关系，语义更丰富，子图能够捕获局部的控制流、数据依赖性。<ul>
+<li>👉 Data dependency edge</li>
+<li>Control dependency edge</li>
+</ul>
+</li>
+<li>Control Flow Graph (CFG)，可能的执行路径及条件</li>
+<li>Abstract Syntax Tree (AST)，包含语法信息</li>
+</ul>
+</li>
+</ul>
+<p>作者选择DDG作为Code Representation，因为：</p>
+<ol>
+<li>单纯使用DDG即可以捕获大部分的漏洞root cause。例如，miss check、misuse API、bad casting等bug。而通过省略控制流依赖关系，可以简化代码表示，使之具备可扩展性且不会丢失常见漏洞相关的语义信息。</li>
+<li>漏洞及patches通常出现于同一个函数内，所以在intra-procedural DDG可以表示大部分buggy和non-buggy的代码片段。将分析限制在单一函数内，使得FICS更具可扩展性，得以分析较大的codebase。</li>
+<li>由于DDG是基于图的代码表示，其适合使用machine learning技术（embedding、clustering）进行相似性和不一致性分析。</li>
+</ol>
+<p>FICS的有效性很大程度上取决于进行相似性和不一致分析的代码粒度。作者提出了一种名为Construct的过程内粒度，Construct是一个可配置大小的、过程内的数据依赖图子图。</p>
+<p>对于一个给定的DDG，从一个特定的根结点开始遍历，遍历过（深度不超过max-depth）的边和节点组成Construct。每一个变量V与其所在的函数F决定一个Construct C。换句话说，C包含V在F中的定义及propagate的statements。</p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%203.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%203.png"></p>
+<p>通过定义Construct，作者将“检测代码不一致性”的问题，转换为“对单一变量发现相似/不一致的操作/计算”的问题。这样就使得可以通过通用的方式和较小的代码粒度检测不一致性。</p>
+<p>FICS对程序中每个函数的每个参数和变量以及全局变量提取Construct。随后FICS对Construct进行抽象（ 4️⃣ in Figure 3），目的是：1. 移除掉可能会影响聚类的语法信息（常量及变量名）；2. 进一步最小化Construct，以便于提高聚类的效率。</p>
+<h2 id="Two-step-Clustering"><a href="#Two-step-Clustering" class="headerlink" title="Two-step Clustering"></a>Two-step Clustering</h2><p>作者设计了一个两步聚类的过程，首先第一次聚类将相似的Construct分组，然后在每个组中再一次聚类以识别不一致的Construct。</p>
+<blockquote>
+<p>使用“双重镜头”类比可以很容易地解释这个高层次的想法：我们使用第一个镜头，其分辨率不是很高，但视野很广，可以检查Construct并确定那些（大致）相似的Construct。然后，我们使用分辨率更高但视野更窄的第二个镜头放大到相似Construct的每个组，并发现成员之间的差异（或不一致）。显然，第一步聚类应该稍微粗粒度并且高效，而第二步聚类应该细粒度并且能够准确地检测出细微但关键的不一致性。</p>
+</blockquote>
+<ul>
+<li><p>Example</p>
+<p>  <img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%204.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%204.png"></p>
+</li>
+</ul>
+<h3 id="第一步聚类——Functionality-Clustering（粗粒度）"><a href="#第一步聚类——Functionality-Clustering（粗粒度）" class="headerlink" title="第一步聚类——Functionality Clustering（粗粒度）"></a>第一步聚类——Functionality Clustering（粗粒度）</h3><p>如果使用标准的图相似性算法比较Figure 6(a)和(b)，将会得到较低的相似度，因为其考虑了两个图中的node和edge的关系。</p>
+<p>因此作者借鉴NLP中bag-of-words的方式，命名为bag-of-nodes。不考虑nodes之间edge的关系，即忽视节点之间的顺序关系，仅计算Construct之间nodes集合中的余弦相似度。</p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%205.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%205.png"></p>
+<h3 id="第二步聚类——Inconsistency-Clustering（细粒度）"><a href="#第二步聚类——Inconsistency-Clustering（细粒度）" class="headerlink" title="第二步聚类——Inconsistency Clustering（细粒度）"></a>第二步聚类——Inconsistency Clustering（细粒度）</h3><p>图同构可以实现细粒度的图匹配，然而图同构问题是一个NP-complete问题，其开销会随着图的大小急剧上升。因此在现实中常使用效率更高的graph kernels和graph embedding技术。</p>
+<p>作者这里使用到了graph embedding中的graph2vec技术，计算出每对Construct之间的相似度，将得到的分数进行聚类。在这一步中，作者为了使得能够感知细微的差异，设置了较高的相似度阈值。</p>
+<h2 id="Deviation-Analysis-and-Filtering"><a href="#Deviation-Analysis-and-Filtering" class="headerlink" title="Deviation Analysis and Filtering"></a>Deviation Analysis and Filtering</h2><p>由于通过两步聚类得到的结果并不一定都是漏洞，因此作者建议FICS的使用者使用Deviation Analysis（手动）分析聚类得到的结果，以更快的定位真正的漏洞。大多数漏洞是因为缺少/增加了某些代码片段导致的，作者对缺少/增加的代码片段对应的漏洞类别进行了整理，如下图所示。</p>
+<ul>
+<li><p>Table 2</p>
+<p>  <img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%206.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%206.png"></p>
+</li>
+</ul>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p>由于之前没有专门用于代码不一致性漏洞检测的数据集，作者设计了一个在五个codebase（several Linux drivers, OpenSSL, libzip, and mbedtls）中含有22个已知漏洞的数据集，并与之前的一些工作进行了对比，如下图所示。</p>
+<p>表明了FICS并不只针对特定的某一类/几类漏洞，且比其他工作能够找到更多的漏洞。</p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%207.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%207.png"></p>
+<h2 id="Discovered-Unknown-Bugs"><a href="#Discovered-Unknown-Bugs" class="headerlink" title="Discovered Unknown Bugs"></a>Discovered Unknown Bugs</h2><p>测试集及统计数据：</p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%208.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%208.png"></p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%209.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%209.png"></p>
+<p>结果：</p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%2010.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%2010.png"></p>
+<p><img src="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/Untitled%2011.png" alt="2021-01-07-Finding%20Bugs%20Using%20Your%20Own%20Code%20Detect%20dac748c567ed4d509cf1e69500225bd1/Untitled%2011.png"></p>
+<p>Case Studies：</p>
+<p>Miss Check（70%）、Memory/Information Leak（20%）、Other Bugs（10%）</p>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><p>20-core workstation with 200 GB of RAM</p>
+<p>OPENSSL需要12小时，QEMU 72小时，其他的均在5小时内。</p>
+<p>最耗时的为第二步的聚类中的graph embedding generation。</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>本文中，作者提出了FICS，一种基于ML的通用漏洞检测系统，该系统从待检测的code base中进行学习，不需要额外的训练集。</p>
+<p>作者在FICS中提出了一些新的概念和技术，包括Constructs以及两步聚类、两种graph embedding方案。使得FICS具备可扩展性。</p>
+<p>作者使用FICS在五个well-tested的开源项目中进行测试，发现了22个未知漏洞。</p>
+<p>不一致性分析的方式</p>
+<ul>
+<li>majority voting-based approach</li>
+<li>聚类，大量误报，将筛选的工作留给人类？</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/16/paper_notes/2020-11-16-Methodologies for Quantifying (Re-)rand e29e3557aec94d13a9a766ff90d65d2f/" rel="next" title="【论文笔记】Methodologies for Quantifying (Re-)randomization Security and Timing under JIT-ROP">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】Methodologies for Quantifying (Re-)randomization Security and Timing under JIT-ROP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0107-Finding-Bugs-Using-Your-Own-Code-Detecting-Functionally-similar-yet-Inconsistent-Code"><span class="nav-number">1.</span> <span class="nav-text">2021-0107-Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">2.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">3.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Background——不一致性"><span class="nav-number">4.</span> <span class="nav-text">Background——不一致性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Related-Work"><span class="nav-number">5.</span> <span class="nav-text">Related Work</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ML-for-Bug-Discovery"><span class="nav-number">5.1.</span> <span class="nav-text">ML for Bug Discovery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inconsistency-Detection"><span class="nav-number">5.2.</span> <span class="nav-text">Inconsistency Detection</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Design"><span class="nav-number">6.</span> <span class="nav-text">Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-Representation-and-Granularity"><span class="nav-number">6.1.</span> <span class="nav-text">Code Representation and Granularity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Two-step-Clustering"><span class="nav-number">6.2.</span> <span class="nav-text">Two-step Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步聚类——Functionality-Clustering（粗粒度）"><span class="nav-number">6.2.1.</span> <span class="nav-text">第一步聚类——Functionality Clustering（粗粒度）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步聚类——Inconsistency-Clustering（细粒度）"><span class="nav-number">6.2.2.</span> <span class="nav-text">第二步聚类——Inconsistency Clustering（细粒度）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deviation-Analysis-and-Filtering"><span class="nav-number">6.3.</span> <span class="nav-text">Deviation Analysis and Filtering</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">7.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Discovered-Unknown-Bugs"><span class="nav-number">7.1.</span> <span class="nav-text">Discovered Unknown Bugs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance"><span class="nav-number">7.2.</span> <span class="nav-text">Performance</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">8.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
