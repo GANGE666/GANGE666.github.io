@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0329-NETPLIERNETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces 作者：Yapeng Ye, Zhuo Zhang, Fei Wang, Xiangyu Zhang, Dongyan Xu 单位：Department of Computer Science, Purd">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces">
+<meta property="og:url" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0329-NETPLIERNETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces 作者：Yapeng Ye, Zhuo Zhang, Fei Wang, Xiangyu Zhang, Dongyan Xu 单位：Department of Computer Science, Purd">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2010.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2011.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2012.png">
+<meta property="og:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2013.png">
+<meta property="og:updated_time" content="2021-05-10T12:33:09.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces">
+<meta name="twitter:description" content="2021-0329-NETPLIERNETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces 作者：Yapeng Ye, Zhuo Zhang, Fei Wang, Xiangyu Zhang, Dongyan Xu 单位：Department of Computer Science, Purd">
+<meta name="twitter:image" content="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/">
+
+
+
+
+
+  <title>【论文笔记】NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-03-29T22:00:00+08:00">
+                2021-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0329-NETPLIER"><a href="#2021-0329-NETPLIER" class="headerlink" title="2021-0329-NETPLIER"></a>2021-0329-NETPLIER</h1><h1 id="NETPLIER-Probabilistic-Network-Protocol-Reverse-Engineering-from-Message-Traces"><a href="#NETPLIER-Probabilistic-Network-Protocol-Reverse-Engineering-from-Message-Traces" class="headerlink" title="NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces"></a>NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces</h1><blockquote>
+<p>作者：Yapeng Ye, Zhuo Zhang, Fei Wang, Xiangyu Zhang, Dongyan Xu</p>
+<p>单位：Department of Computer Science, Purdue University</p>
+<p>会议：NDSS 2021</p>
+<p>论文链接：<a href="https://www.ndss-symposium.org/wp-content/uploads/ndss2021_4A-5_24531_paper.pdf" target="_blank" rel="noopener">https://www.ndss-symposium.org/wp-content/uploads/ndss2021_4A-5_24531_paper.pdf</a></p>
+</blockquote>
+<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>网络协议逆向在很多安全研究领域都有着重要作用。在无法获取到程序的二进制文件的情况下，自动化分析协议字段主要是通过对message trace进行分析，从而推断出协议的格式。主要有pair-wise sequence alignment和tokenization两种主要方式。但两种方式对数量较多的消息进行分析时效果不佳。作者提出了一种基于概率的针对network message trace的协议逆向方法。并通过对10种协议进行分析，表面作者的方案优于现有的逆向技术。</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>许多应用程序中都包含私有协议，例如自动驾驶汽车中使用了CAN总线和FlexRay、工业控制系统中常用的Modbus和DNP3、在线聊天、会议软件也通常会使用其私有协议。许多安全分析，例如漏洞扫描、fuzzing、恶意软件行为分析，都需要对所使用到的网络协议进行精确建模。</p>
+<p>目前的协议逆向技术主要有使用基于程序分析、基于trace分析的两种主要方式。基于程序分析的方式，具有较高的准确度，这些基于程序分析的逆向技术都需要程序的二进制文件。然而在很多情况下，程序的二进制文件是很难获取的，例如部分IoT设备中使用了部分保护机制，使得其二进制文件被加密压缩或混淆；只能够获得客户端程序而很难获得服务端程序。因此，先前有许多工作是基于trace分析进行网络协议逆向的技术，其主要分为两类：alignment based和token based。但作者发现这些技术都基于一个假设：如果消息具有相似的值或模式，则属于同一种类型，在遇到较为复杂的情况时会产生大量错误聚类。</p>
+<p>但是在实际中，客户端或服务器收到消息时仅通过消息中的某一个字段（keyword）来确定消息类型，如果能改确定表示keyword的字段，则能够得到理想的聚类结果。因此作者提出了一种基于概率的网络协议逆向技术。通过对来自客户端和服务器端的消息配对并使用生物学中常用的多重序列对齐算法（MSA）算法将消息划分为字段列表，对每个字段引入一个变量表示其成为关键字的可能性。对每一个字段假设其为关键字，根据其进行分组，并计算一系列的约束条件，得到该变量成为关键字的后验概率，选取后验概率最高的字段作为关键字，使用它对消息进行聚类。</p>
+<p>作者的贡献如下：</p>
+<ul>
+<li>指出了网络协议逆向分析中的一个关键挑战：keyword识别</li>
+<li>将keyword识别转化为一个概率问题</li>
+<li>实现了prototype NETPLIER，输入network trace，输出协议的格式</li>
+<li>使用NETPLIER对10种协议进行了测试，NETPLIER达到了100% homogeneity，97.9% completeness。并对两个realworld case（Google Nest，a recent malware）进行了分析。</li>
+</ul>
+<h1 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h1><h2 id="Motivation-Example"><a href="#Motivation-Example" class="headerlink" title="Motivation Example"></a>Motivation Example</h2><p>keyword的定义：用于标示消息类型的字段。</p>
+<p>Distributed Network Protocol 3 (DNP3)</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled.png"></p>
+<h2 id="Alignment-based-Clustering"><a href="#Alignment-based-Clustering" class="headerlink" title="Alignment-based Clustering"></a>Alignment-based Clustering</h2><p>序列对齐算法，最初是用于生物学中对DNA、RNA进行排列以识别相似序列的方法。</p>
+<p>目前的Alignment-based方法主要是使用序列对齐算法对比每一对消息并计算相似性分数，构造相似度矩阵，再对相似度最高的消息/cluster进行递归聚类。最后得到协议格式和状态机。</p>
+<p>局限性：</p>
+<ul>
+<li>假设消息具有相同的类型，不同类型的消息可能会有部分字段相同的字段并有相同的值，如下图(a)</li>
+<li>在聚类时需要一个相似性阈值。然而在对未知协议进行逆向时，由于缺少ground truth，很难得到最佳的阈值。</li>
+</ul>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%201.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%201.png"></p>
+<h2 id="Token-based-Clustering"><a href="#Token-based-Clustering" class="headerlink" title="Token-based Clustering"></a>Token-based Clustering</h2><p>Token-based Clustering的方法依靠先将消息拆分为token，再根据token的值和类型进行聚类。但是这种方法严重依赖token之间的分隔符，对于有明显分隔符的协议如HTTP能够取得较好的效果。然而对于无分隔符的二进制协议，由于缺乏分隔符，大多数字节被视为单独的token，也有一些连续的ascii字符被误认为是token。</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%202.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%202.png"></p>
+<h2 id="NETPLIER-Technique"><a href="#NETPLIER-Technique" class="headerlink" title="NETPLIER Technique"></a>NETPLIER Technique</h2><p>Insights</p>
+<ul>
+<li>message的类型仅由其中的一个字段决定，keyword</li>
+<li>之前的方法仅分析client side或server side的message，作者发现可以通过观察client side和server side message的因果关系来辅助分析。如<em>Write</em> message会触发<em>Response</em> message</li>
+</ul>
+<p>基于这些观察，作者的想法是：先通过multiple sequence alignment (MSA)算法将消息划分为字段。对于每个字段，用一个变量表示其成为keyword的可能性，并假设其为keyword，计算此时消息序列的一系列约束条件的满足程度（message similarity constraints, remote coupling constraints, structure coherence constraints, and dimension constraints），得到每个字段成为keyword的后验概率。选择后验概率最高的字段为keyword字段，并按照keyword字段进行聚类。</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%203.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%203.png"></p>
+<h1 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h1><p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%204.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%204.png"></p>
+<ul>
+<li>Preprocessing，通过tcpdump等工具进行抓包，并提取关键字段：时间戳、IP地址、端口号即数据。</li>
+<li>Keyword Field Candidate Generation，划分字段，确定一组可以作为keyword的字段</li>
+<li>Probabilistic Keyword Identiﬁcation，推断最有可能是keyword的字段</li>
+<li>Iterative Alignment and Clustering，在每个簇内进行迭代，以缓解MSA对齐算法的不确定性，找到最合适的keyword</li>
+<li>Format and State Machine Inference</li>
+</ul>
+<h2 id="Keyword-Field-Candidate-Generation"><a href="#Keyword-Field-Candidate-Generation" class="headerlink" title="Keyword Field Candidate Generation"></a>Keyword Field Candidate Generation</h2><p>主要解决的两个问题：</p>
+<ul>
+<li>变长字段的对齐</li>
+<li>一次性对比所有序列，而不需要两两比较</li>
+</ul>
+<p>作者使用生物信息学中的multiple sequence alignment (MSA)算法一次性对比所有序列，以减少计算复杂性。并使用了渐进和迭代的方法，以提高准确性。</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%205.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%205.png"></p>
+<p>由于MSA对齐得到的结果可能不准确，作者较为保守的使用对齐结果。作者将对齐的每个字节视为独立的字段，并分为静态（该字段在所有消息中值相同）和动态字段。随后对静态字段进行合并。</p>
+<p>排除掉在部分消息中缺省的字段，剩下的为keyword候选字段。</p>
+<h2 id="Probabilistic-Keyword-Identiﬁcation"><a href="#Probabilistic-Keyword-Identiﬁcation" class="headerlink" title="Probabilistic Keyword Identiﬁcation"></a>Probabilistic Keyword Identiﬁcation</h2><p>对每个字段，假设其为keyword进行聚类，观察其是否符合keyword的条件。作者提出了以下四点Observation：</p>
+<ul>
+<li>同一个cluster中的消息应该比不同cluster中的消息更相似</li>
+<li>客户端和服务器的cluster应该具有对应关系</li>
+<li>同一cluster中的消息遵循相同的字段结构</li>
+<li>cluster的数量不应该过多，对于各个cluster中的消息数量不应该过少</li>
+</ul>
+<p>作者按照这四点Observations设置了四个Constraints，用于评价该字段成为keyword的可能性。</p>
+<ul>
+<li><p>Message Similarity Constraints，计算每条消息与同cluster和不同cluster消息的相似度</p>
+</li>
+<li><p>Remote Coupling Constraints，计算一个簇其对应的client侧/server侧对应消息簇的数量</p>
+<p>  <img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%206.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%206.png"></p>
+</li>
+<li><p>Structure Coherence Constraints，选取keyword后，对簇内message再次进行对齐，计算alignment gaps的数量。如果字段结构不同会存在较大的alignment gaps。</p>
+</li>
+<li><p>Dimension Constraints</p>
+</li>
+<li><p>Normalization，将上述四点得到的概率值归一化。</p>
+</li>
+</ul>
+<p>选择后验概率最大的keyword的聚类结果。</p>
+<h2 id="Iterative-Alignment-and-Clustering"><a href="#Iterative-Alignment-and-Clustering" class="headerlink" title="Iterative Alignment and Clustering"></a>Iterative Alignment and Clustering</h2><p>在每个簇内进行迭代，以缓解MSA对齐算法的不确定性，找到最好的keyword</p>
+<h2 id="Format-and-State-Machine-Inference"><a href="#Format-and-State-Machine-Inference" class="headerlink" title="Format and State Machine Inference"></a>Format and State Machine Inference</h2><p>Format：length (L), value (V ), and ﬁeld type (S: static ﬁeld; D: dynamic field)</p>
+<ul>
+<li>f0  S(V = ‘0564’)</li>
+<li>f7  D(L = 1, V = [‘82’, ‘81’])</li>
+<li>f12 D(L=(0, 11))</li>
+</ul>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%207.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%207.png"></p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p>Dataset：十个公开协议</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%208.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%208.png"></p>
+<p>评估指标：</p>
+<ul>
+<li>homogeneity：每个cluster仅包含一种类型的message</li>
+<li>completeness：对于给定类型的message被分配给同一cluster</li>
+</ul>
+<p>作者将NETPLIER与其他两个基于trace分析的协议逆向技术（Netzob、Discoverer）进行对比，识别的准确度远高于Netzob和Discoverer。</p>
+<p>Results of Different Protocols &amp; Datasets of Different Sizes</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%209.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%209.png"></p>
+<p>NTP中仅使用几个bit表示消息类型，而NetPlier的最小单位为字节。</p>
+<p>分析所需的开销：（32-cores CPU, 128G memory）</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2010.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2010.png"></p>
+<h3 id="Evaluation-of-Format-Inference"><a href="#Evaluation-of-Format-Inference" class="headerlink" title="Evaluation of Format Inference"></a>Evaluation of Format Inference</h3><p>correct（推断出的field位于真正的field内） &amp; accurate（field完美匹配）</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2011.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2011.png"></p>
+<h1 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h1><h2 id="IoT-Protocol-Reverse-engineering"><a href="#IoT-Protocol-Reverse-engineering" class="headerlink" title="IoT Protocol Reverse engineering"></a>IoT Protocol Reverse engineering</h2><p>作者针对Google的一款恒温器的流量进行分析，分析出协议的格式，并能够构造报文控制其设定温度。</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2012.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2012.png"></p>
+<h2 id="Malware-Analysis"><a href="#Malware-Analysis" class="headerlink" title="Malware Analysis"></a>Malware Analysis</h2><p>恶意软件状态机推断</p>
+<p>作者分析了一个僵尸网络客户端程序，对其与C&amp;C通信的状态机进行了分析。</p>
+<p><img src="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2013.png" alt="2021-0329-NETPLIER%20bcae5b7ad0784f0e97e361d25b1b4e7e/Untitled%2013.png"></p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>作者提出了一种基于概率的协议逆向技术，通过对message trace进行分析，引入随机变量来表示各自字段成为keyword的可能性，计算这些随机变量各个约束条件的联合概率，最后选择后验概率最大的字段作为keyword，使得NetPlier可以准确识别各种类型的消息，结果远优于Netzob和Discoverer。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/07/paper_notes/2021-01-07-Finding Bugs Using Your Own Code Detect dac748c567ed4d509cf1e69500225bd1/" rel="next" title="【论文笔记】Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】Finding Bugs Using Your Own Code: Detecting Functionally-similar yet Inconsistent Code
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/" rel="prev" title="【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis">
+                【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0329-NETPLIER"><span class="nav-number">1.</span> <span class="nav-text">2021-0329-NETPLIER</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NETPLIER-Probabilistic-Network-Protocol-Reverse-Engineering-from-Message-Traces"><span class="nav-number">2.</span> <span class="nav-text">NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">3.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">4.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation"><span class="nav-number">5.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation-Example"><span class="nav-number">5.1.</span> <span class="nav-text">Motivation Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Alignment-based-Clustering"><span class="nav-number">5.2.</span> <span class="nav-text">Alignment-based Clustering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-based-Clustering"><span class="nav-number">5.3.</span> <span class="nav-text">Token-based Clustering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NETPLIER-Technique"><span class="nav-number">5.4.</span> <span class="nav-text">NETPLIER Technique</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Design"><span class="nav-number">6.</span> <span class="nav-text">Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Keyword-Field-Candidate-Generation"><span class="nav-number">6.1.</span> <span class="nav-text">Keyword Field Candidate Generation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Probabilistic-Keyword-Identiﬁcation"><span class="nav-number">6.2.</span> <span class="nav-text">Probabilistic Keyword Identiﬁcation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterative-Alignment-and-Clustering"><span class="nav-number">6.3.</span> <span class="nav-text">Iterative Alignment and Clustering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Format-and-State-Machine-Inference"><span class="nav-number">6.4.</span> <span class="nav-text">Format and State Machine Inference</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">7.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation-of-Format-Inference"><span class="nav-number">7.0.1.</span> <span class="nav-text">Evaluation of Format Inference</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Application"><span class="nav-number">8.</span> <span class="nav-text">Application</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IoT-Protocol-Reverse-engineering"><span class="nav-number">8.1.</span> <span class="nav-text">IoT Protocol Reverse engineering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Malware-Analysis"><span class="nav-number">8.2.</span> <span class="nav-text">Malware Analysis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">9.</span> <span class="nav-text">Conclusion</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

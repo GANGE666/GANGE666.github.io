@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0408-ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis 作者：Xueling Zhang, Xiaoyin Wang, Rocky Slavin, Jianwei Niu 单位：Department of Computer Science, University of Texas at San An">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis">
+<meta property="og:url" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0408-ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis 作者：Xueling Zhang, Xiaoyin Wang, Rocky Slavin, Jianwei Niu 单位：Department of Computer Science, University of Texas at San An">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%2010.png">
+<meta property="og:updated_time" content="2021-05-10T12:33:54.943Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis">
+<meta name="twitter:description" content="2021-0408-ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis 作者：Xueling Zhang, Xiaoyin Wang, Rocky Slavin, Jianwei Niu 单位：Department of Computer Science, University of Texas at San An">
+<meta name="twitter:image" content="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/">
+
+
+
+
+
+  <title>【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-04-08T22:00:00+08:00">
+                2021-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0408-ConDySTA-Context-Aware-Dynamic-Supplement-to-Static-Taint-Analysis"><a href="#2021-0408-ConDySTA-Context-Aware-Dynamic-Supplement-to-Static-Taint-Analysis" class="headerlink" title="2021-0408-ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis"></a>2021-0408-ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis</h1><blockquote>
+<p>作者：Xueling Zhang, Xiaoyin Wang, Rocky Slavin, Jianwei Niu</p>
+<p>单位：Department of Computer Science, University of Texas at San Antonio</p>
+<p>会议：S&amp;P 2021</p>
+<p>论文链接：<a href="https://galadriel.cs.utsa.edu/~rslavin/publications/sp21.pdf" target="_blank" rel="noopener">https://galadriel.cs.utsa.edu/~rslavin/publications/sp21.pdf</a></p>
+</blockquote>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>污点分析（Taint Analysis）能够检测程序中的污点数据流，在软件与系统安全领域有广泛的应用：漏洞检测、隐私泄露检测、恶意软件检测等。污点分析的方法主要可以分为两大类：<strong>动态污点分析</strong>，在运行时根据实际运行的指令对污点进行传递，但是会遗漏未触发代码中的污点信息流，且存在较大的运行时开销；<strong>静态污点分析</strong>，会对所有可能的路径进行污点传播，从而检测所有可能的污点信息流，虽然不会有漏报，但是由于部分路径实际上是不可达的导致误报。</p>
+<p>虽然静态污点分析理论上是sound的，但在real-world的各种复杂场景下经常会出现漏报的情况。之前的研究表明六款针对Android app state-of-the-art的静态分析工具均存在taint flow漏报。原因包括动态语言特性（反射调用）、动态加载/生成代码、外部代码执行以及多语言代码（native、shell script）。</p>
+<p>因此作者提出了一种利用动态污点分析的结果辅助静态污点分析的方法（DySTA），以减少漏报。并通过 Monkey随机测试策略进行实验，表明可以减少大量的漏报。但是简单的使用动态分析结果会导致静态分析的context sensitivity丢失，作者又提出了hybrid context matching（ConDySTA），将动态分析得到的污点变量注入到静态分析对应上下文中的对应变量。</p>
+<p>作者使用ReproDroid（a benchmarking framework for Android analysis tools）对DySTA和ConDySTA进行评估，DySTA 和 ConDySTA能够将ReproDroid中六款分析工具产生的28个漏报降低到12个。针对top 100 most downloaded Android app，ConDySTA能在FlowDroid检测出的281条taint flow的基础之上检测出39条taint flow。</p>
+<p>本文的贡献如下：</p>
+<ul>
+<li>证明了动态污点分析的结果能够作为静态污点分析的补充，以减少漏报。</li>
+<li>开发了一种新的方法，ConDySTA，能够保留静态污点分析在使用动态污点分析结果时的context sensitivity。</li>
+<li>使用ReproDroid benchmark and 100 top Android apps from Google Play进行实验，证明ConDySTA确实可以减少大量漏报。</li>
+</ul>
+<h1 id="Running-Example-and-Approach-Overview"><a href="#Running-Example-and-Approach-Overview" class="headerlink" title="Running Example and Approach Overview"></a>Running Example and Approach Overview</h1><h2 id="Running-Example"><a href="#Running-Example" class="headerlink" title="Running Example"></a>Running Example</h2><ul>
+<li>Static Taint Analysis False Negative Example<ul>
+<li>blocker()和blocker2()是静态污点分析无法跟踪的函数，如写入文件与读取文件。</li>
+<li>若仅使用静态污点分析，第6行的inter不会被标记为污点变量，第10行到13行的taint flow会丢失。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled.png"></p>
+<h2 id="DySTA-Approach"><a href="#DySTA-Approach" class="headerlink" title="DySTA Approach"></a>DySTA Approach</h2><p>DySTA：不包含hybrid context matching（ConDySTA）</p>
+<p>DySTA会在首先静态污点分析后执行动态污点分析，并对分析的结果进行对比。发现Line 6的inter变量在动态污点分析时处于tainted状态，故会将inter设置为intermediate source，再次进行静态污点分析。此时Line 10～Line13的taint flow能够被检测出来，但是Line 15会出现误报（污点过标记）。</p>
+<h2 id="Code-Analysis-with-the-IFDS-Framework"><a href="#Code-Analysis-with-the-IFDS-Framework" class="headerlink" title="Code Analysis with the IFDS Framework"></a>Code Analysis with the IFDS Framework</h2><p>作者使用IFDS framework来解释这个问题。IFDS是一个能够进行inter-procedural, ﬂow-sensitive, and context-sensitive analysis工具，基于exploded super graph（Fig.1）。</p>
+<blockquote>
+<p>IFDS全称为Interprocedural，Finite，Distributive，Subset Problem，是一种基于图可达性的程序分析框架。名字直接反映了这个框架适用的问题范围：全程序（跨函数）的，分析对象的域是有限的，流函数满足分配律，必须满足以上条件才可以使用IFDS解决，IFDS相比传统的通过迭代算法到达格上的不动点角度的不同，它通过将程序看作一个图，并通过对图上的可达性来求解诸如到达定义这类静态分析问题。</p>
+</blockquote>
+<ul>
+<li><p>Taint flow的简单Example</p>
+<p>  <img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%201.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%201.png"></p>
+</li>
+</ul>
+<p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%202.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%202.png"></p>
+<h2 id="Incorporating-Context"><a href="#Incorporating-Context" class="headerlink" title="Incorporating Context"></a>Incorporating Context</h2><p>获取到动态污点分析的调用栈s后，ConDySTA需要确定静态分析中的调用序列，C-context-matching。</p>
+<p>ConDySTA根据C-context-matching创建了一个virtual fact v，通过其taint了inter。</p>
+<p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%203.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%203.png"></p>
+<h2 id="Lack-of-Dynamic-Taint-Propagation-Paths"><a href="#Lack-of-Dynamic-Taint-Propagation-Paths" class="headerlink" title="Lack of Dynamic Taint-Propagation Paths"></a>Lack of Dynamic Taint-Propagation Paths</h2><p>由于blocker函数的存在，仅使用Propagation-Based的动态污点分析同样很难处理blocker函数。作者使用value-based动态分析，但这种方法会导致propagate path缺失，即无法知道taint的来源。但是可以获得stack trace，需要解决的就是stack trace中有多少callsite是属于dynamic calling context的。</p>
+<h1 id="Approach"><a href="#Approach" class="headerlink" title="Approach"></a>Approach</h1><h2 id="DySTA-Algorithm"><a href="#DySTA-Algorithm" class="headerlink" title="DySTA Algorithm"></a>DySTA Algorithm</h2><p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%204.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%204.png"></p>
+<h2 id="Dynamic-Calling-Context-and-Graph-Extension"><a href="#Dynamic-Calling-Context-and-Graph-Extension" class="headerlink" title="Dynamic Calling Context and Graph Extension"></a>Dynamic Calling Context and Graph Extension</h2><p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%205.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%205.png"></p>
+<h2 id="ConDySTA-for-Value-based-Taint-Analyses"><a href="#ConDySTA-for-Value-based-Taint-Analyses" class="headerlink" title="ConDySTA for Value-based Taint Analyses"></a>ConDySTA for Value-based Taint Analyses</h2><h1 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h1><p>作者的ConDySTA，静态分析部分使用的是FlowDroid（a state-of-the-art tool based on IFDS framework），动态分析部分使用的是value-based动态污点分析（因为state-of-the-art propagation-based工具无法在Android 6.0以上使用）。虽然存在没办法处理加密数据、控制流依赖丢失的缺点，但是value-based在处理全黑盒的情况下存在较大的优势（API实现在remote server等）。</p>
+<p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%206.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%206.png"></p>
+<h3 id="User-Proﬁle-For-Tainted-Values"><a href="#User-Proﬁle-For-Tainted-Values" class="headerlink" title="User Proﬁle For Tainted Values"></a>User Proﬁle For Tainted Values</h3><p>ConDySTA将User Profile作为value-based动态污点分析的value。</p>
+<p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%207.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%207.png"></p>
+<h3 id="Intermediate-Source-Collection"><a href="#Intermediate-Source-Collection" class="headerlink" title="Intermediate Source Collection"></a>Intermediate Source Collection</h3><p>ConDySTA对所有返回类型为java.lang.String的函数进行插桩以收集其返回值。</p>
+<p>重打包后，使用Monkey浏览应用程序20秒，收集日志中插桩得到的信息。</p>
+<p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%208.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%208.png"></p>
+<h3 id="Applying-FlowDroid"><a href="#Applying-FlowDroid" class="headerlink" title="Applying FlowDroid"></a>Applying FlowDroid</h3><p>ConDySTA首先使用FlowDroid进行第一轮的静态污点分析，以减少动态分析得到的intermediate source的数量（去重）。通过动态分析收集到intermediate source后，再次提供给FlowDroid运行。</p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p>数据集：ReproDroid中的部分样本（包含ground truth的小程序）、Google Play 100 most downloaded apps。</p>
+<p>对比的六款state-of-the-art静态污点分析工具：Amandroid, DIALDroid, DidFail, DroidSafe, FlowDroid, IccTA</p>
+<h3 id="Research-Questions-and-Summarized-Answers"><a href="#Research-Questions-and-Summarized-Answers" class="headerlink" title="Research Questions and Summarized Answers"></a>Research Questions and Summarized Answers</h3><ul>
+<li>ConDySTA可以检测taint flow数量比仅静态分析多<ul>
+<li>六款state-of-the-art静态分析工具在分析ReproDroid benchmark的时候会存在28个漏报，ConDySTA可以检测出其中的12个。（Table II）</li>
+<li>100个real-world apps中ConDySTA在12个app中检测到的taint flow比FlowDroid多39条taint flow，ConDySTA共计在57个app中检测到281条taint flow，被污点标记的信息包括email addresses, country, language, device’s manufacturer, advertising ID, user’s full name and username。</li>
+</ul>
+</li>
+<li>与单纯的动态分析补充相比，上下文敏感可以减少多少误报？<ul>
+<li>benchmark中DySTA检测到21 taint flows（12 true positives, 9 false positives），ConDySTA可以减少9个false positives。</li>
+<li>real-world app中可以减少1029个上下文不匹配的taint flow</li>
+</ul>
+</li>
+<li>ConDySTA与单纯污点分析检测taint flows的对比<ul>
+<li>39个中仅使用动态分析检测到19个。</li>
+</ul>
+</li>
+<li>时间开销<ul>
+<li>1s～4266s，与FlowDroid相当。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Evaluation-on-the-Benchmark"><a href="#Evaluation-on-the-Benchmark" class="headerlink" title="Evaluation on the Benchmark"></a>Evaluation on the Benchmark</h3><p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%209.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%209.png"></p>
+<p>ICC：Inter Component Communications</p>
+<h3 id="Evaluation-on-Real-World-Apps"><a href="#Evaluation-on-Real-World-Apps" class="headerlink" title="Evaluation on Real World Apps"></a>Evaluation on Real World Apps</h3><p><img src="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/Untitled%2010.png" alt="2021-0408-ConDySTA%20Context-Aware%20Dynamic%20Supplemen%20291da175da7b41ddb0206ca503a1797c/Untitled%2010.png"></p>
+<p>3～6列含义：</p>
+<ul>
+<li>Additionally Detected Flows Over FlowDroid</li>
+<li>ConDySTA vs. DySTA</li>
+<li>Comparison with Pure Dynamic Taint Analysis</li>
+<li>Execution Time</li>
+</ul>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>作者使用动态污点分析的方式以提高静态污点分析的准确性，兼顾性能与精度，虽然是实现在android/java，但思路值得我们学习。ConDySTA动态污点分析实现方式较为粗糙，静态分析也主要是借助于FlowDroid，主要贡献在于对现有的针对Android的污点分析效果有所提升、能够将context-aware较为形式化的展现出来。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/29/paper_notes/2021-0329-NETPLIER bcae5b7ad0784f0e97e361d25b1b4e7e/" rel="next" title="【论文笔记】NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】NETPLIER: Probabilistic Network Protocol Reverse Engineering from Message Traces
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/" rel="prev" title="【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems">
+                【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0408-ConDySTA-Context-Aware-Dynamic-Supplement-to-Static-Taint-Analysis"><span class="nav-number">1.</span> <span class="nav-text">2021-0408-ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Running-Example-and-Approach-Overview"><span class="nav-number">3.</span> <span class="nav-text">Running Example and Approach Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Running-Example"><span class="nav-number">3.1.</span> <span class="nav-text">Running Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DySTA-Approach"><span class="nav-number">3.2.</span> <span class="nav-text">DySTA Approach</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-Analysis-with-the-IFDS-Framework"><span class="nav-number">3.3.</span> <span class="nav-text">Code Analysis with the IFDS Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Incorporating-Context"><span class="nav-number">3.4.</span> <span class="nav-text">Incorporating Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lack-of-Dynamic-Taint-Propagation-Paths"><span class="nav-number">3.5.</span> <span class="nav-text">Lack of Dynamic Taint-Propagation Paths</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Approach"><span class="nav-number">4.</span> <span class="nav-text">Approach</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DySTA-Algorithm"><span class="nav-number">4.1.</span> <span class="nav-text">DySTA Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dynamic-Calling-Context-and-Graph-Extension"><span class="nav-number">4.2.</span> <span class="nav-text">Dynamic Calling Context and Graph Extension</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConDySTA-for-Value-based-Taint-Analyses"><span class="nav-number">4.3.</span> <span class="nav-text">ConDySTA for Value-based Taint Analyses</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Implementation"><span class="nav-number">5.</span> <span class="nav-text">Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Proﬁle-For-Tainted-Values"><span class="nav-number">5.0.1.</span> <span class="nav-text">User Proﬁle For Tainted Values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Intermediate-Source-Collection"><span class="nav-number">5.0.2.</span> <span class="nav-text">Intermediate Source Collection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Applying-FlowDroid"><span class="nav-number">5.0.3.</span> <span class="nav-text">Applying FlowDroid</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">6.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Research-Questions-and-Summarized-Answers"><span class="nav-number">6.0.1.</span> <span class="nav-text">Research Questions and Summarized Answers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation-on-the-Benchmark"><span class="nav-number">6.0.2.</span> <span class="nav-text">Evaluation on the Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation-on-Real-World-Apps"><span class="nav-number">6.0.3.</span> <span class="nav-text">Evaluation on Real World Apps</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

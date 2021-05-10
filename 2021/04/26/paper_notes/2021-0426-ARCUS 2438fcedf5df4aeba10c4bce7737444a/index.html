@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0426-ARCUSARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems 作者：Carter Yagemann, Matthew Pruett, Simon P. Chung, Kennon Bittick, Brendan Saltaformaggio, Wenke Lee 单位：Georgia In">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems">
+<meta property="og:url" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0426-ARCUSARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems 作者：Carter Yagemann, Matthew Pruett, Simon P. Chung, Kennon Bittick, Brendan Saltaformaggio, Wenke Lee 单位：Georgia In">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%208.png">
+<meta property="og:updated_time" content="2021-05-10T12:34:27.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems">
+<meta name="twitter:description" content="2021-0426-ARCUSARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems 作者：Carter Yagemann, Matthew Pruett, Simon P. Chung, Kennon Bittick, Brendan Saltaformaggio, Wenke Lee 单位：Georgia In">
+<meta name="twitter:image" content="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/">
+
+
+
+
+
+  <title>【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-04-26T22:00:00+08:00">
+                2021-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0426-ARCUS"><a href="#2021-0426-ARCUS" class="headerlink" title="2021-0426-ARCUS"></a>2021-0426-ARCUS</h1><h1 id="ARCUS-Symbolic-Root-Cause-Analysis-of-Exploits-in-Production-Systems"><a href="#ARCUS-Symbolic-Root-Cause-Analysis-of-Exploits-in-Production-Systems" class="headerlink" title="ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems"></a>ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems</h1><blockquote>
+<p>作者：Carter Yagemann, Matthew Pruett, Simon P. Chung, Kennon Bittick, Brendan Saltaformaggio, Wenke Lee</p>
+<p>单位：Georgia Institute of Technology, Georgia Tech Research Institute</p>
+<p>会议：USENIX Security 2021</p>
+<p>链接：<a href="https://www.usenix.org/system/files/sec21fall-yagemann.pdf" target="_blank" rel="noopener">https://www.usenix.org/system/files/sec21fall-yagemann.pdf</a></p>
+</blockquote>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>生产环境中常使用runtime monitors（e.g. IDS）来检测是否受到攻击并予以阻止。runtime monitors常使用控制流完整性保护（CFI）、异常事件检测（system calls、segmentation faults）检测可能的攻击。然而这些runtime monitors是通过检测攻击发生后的“症状”从而对攻击进行防御，而非漏洞的root cause。例如CFI monitor检测的是非法的控制流转移，而不是code pointer第一次被corrupt的位置；部分host-based IDS检测的是不寻常的系统调用序列，而不关心程序行为是否符合预期。</p>
+<p>虽然检测攻击现象比检测root cause简单，但是可能会导致一些问题（input ﬁlters/CFI不完整、选择性加固、大量的插桩）。而且对于程序开发者而言，获取到runtime monitors提供的snapshot后，分析漏洞的root cause仍然是一个棘手的问题。</p>
+<p>因此，作者在runtime monitor之上设计了一个进行自动化分析root cause的框架，ARCUS。ARCUS使用假设检验的方式检测是否存在特定的检查，并使用硬件辅助机制，以降低其开销。</p>
+<p>作者对ARCUS进行了评估，针对20个程序中的31个漏洞以及RIPE、Juliet测试集中超过9000个test case均能准确识别root cause（0漏报0误报），甚至发现了4个0 day。</p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><h3 id="Real-World-Example"><a href="#Real-World-Example" class="headerlink" title="Real-World Example"></a>Real-World Example</h3><p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled.png"></p>
+<h3 id="Threat-Model"><a href="#Threat-Model" class="headerlink" title="Threat Model"></a>Threat Model</h3><ul>
+<li>针对user program的攻击，kernel和hardware是可信的</li>
+<li>依赖Intel PT，不会改变user program</li>
+<li>针对于production system的攻击，而非直接分析</li>
+<li>专注于binary，不考虑源码及调试信息</li>
+<li>暂时处理不了data-only attack，后续工作时考虑</li>
+</ul>
+<h1 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h1><p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%201.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%201.png"></p>
+<ul>
+<li>kernel module 保存程序的初始快照并通过PT收集后续的control flow</li>
+<li>当runtime monitor（作者使用的CFI monitor和segmentation fault handler）检测到攻击行为发生时，将数据传给在另一台服务器上的analysis system。</li>
+<li>analysis system利用符号执行重构可能的data flows，并使用各种bug checker进行检查</li>
+<li>考虑“what if”问题以自动化发现vulnerable state的约束状态</li>
+<li>ARCUS自动化给出建议的修复方案</li>
+</ul>
+<h2 id="Symbolic-Execution-Along-Traced-Paths"><a href="#Symbolic-Execution-Along-Traced-Paths" class="headerlink" title="Symbolic Execution Along Traced Paths"></a>Symbolic Execution Along Traced Paths</h2><p>在monitor发出警报、analysis system收到snapshot和trace后，ARCUS将会沿着trace的路径符号化，从而避免了符号执行最大的缺点（状态爆炸）。ARCUS将将攻击者可以控制的所有输入数据（命令行参数、环境变量、文件、sockets、其他的标准I/O）进行符号化，仅对trace的路径建立约束。</p>
+<h2 id="“What-If”-Questions"><a href="#“What-If”-Questions" class="headerlink" title="“What If” Questions"></a>“What If” Questions</h2><p>对符号化的数据进行推断，ARCUS将考虑“what if”问题，这是作者工作的创新点之一。“what if”问题是用来自动化生成patch的建议。</p>
+<p>在下图的例子中，hname为攻击者可控输入（符号量），ret_ptr为指向返回值的指针（concrete constants）。当ARCUS定位到ret_ptr被覆盖成符号的上一个状态（hname+257）时，发现存在另一条路径能够使得循环能够更早的结束，考虑“What if this path were to be taken by the program?”这个问题，即需要避免程序继续循环，则此时就对各变量产生了新的约束（cp&lt;hname+257, hname[257]==’]’），ARCUS会将产生的约束反馈给开发人员以指导他们进行修复。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%202.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%202.png"></p>
+<h2 id="Analysis-Modules"><a href="#Analysis-Modules" class="headerlink" title="Analysis Modules"></a>Analysis Modules</h2><p>ARCUS中使用多种类型的vulnerability modules来检测以下几种类型的漏洞。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%203.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%203.png"></p>
+<h3 id="Stack-amp-Heap-Overﬂow"><a href="#Stack-amp-Heap-Overﬂow" class="headerlink" title="Stack &amp; Heap Overﬂow"></a>Stack &amp; Heap Overﬂow</h3><p>由于作者只考虑会劫持控制流的情况，DOP不在考虑范围内。</p>
+<p>控制流被劫持时，PC会被修改为符号量，因此ARCUS寻找root cause的步骤为：</p>
+<ul>
+<li>检测出变成符号量的code pointer</li>
+<li>通过后向污点分析识别出改写它的basic block（write block/blame state）</li>
+<li>寻找能够控制进入write block的basic blocks（control dependency graph (CDG)）</li>
+<li>测试在这些块上添加约束条件是否能够避免bug发生</li>
+</ul>
+<p>报告：blame state以及需要添加的新约束条件</p>
+<h3 id="Integer-Overﬂow-amp-Underﬂow"><a href="#Integer-Overﬂow-amp-Underﬂow" class="headerlink" title="Integer Overﬂow &amp; Underﬂow"></a>Integer Overﬂow &amp; Underﬂow</h3><p>检测Integer Overﬂow &amp; Underﬂow需要克服两个关键问题：1）在没有符号/类型信息的情况下推断寄存器/memory values为有符号数/无符号数；2）避免开发者/编译器有意的进行overflow所带来的误报。</p>
+<p>1）使用指令的语义信息（符号扩展）以及库函数的参数类型以进行保守的推断。</p>
+<p>2）当ARCUS发现有寄存器overflow时并不会立即report，而是当这个值传递跨越函数边界时才会report。因为作者认为接收该值的函数并不会考虑其是否为oveflowed integers。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%204.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%204.png"></p>
+<p>报告：overflow发生的语句（Line 3），以及跨越函数边界的语句（Line 7），并建议对tdir_count进行额外的约束。</p>
+<h3 id="Use-After-Free-amp-Double-Free"><a href="#Use-After-Free-amp-Double-Free" class="headerlink" title="Use After Free &amp; Double Free"></a>Use After Free &amp; Double Free</h3><p>作者假设已知所有的allocation and free function，并对其进行监控。维护allocation list和freed list，在每一次内存访问及free调用时，检查地址是否在freed list当中。</p>
+<p>报告：Address, size, and offset以及freeing和violating basic block。</p>
+<h3 id="Format-String"><a href="#Format-String" class="headerlink" title="Format String"></a>Format String</h3><p>检查进入格式化字符串函数时的格式化字符串是否包含符号量、参数是否都指向合法地址。</p>
+<p>报告：符号化的格式化字符串、漏洞位置。</p>
+<h2 id="Capturing-the-Executed-Path"><a href="#Capturing-the-Executed-Path" class="headerlink" title="Capturing the Executed Path"></a>Capturing the Executed Path</h2><p>ARCUS通过Intel PT获取程序的trace，Intel PT对于branch会记录take or not take；间接跳转/调用、中断、异常会记录目的地址；动态生成的代码也会被记录下来。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%205.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%205.png"></p>
+<p>但是对于下图的指令，Intel PT为了性能考虑并不会记录实际执行次数，故需要符号执行时需指定不同的策略。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%206.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%206.png"></p>
+<h2 id="Performance-Constraints"><a href="#Performance-Constraints" class="headerlink" title="Performance Constraints"></a>Performance Constraints</h2><p>出于性能考虑，运行一段时间后会抛弃原来的快照及trace，重新生成快照、trace。</p>
+<p>但是由于截断，可能导致漏报。</p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><h3 id="Experimental-Setup-amp-Runtime-Monitor-Selection"><a href="#Experimental-Setup-amp-Runtime-Monitor-Selection" class="headerlink" title="Experimental Setup &amp; Runtime Monitor Selection"></a>Experimental Setup &amp; Runtime Monitor Selection</h3><ul>
+<li>Intel ® Core ™ i7-7740X processor, 32GB of memory</li>
+<li>runtime monitor选择一款开源的CFI、自己实现的segmentation fault handler</li>
+</ul>
+<h2 id="Accuracy-on-Micro-Benchmarks"><a href="#Accuracy-on-Micro-Benchmarks" class="headerlink" title="Accuracy on Micro-Benchmarks"></a>Accuracy on Micro-Benchmarks</h2><p>使用RIPE benchmark（包含stack、heap、integer overflow）、NIST C\C++ Juliet 1.3 suite（UAF、Double Free、format string）</p>
+<p>结果：0 FP、0 FN。作者分析称原因是一个漏洞能够在多个位置检测出overflow，例如一个整数溢出可以在整数溢出时被检测出来，也可以在其覆盖返回地址时被检测出来。将vulnerability modules拆分开会出现一定的漏报。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%207.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%207.png"></p>
+<h2 id="Locating-Real-World-Exploits"><a href="#Locating-Real-World-Exploits" class="headerlink" title="Locating Real-World Exploits"></a>Locating Real-World Exploits</h2><p>选取了20个程序中的27个漏洞，使用POC进行测试。全部都能准确识别出root cause，并额外发现了4个0day。</p>
+<p><img src="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/Untitled%208.png" alt="2021-0426-ARCUS%202438fcedf5df4aeba10c4bce7737444a/Untitled%208.png"></p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>本文介绍了一种借助runtime monitor和硬件PT机制，利用符号执行的方式来寻找漏洞的root cause的工作ARCUS。ARCUS能够高效准确的根据snapshot和trace识别出root cause，并通过大量的例子验证其鲁棒性。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/08/paper_notes/2021-0408-ConDySTA Context-Aware Dynamic Supplemen 291da175da7b41ddb0206ca503a1797c/" rel="next" title="【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】ConDySTA: Context-Aware Dynamic Supplement to Static Taint Analysis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0426-ARCUS"><span class="nav-number">1.</span> <span class="nav-text">2021-0426-ARCUS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARCUS-Symbolic-Root-Cause-Analysis-of-Exploits-in-Production-Systems"><span class="nav-number">2.</span> <span class="nav-text">ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">3.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">4.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Real-World-Example"><span class="nav-number">4.0.1.</span> <span class="nav-text">Real-World Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Threat-Model"><span class="nav-number">4.0.2.</span> <span class="nav-text">Threat Model</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Design"><span class="nav-number">5.</span> <span class="nav-text">Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbolic-Execution-Along-Traced-Paths"><span class="nav-number">5.1.</span> <span class="nav-text">Symbolic Execution Along Traced Paths</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“What-If”-Questions"><span class="nav-number">5.2.</span> <span class="nav-text">“What If” Questions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Analysis-Modules"><span class="nav-number">5.3.</span> <span class="nav-text">Analysis Modules</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stack-amp-Heap-Overﬂow"><span class="nav-number">5.3.1.</span> <span class="nav-text">Stack &amp; Heap Overﬂow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Integer-Overﬂow-amp-Underﬂow"><span class="nav-number">5.3.2.</span> <span class="nav-text">Integer Overﬂow &amp; Underﬂow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-After-Free-amp-Double-Free"><span class="nav-number">5.3.3.</span> <span class="nav-text">Use After Free &amp; Double Free</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Format-String"><span class="nav-number">5.3.4.</span> <span class="nav-text">Format String</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Capturing-the-Executed-Path"><span class="nav-number">5.4.</span> <span class="nav-text">Capturing the Executed Path</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance-Constraints"><span class="nav-number">5.5.</span> <span class="nav-text">Performance Constraints</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">6.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Experimental-Setup-amp-Runtime-Monitor-Selection"><span class="nav-number">6.0.1.</span> <span class="nav-text">Experimental Setup &amp; Runtime Monitor Selection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Accuracy-on-Micro-Benchmarks"><span class="nav-number">6.1.</span> <span class="nav-text">Accuracy on Micro-Benchmarks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Locating-Real-World-Exploits"><span class="nav-number">6.2.</span> <span class="nav-text">Locating Real-World Exploits</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
