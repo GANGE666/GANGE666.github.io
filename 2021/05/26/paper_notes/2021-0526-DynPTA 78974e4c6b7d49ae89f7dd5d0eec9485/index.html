@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0526-DynPTADynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection 作者：Tapti Palit, Jarin Firose Moon, Fabian Monrose, Michalis Polychronakis  单位：Stony Brook Universi">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection">
+<meta property="og:url" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0526-DynPTADynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection 作者：Tapti Palit, Jarin Firose Moon, Fabian Monrose, Michalis Polychronakis  单位：Stony Brook Universi">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2010.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2011.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2012.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2013.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2014.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2015.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2016.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2017.png">
+<meta property="og:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2018.png">
+<meta property="og:updated_time" content="2021-07-09T15:39:17.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection">
+<meta name="twitter:description" content="2021-0526-DynPTADynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection 作者：Tapti Palit, Jarin Firose Moon, Fabian Monrose, Michalis Polychronakis  单位：Stony Brook Universi">
+<meta name="twitter:image" content="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/">
+
+
+
+
+
+  <title>【论文笔记】DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-05-26T22:00:00+08:00">
+                2021-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0526-DynPTA"><a href="#2021-0526-DynPTA" class="headerlink" title="2021-0526-DynPTA"></a>2021-0526-DynPTA</h1><h1 id="DynPTA-Combining-Static-and-Dynamic-Analysis-for-Practical-Selective-Data-Protection"><a href="#DynPTA-Combining-Static-and-Dynamic-Analysis-for-Practical-Selective-Data-Protection" class="headerlink" title="DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection"></a>DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection</h1><blockquote>
+<p>作者：Tapti Palit, Jarin Firose Moon, Fabian Monrose, Michalis Polychronakis</p>
+</blockquote>
+<p>单位：Stony Brook University, UNC Chapel Hill</p>
+<p>会议：S&amp;P 2021</p>
+<p>链接：<a href="https://www.computer.org/csdl/pds/api/csdl/proceedings/download-article/1t0x9hWW2iI/pdf" target="_blank" rel="noopener">https://www.computer.org/csdl/pds/api/csdl/proceedings/download-article/1t0x9hWW2iI/pdf</a></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>随着控制流劫持攻击的缓解措施被广泛部署，攻击者逐渐关注针对内存破坏漏洞和信息泄露漏洞的data-only attack。在一定的条件下，通过破坏一些数据仍然能达到劫持控制流的目的。数据泄露同样会带来很大的安全隐患，例如secret server keys、用户隐私信息等。近年来出现的瞬态执行攻击同样可以用于敏感信息的泄露。</p>
+<p>虽然各种针对于数据泄露攻击的缓解措施被提出，从保护思路是可以主要分为缓解memory corruption bugs的方案以及选择性的保护部分数据的方案。前者通过memory safety、dataflow integrity等方式消除攻击原语，但是这些方案通常会带来很高的性能开销且unscalable，即很难应用在一些复杂的real-world程序上，而且无法抵御瞬态执行攻击。后者则是通过权限隔离、安全执行环境、沙箱、细粒度内存隔离等方式有选择性的保护程序中的一部分数据。然而这些技术需要对代码进行较大规模的重构，对于较大规模的程序而言是一个挑战。</p>
+<p>考虑到选择性保护数据方案的实用性，近年来的一些方案选择让开发者在源代码中对security-critical的变量进行标记，随后在编译时对这些被标记的变量进行保护。具体的有Datashield、Glamdring、Selective in-memory encryption等方案。</p>
+<p>为了高准确度（减少插桩带来的开销）、合理的复杂度（能够应用于较大规模程序的分析），作者提出了DynPTA，结合静态程序分析和动态数据流追踪（DFT）技术使得被标记的数据在内存中一直处于加密状态。</p>
+<p>作者基于LLVM实现了DynPTA并将其成功应用于Nginx with OpenSSL, Apache Httpd, and OpenVPN等。Nginx with OpenSSL的开销为19.2%，MbedTLS的开销仅为4.1%（13% for in-memory encryption, 35% for DataShield）。作者使用Heartbleed漏洞、Spectre-PHT、Spectre-BTB以测试DynPTA保护的有效性。</p>
+<p>作者的贡献如下：</p>
+<ul>
+<li>提出了一种结合静态分析与动态数据流追踪的方案以提高指针指向分析的扩展性和准确性</li>
+<li>提出了一种summarization-based context-sensitive的堆建模方式以减少指针分析在分析堆分配使得过估计</li>
+<li>实现了DynPTA，一个compiler-level保护开发者标记数据机密性的工具。</li>
+<li>对DynPTA使用较大规模的程序进行了测试，并证明其能够在较低的开销下抵抗内存泄露攻击和瞬态执行攻击。</li>
+</ul>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><h3 id="Pointer-Analysis"><a href="#Pointer-Analysis" class="headerlink" title="Pointer Analysis"></a>Pointer Analysis</h3><blockquote>
+<p>指针分析是一类特殊的数据流问题，它是其它静态程序分析的基础，但指针使用的灵活性导致了指针分析的复杂性，实际上精确的指针分析是一个不可判定问题，所以实际的指针分析算法都是近似且保守的，须在效率和精度之间进行折衷。在过去的近三十年间，指针分析一直是程序分析领域的研究重点之一，至今仍很活跃。指针分析研究的内容主要集中在分析精度和开销之间的取舍。精度方面，主要指流敏感性（flow-sensitivity）和上下文敏感性（context-sensitivity），一般而言，流敏感分析方法的精度明显好于流不敏感的分析方法，在上下文敏感性上也有同样的特点。</p>
+</blockquote>
+<p>静态指针分析用于分析程序中指针可能指向的内存对象。虽然理论上静态指针分析是sound的，但是由于缺乏运行时信息，会出现over-approximation的现象，即指针的”points-to” set可能会包含运行时永远不会指向的object。</p>
+<ul>
+<li>概念 {flow, context, path} sensitive<ul>
+<li>flow-sensitive: 流敏感，指令之间的顺序可以判定</li>
+<li>context-sensitive：上下文敏感，指令所在的上下文可以判定</li>
+<li>path-sensitive：路径敏感，所走的路径（if/else, …）可判定</li>
+</ul>
+</li>
+</ul>
+<p>在流不敏感的指针分析中，主要分为两类：基于包含的（inclusion-based）指针分析和基于合并的（unification-based）的指针分析。</p>
+<ul>
+<li>基于包含的指针分析是一种基于约束集（constraint set）求解的流不敏感的指针分析方法。由Andersen与1994年提出，后来称之为Andersen-Style的指针分析。其算法的时间复杂度为$O(n^3)$，其中n指的是程序中参与分析的变量数。</li>
+<li>基于合并的指针分析是由Steensgaard在1996年提出的，又成为基于等价（equivalence-based）的指针分析，其复杂度接近于线性复杂度。</li>
+</ul>
+<p>Andresen’s inclusion-based和Steensgaard’s uniﬁcation-based算法最常见的指针分析实现方式。算法主要包括两个部分：<strong>约束收集</strong>和<strong>约束求解</strong>。</p>
+<ul>
+<li><strong>约束收集</strong></li>
+</ul>
+<p>两者都是编译每一条指令并收集与指针流相关的约束。这些约束包括Addr-of, Copy, Deref, and Assign，对于C程序来说，分别对应的是p := &amp;q, p := q, p := ∗q, and ∗p := q。每种算法都会使用一组解析规则来解决这些约束。</p>
+<ul>
+<li><p>Andresen’s pointer analysis constraint generation:</p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled.png"></p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i, j, k;</span><br><span class="line"><span class="keyword">int</span>* a = &amp;i;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i&#125;</span></span><br><span class="line"><span class="keyword">int</span>* b = &amp;k;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i&#125;, b ⊇ &#123;k&#125;</span></span><br><span class="line">a = &amp;j;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i, j&#125;, b ⊇ &#123;k&#125;</span></span><br><span class="line"><span class="keyword">int</span>** p = &amp;a;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i, j&#125;, b ⊇ &#123;k&#125;, p ⊇ &#123;a&#125;</span></span><br><span class="line"><span class="keyword">int</span>** q = &amp;b;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i, j&#125;, b ⊇ &#123;k&#125;, p ⊇ &#123;a&#125;, q ⊇ &#123;b&#125;</span></span><br><span class="line">p = q;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i, j&#125;, b ⊇ &#123;k&#125;, p ⊇ &#123;a&#125;, q ⊇ &#123;b&#125;, p ⊇ q</span></span><br><span class="line"><span class="keyword">int</span>* c = *q;</span><br><span class="line">           <span class="comment">// a ⊇ &#123;i, j&#125;, b ⊇ &#123;k&#125;, p ⊇ &#123;a&#125;, q ⊇ &#123;b&#125;, p ⊇ q, c ⊇ *q</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Steensgaard’s pointer analysis constraint generation</p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%201.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%201.png"></p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%202.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%202.png"></p>
+</li>
+<li><p><strong>约束求解</strong></p>
+<ul>
+<li><p>Andresen’s constraint resolution</p>
+<p>  Andresen’s分析会为每个指针构建points-to的集合，当发现某一个指针有新的可能指向的对象时，会将这个对象加入到points-to set中，并重新计算所有涉及这个指针的Deref约束。其时间复杂度为$O(n^3)$，因此将其应用于大型程序时会带来较大的时间开销。</p>
+<p>  Example：</p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%203.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%203.png"></p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%204.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%204.png"></p>
+</li>
+<li><p>Steensgaard’s constraint resolution</p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%205.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%205.png"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="内存对象建模"><a href="#内存对象建模" class="headerlink" title="内存对象建模"></a>内存对象建模</h3><p>尽管约束建模的方式会影响分析的速度与准确性，上下文敏感是一种约束建模的方式，其在分析函数调用时会考虑调用上下文关系。对于内存分配函数的wrapper而言，上下文敏感是一个十分关键的问题。对内存分配函数wrapper执行上下文无关的分析将导致所有指向对的指针都指向同一个对象。因此，作者引入了基于摘要的上下文敏感的堆建模方法。</p>
+<h3 id="In-memory-Data-Encryption"><a href="#In-memory-Data-Encryption" class="headerlink" title="In-memory Data Encryption"></a>In-memory Data Encryption</h3><p>指针分析和value flow analysis能为我们提供所有可能访问敏感内存的memory load、store指令的位置。如何对这些敏感内存进行保护有很多的办法：software-based memory safety checks，在内存访问前插入几条指令进行判断，但并不能抵御瞬态执行攻击；hardware-enforced 内存隔离技术能够降低开销，但由于粒度较粗，没有办法用于单个内存对象。</p>
+<p>作者选择将敏感数据始终加密存储在内存中，仅将其加载到CPU时对其进行解密。这种方法的优点在于可以抵御瞬态执行攻击，并不需要额外的硬件支持。</p>
+<h2 id="Threat-Model"><a href="#Threat-Model" class="headerlink" title="Threat Model"></a>Threat Model</h2><ul>
+<li>考虑memory disclosure和允许攻击者在用户空间任意地址读的data leakage vulnerabilities</li>
+<li>针对修改数据、corruption attack不再考虑范围内</li>
+<li>攻击者没办法进行任意代码执行，寄存器中的机密数据是安全的</li>
+<li>只考虑用户空间的应用程序，假设攻击者无法破坏内核代码和数据</li>
+<li>考虑Spectre-type和Meltdown-type的瞬态执行攻击</li>
+<li>敏感数据潜在的隐式泄露不在考虑范围内（时间侧信道）</li>
+</ul>
+<p>核心思想：利用静态分析保证所有可能的敏感内存访问都被覆盖，利用动态分析确定是否确实是敏感内存访问以避免过高的开销。</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%206.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%206.png"></p>
+<p>举一个例子来说明DynPTA对敏感数据保护的优势，指针ptr1可能指向的内存对象为pts(ptr1) := {mem1, mem2, mem3, mem4}，pts(ptr2) := {mem3, mem4}。</p>
+<p>如果仅以来静态分析的结果，则如（b）所示。虽然理论上只需要对真正的敏感内存mem4进行加解密，但是由于没办法确定ptr1、ptr2运行时指向的内存对象是否敏感，即ptr1、ptr2可能指向敏感内存对象，故只能将ptr1、ptr2指向的所有内存对象均当作是敏感内存对象来处理。对ptr1、ptr2所指向的内存对象进行写入/读取时均需要进行加/解密。从而导致开销急剧上升。</p>
+<p>通过借助动态数据流追踪技术，DnyPTA可以确定ptr1、ptr2指向的是否为敏感内存对象，因此可以选择性的加/解密：当ptr1、ptr2指向敏感内存对象时进行加解密，否则正常读取写入。</p>
+<h2 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h2><p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%207.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%207.png"></p>
+<p>DynPTA分析的主要流程为：</p>
+<ul>
+<li>通过开发者的标注，识别出初始敏感内存对象集合</li>
+<li>使用Steensgaard’s指针分析算法并结合上下文敏感堆建模方式确定访问敏感内存的内存操作指令集合</li>
+<li>对内存操作指令进行进一步分析，以找出从初始敏感内存对象到其他变量的value flow</li>
+<li>对上述识别出的可能操作敏感内存的指令进行插桩，以在运行时通过DFT判断其是否读/写敏感数据，若为敏感数据，则在使用前对其进行加/解密。</li>
+</ul>
+<h3 id="Sensitive-Object-Identiﬁcation"><a href="#Sensitive-Object-Identiﬁcation" class="headerlink" title="Sensitive Object Identiﬁcation"></a>Sensitive Object Identiﬁcation</h3><ul>
+<li><p>DynPTA要求开发者在敏感指针初始化（赋值/指向新的object）时调用mark_sensitive()以对该指针进行标记。对于敏感变量而言，则需要在其定义时调用mark_sensitive()。</p>
+<p>  <img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%208.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%208.png"></p>
+</li>
+</ul>
+<p>随后DynPTA会对这些annotations进行处理，以识别出所有的敏感对象，并使用DFT在运行时传递”sensitive”的label。</p>
+<h3 id="Summarization-based-Context-sensitive-Heap-Modeling"><a href="#Summarization-based-Context-sensitive-Heap-Modeling" class="headerlink" title="Summarization-based Context-sensitive Heap Modeling"></a>Summarization-based Context-sensitive Heap Modeling</h3><p>大多数指针分析的实现都对Libc的内存分配进行了建模。例如p=malloc(…)代表一个object被malloc分配并传递到p。在存在内存分配函数的wrapper的情况下，会导致堆变得context-insensitive。因为Libc会返回的object仅会流向wrapper返回的一个指针，但该指针却流向所有的callsite。如Fig.3(a)所示。</p>
+<p>因此，作者设计了一个基于摘要、上下文敏感的对堆进行建模的方法。主要分为：</p>
+<ul>
+<li>Memory Allocation Wrapper Identiﬁcation，通过wrapper的特征（调用malloc，做一些额外的检查，把指针返回出去）识别wrapper。具体实现：通过LLVM提供的过程内Andersen’s指针分析（LLVM CFLAAAnders）以确定是否返回从函数内部新分配内存的指针。因为是过程内分析，故可以使用更准确、开销更高的Andersen算法。</li>
+<li>Memory Allocation Wrapper Summarization，对每个wrapper进行过程内分析，得到参数与返回值的指向关系，即“分配一个新的object，并返回它的引用”。对于CRYPTO_malloc，即返回对一个新的object的引用（FIg.3 b）。</li>
+</ul>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%209.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%209.png"></p>
+<h3 id="Pointer-and-Value-Flow-Analysis"><a href="#Pointer-and-Value-Flow-Analysis" class="headerlink" title="Pointer and Value Flow Analysis"></a>Pointer and Value Flow Analysis</h3><p>在完成上下文敏感的堆建模后，作者使用Steensgaard’s uniﬁcation-based  pointer analysis algorithm对程序中所有指针和内存对象进行分析。首先分析程序中的每一条指令并收集对应的约束条件，随后使用Steensgaard算法中的约束解析规则进行求解，从而为程序中的每个指针确定其指向内存对象的集合。</p>
+<p>单纯保护初始敏感变量集合是不够的，敏感数据可能会propagate到其他内存对象上（sensitive sink sites）。为了防止潜在的信息泄漏，DynPTA进行了static value flow analysis以识别所有的sensitive sink site。</p>
+<p>DynPTA将追踪direct and indirect value flows。</p>
+<ul>
+<li>direct value flow指的是从敏感内存对象load开始分析，并将最后store到的内存对象标记是敏感的，并递归寻找所有的direct value flow。</li>
+<li>indirect value flow指的是从一个may sensitive的内存对象中load出数据，因为静态分析精度不足，没有办法确定其是否真的是一个敏感对象。DynPTA会将他们全部收集起来，交给动态污点分析决定。因此DynPTA通过Steensgaard的分析结果，收集到的indirect value flow是所有sensitive value flow的超集。</li>
+</ul>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2010.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2010.png"></p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2011.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2011.png"></p>
+<h3 id="Scoped-Dynamic-Data-Flow-Tracking"><a href="#Scoped-Dynamic-Data-Flow-Tracking" class="headerlink" title="Scoped Dynamic Data Flow Tracking"></a>Scoped Dynamic Data Flow Tracking</h3><p>由于静态分析固有的和value flow analysis中存在的overapproximation，DynPTA使用scoped byte-level dynamic data ﬂow tracking。通过shadow memory标记被追踪的内存对象，在每一个object被标记成敏感时初始化其对应的label，并通过DFT进行propagate，在指针进行解引用时对label进行轻量级的查找以确定其是否为sensitive object。（写入/读取sensitive object时进行加解密）</p>
+<p>在free、和function return时清除sensitive object防止泄露。</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2012.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2012.png"></p>
+<p>作者表示，Steensgaard分析结果存在较大的过估计，约15%的内存操作都需要进行label lookup，但实际上只有1-5%的内存访问是sensitive的，需要进行AES加解密。</p>
+<h3 id="In-memory-Data-Protection-using-Encryption"><a href="#In-memory-Data-Protection-using-Encryption" class="headerlink" title="In-memory Data Protection using Encryption"></a>In-memory Data Protection using Encryption</h3><p>使用AES-128-ECB模式，通过AES-NI、预计算轮密钥存在xmm0-xmm15以提高性能。</p>
+<h2 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h2><p>基于LLVM 7.0，使用Gold Linker的link time optimization（LTO），导入除Glibc之外的所有用到的库进行分析，为常见的Glibc函数（memcpy、memcmp、strcpy）定义了规则。</p>
+<h3 id="Steensgaard’s-Analysis"><a href="#Steensgaard’s-Analysis" class="headerlink" title="Steensgaard’s Analysis"></a>Steensgaard’s Analysis</h3><p>作者在SVF上实现了Steensgaard’s pointer analysis，每个约束只用处理一次，因此几乎是线性时间开销O(n)。</p>
+<h2 id="Performance-Evaluation"><a href="#Performance-Evaluation" class="headerlink" title="Performance Evaluation"></a>Performance Evaluation</h2><p>使用八个应用程序进行实验，对其中的敏感数据进行了手动标注。实验环境为Intel Core i7-6700 CPU and 32 GB of RAM, running Ubuntu 19.10 and Linux kernel 5.3.0-40.</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2013.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2013.png"></p>
+<p>为Scoped DFT所添加的代码数量：</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2014.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2014.png"></p>
+<p>插桩的内存操作指令所占的比例：</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2015.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2015.png"></p>
+<p>作者使用Pin来记录有多少内存访问需要label lookup、有多少需要进行AES加解密。作者表示如果去掉Scoped DFT，所有可能敏感内存访问均需要进行AES加解密，开销会急剧上升（MbedTLS 4.1%→56%）</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2016.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2016.png"></p>
+<p>Runtime overhead: ApacheBench 执行五轮10000个请求，每轮请求文件大小递增（4KB-1MB），发现nginx并不会随着文件大小而增大开销。MbedTLS开销为4%，前者工作中DataShield为35%，in-memory encryption[33]为13%。</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2017.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2017.png"></p>
+<p>作者还对扩大保护范围所带来的开销进行了实验：</p>
+<p><img src="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2018.png" alt="2021-0526-DynPTA%2078974e4c6b7d49ae89f7dd5d0eec9485/Untitled%2018.png"></p>
+<h2 id="Security-Evaluation"><a href="#Security-Evaluation" class="headerlink" title="Security Evaluation"></a>Security Evaluation</h2><h3 id="Heartbleed"><a href="#Heartbleed" class="headerlink" title="Heartbleed"></a>Heartbleed</h3><p>使用Nginx+OpenSSL v1.0.1f进行实验，验证PoC exploit，发现每次私钥泄露时，总是密文。</p>
+<h3 id="Spectre"><a href="#Spectre" class="headerlink" title="Spectre"></a>Spectre</h3><p>使用Spectre-PHT和Spectre-BTB的PoC，将其中的秘密字符串设置为敏感数据，验证exploit，发现其每次加载到缓存中均为其密文形式。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><ul>
+<li>DynPTA结合静态和动态分析，对内存泄露和瞬态执行攻击提供了切实有效的防御。（粗粒度&amp;细粒度）</li>
+<li>Pointer Analysis</li>
+</ul>
+<p>refs:</p>
+<ul>
+<li>指针分析概述： <a href="http://cjc.ict.ac.cn/quanwenjiansuo/2011-7/ccm.pdf" target="_blank" rel="noopener">http://cjc.ict.ac.cn/quanwenjiansuo/2011-7/ccm.pdf</a></li>
+<li>指针分析： <a href="https://en.wikipedia.org/wiki/Pointer_analysis" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Pointer_analysis</a></li>
+<li>Andresen’s： <a href="https://blog.csdn.net/qq_43391414/article/details/110954280" target="_blank" rel="noopener">https://blog.csdn.net/qq_43391414/article/details/110954280</a></li>
+<li>Steensgaard’s： <a href="https://blog.csdn.net/qq_43391414/article/details/111046505" target="_blank" rel="noopener">https://blog.csdn.net/qq_43391414/article/details/111046505</a></li>
+<li>Andresen’s： <a href="https://blog.csdn.net/dashuniuniu/article/details/78704741" target="_blank" rel="noopener">https://blog.csdn.net/dashuniuniu/article/details/78704741</a></li>
+<li>Heap Abstractions for Static Analysis： <a href="https://arxiv.org/pdf/1403.4910.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1403.4910.pdf</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/26/paper_notes/2021-0426-ARCUS 2438fcedf5df4aeba10c4bce7737444a/" rel="next" title="【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】ARCUS: Symbolic Root Cause Analysis of Exploits in Production Systems
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0526-DynPTA"><span class="nav-number">1.</span> <span class="nav-text">2021-0526-DynPTA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DynPTA-Combining-Static-and-Dynamic-Analysis-for-Practical-Selective-Data-Protection"><span class="nav-number">2.</span> <span class="nav-text">DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">2.1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">2.2.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pointer-Analysis"><span class="nav-number">2.2.1.</span> <span class="nav-text">Pointer Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存对象建模"><span class="nav-number">2.2.2.</span> <span class="nav-text">内存对象建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#In-memory-Data-Encryption"><span class="nav-number">2.2.3.</span> <span class="nav-text">In-memory Data Encryption</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Threat-Model"><span class="nav-number">2.3.</span> <span class="nav-text">Threat Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Example"><span class="nav-number">2.4.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Design"><span class="nav-number">2.5.</span> <span class="nav-text">Design</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sensitive-Object-Identiﬁcation"><span class="nav-number">2.5.1.</span> <span class="nav-text">Sensitive Object Identiﬁcation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summarization-based-Context-sensitive-Heap-Modeling"><span class="nav-number">2.5.2.</span> <span class="nav-text">Summarization-based Context-sensitive Heap Modeling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pointer-and-Value-Flow-Analysis"><span class="nav-number">2.5.3.</span> <span class="nav-text">Pointer and Value Flow Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scoped-Dynamic-Data-Flow-Tracking"><span class="nav-number">2.5.4.</span> <span class="nav-text">Scoped Dynamic Data Flow Tracking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#In-memory-Data-Protection-using-Encryption"><span class="nav-number">2.5.5.</span> <span class="nav-text">In-memory Data Protection using Encryption</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementation"><span class="nav-number">2.6.</span> <span class="nav-text">Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Steensgaard’s-Analysis"><span class="nav-number">2.6.1.</span> <span class="nav-text">Steensgaard’s Analysis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance-Evaluation"><span class="nav-number">2.7.</span> <span class="nav-text">Performance Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Security-Evaluation"><span class="nav-number">2.8.</span> <span class="nav-text">Security Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Heartbleed"><span class="nav-number">2.8.1.</span> <span class="nav-text">Heartbleed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spectre"><span class="nav-number">2.8.2.</span> <span class="nav-text">Spectre</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">2.9.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
