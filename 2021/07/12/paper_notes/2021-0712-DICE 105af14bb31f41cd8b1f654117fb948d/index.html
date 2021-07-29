@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0712-DICEDICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis 作者：Alejandro Mera, Bo Feng, Long Lu, Engin Kirda, William Robertson  单位：Northeastern University 会议：S&amp;amp;P 2">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis">
+<meta property="og:url" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0712-DICEDICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis 作者：Alejandro Mera, Bo Feng, Long Lu, Engin Kirda, William Robertson  单位：Northeastern University 会议：S&amp;amp;P 2">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2010.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2011.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2012.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2013.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2014.png">
+<meta property="og:updated_time" content="2021-07-29T07:56:51.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis">
+<meta name="twitter:description" content="2021-0712-DICEDICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis 作者：Alejandro Mera, Bo Feng, Long Lu, Engin Kirda, William Robertson  单位：Northeastern University 会议：S&amp;amp;P 2">
+<meta name="twitter:image" content="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/">
+
+
+
+
+
+  <title>【论文笔记】DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-12T22:00:00+08:00">
+                2021-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0712-DICE"><a href="#2021-0712-DICE" class="headerlink" title="2021-0712-DICE"></a>2021-0712-DICE</h1><h1 id="DICE-Automatic-Emulation-of-DMA-Input-Channels-for-Dynamic-Firmware-Analysis"><a href="#DICE-Automatic-Emulation-of-DMA-Input-Channels-for-Dynamic-Firmware-Analysis" class="headerlink" title="DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis"></a>DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis</h1><blockquote>
+<p>作者：Alejandro Mera, Bo Feng, Long Lu, Engin Kirda, William Robertson</p>
+</blockquote>
+<p>单位：Northeastern University</p>
+<p>会议：S&amp;P 2021</p>
+<p>链接：<a href="https://www.longlu.org/publication/dice/dice.pdf" target="_blank" rel="noopener">https://www.longlu.org/publication/dice/dice.pdf</a></p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>目前的针对于固件的动态分析方法存在一个比较大的局限性：无法处理固件中的DMA（Direct Memory Access）操作。从而限制了分析所支持的设备种类以及代码覆盖率。</p>
+<p>作者提出了DICE，一种模拟DMA input channel并生成DMA输入的动态分析方法。其核心思想是识别和模拟抽象的DMA input channel，而不是模拟种类繁多的外设及控制器。</p>
+<p>作者在针对ARM Cortex-M的P2IM以及针对于MIPS M4K/M-class的PIC32模拟器上实现了DICE。在83个benchmarks上进行测试，检测到了来自5个不同厂商的9种不同的DMA 控制器。对7个fuzz-tested的真实世界的固件进行分析，执行路径比之前的高79倍，并额外发现了5个位置漏洞。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>为了提高嵌入式系统的安全性，研究人员使用了多种方法：runtime attack mitigation，remote attestation和固件分析。其中固件分析误报率低，不需要修改软硬件，不会在生产设备上引入额外的开销，故固件分析的方法更受青睐。</p>
+<p>但一个基本的问题仍然普遍存在：现有的动态分析方法不能支持固件通过DMA从外设中获取输入，当固件从内存中的DMA缓冲区读取数据时，该缓冲区应包含由外设直接写入的数据，但目前的分析或模拟方法却只能将其视为常规的内存读取操作，返回0或无效值。使得固件无法获得任何DMA输入，从而导致代码覆盖率较低、甚至奔溃等问题。</p>
+<p>根本原因在于DMA允许外设直接访问内存。固件分析器如果不能完全模拟所有外设或完全理解它们的DMA activities，就无法确定内存中基于DMA的I/O何时何地发生。现有的方案要么将DMA视为out of scope，要么使用非常简单的启发式方法来静态推断出内存中的DMA缓冲区位置。</p>
+<p>本文中作者提出了DICE (DMA Input Channel Emulation)，可用于动态固件分析器识别和操作基于DMA的外设输入，从而扩展其用于覆盖以来DMA输入的固件代码、状态、漏洞。</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled.png"></p>
+<p>作者设计DICE用于模拟DMA input channel，当固件内存访问的source或destination为内存中的固定区域时（即DMA内存地址），DICE识别其为DMA input channel。并想分析器发送信号以进行进一步处理。</p>
+<p>主要解决了三个挑战：DMA input channel是在执行期间由固件创建或删除的，DICE需要动态识别这些channel，并监控输入事件。嵌入式软硬件的多样性使得通用性的DICE设计更加困难。大量固件都是二进制形式的，没有源代码和调试符号。</p>
+<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>以某款基于MCU的GPS设备为例，它使用UART从GPS天线接受序列化消息，这些消息通过DMA复制到RAM，然后固件解析消息并计算位置信息，然后通过DMA将其复制到连接到SPI的LCD。如果没有外围设备的支持，这个GPS固件的动态分析无法到达大部分代码，因为固件无法接受任何输入，甚至无法启动设备。最近的一些工作使用不同的方法解决了外围设备依赖的问题，然而它们仅关注使用内存映射I/O的简单外设（2）。依靠手动识别DMA缓冲区或通过手动编写hook替换HAL函数来彻底替换DMA。到目前为止，还没有工作支持使用DMA与固件通信的复杂外设（1）。</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%201.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%201.png"></p>
+<h2 id="Survey-on-DMA-Availability-and-Usage-on-MCUs"><a href="#Survey-on-DMA-Availability-and-Usage-on-MCUs" class="headerlink" title="Survey on DMA Availability and Usage on MCUs"></a>Survey on DMA Availability and Usage on MCUs</h2><h3 id="DMA-Availability-on-MCUs"><a href="#DMA-Availability-on-MCUs" class="headerlink" title="DMA Availability on MCUs"></a>DMA Availability on MCUs</h3><p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%202.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%202.png"></p>
+<h3 id="DMA-Usage-by-Firmware"><a href="#DMA-Usage-by-Firmware" class="headerlink" title="DMA Usage by Firmware"></a>DMA Usage by Firmware</h3><p>在Github中收集了1000个与microcontrollers, IoT, and DMA相关的repo，发现920个包含与DMA相关的头文件或代码。数据集中的350个ELF中有88个包含与DMA相关的调试符号。</p>
+<h2 id="System-Design"><a href="#System-Design" class="headerlink" title="System Design"></a>System Design</h2><p>DICE的设计目标：硬件独立性、软件兼容性、动态DMA、无需源代码、能够与分析器集成</p>
+<h3 id="DMA-Input-Channels"><a href="#DMA-Input-Channels" class="headerlink" title="DMA Input Channels"></a>DMA Input Channels</h3><p>DMA Input Channels是作者定义的一个抽象概念，可以视为固件与外设通过DMA交换数据的桥梁。output channel的定义类似，传输方向相反（数据通过DMA传输到外设）。source&amp;destination所有可能的组合如表II所示。</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%203.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%203.png"></p>
+<p>每个DMA传输需要三个步骤：</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%204.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%204.png"></p>
+<h3 id="Capturing-Stream-Conﬁgurations"><a href="#Capturing-Stream-Conﬁgurations" class="headerlink" title="Capturing Stream Conﬁgurations"></a>Capturing Stream Conﬁgurations</h3><p>作者发现了DMA流配置遵循一种较为明显的模式：将特定范围内的一些值写入内存中的固定区域。这种模式与在每个DMA流配置中执行的基本操作相呼应，即将源和目标传输指针写入 DMA 控制器寄存器。这些外设寄存器始终映射到MMIO区域(0x40000000–0x5fffffff)。源传输指针的值必须在 0x40000000–0x5fffffff（对于外设 MMIO）、0x20000000-0x20004fff（对于 RAM）或 0x8000000-0x801ffff（对于 Flash）的范围内。</p>
+<p>根据经验，固件仅在DMA 流配置时将两个指针/地址值写入两个连续的 MMIO 寄存器。</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%205.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%205.png"></p>
+<p>DICE在监控执行时固件写入内存时判断是否为流配置的pattern，当发现为流配置的pattern时，DICE从中提取出传输指针并判断传输方向。当发现将数据传输到RAM的DMA流配置时，DICE找到其目的地址，并意味着新的DMA input channel建立。</p>
+<h3 id="Responding-to-DMA-Data-Read"><a href="#Responding-to-DMA-Data-Read" class="headerlink" title="Responding to DMA Data Read"></a>Responding to DMA Data Read</h3><p>在 DICE 捕获 DMA 流配置并找到目标地址后，它会在目标地址上设置一个access hook。但仍存在两个问题：buffer size未知、DMA input channel会动态终止。</p>
+<p>Unknown buffer size: 一个最直观的解决方案是从编译器生成的调试符号中直接提取缓冲区大小。但是DICE采用了一种动态推断的方式，无需调试符号。基于：固件通常在空间中连续读取DMA缓冲区（from the beginning to the end, but not necessarily consecutive in time）。如下图算法所示，其动态的增加DMA缓冲区的估计值。</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%206.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%206.png"></p>
+<p>Dynamic channel terminations：如果无法识别已经关闭的DMA input channel，会导致 DICE 和固件分析错误地将常规内存访问视为 DMA 输入事件，从而影响固件的正常执行。DICE将两种模式视作input channel终止的信号：1、新的DMA流配置与之前的相同，2、固件写入与DMA input channel对应的内存buffer中， 该input channel将被隐式终止。</p>
+<h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p>Intel Core i5-7260U CPU @ 2.20GHz, 8 GB of RAM, and a fresh installation of Ubuntu 18.04 LTS.</p>
+<h3 id="Unit-Tests-on-Sample-Firmware"><a href="#Unit-Tests-on-Sample-Firmware" class="headerlink" title="Unit Tests on Sample Firmware"></a>Unit Tests on Sample Firmware</h3><p>Experiment Setup：</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%207.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%207.png"></p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%208.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%208.png"></p>
+<p>True positive and false negative analysis：</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%209.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%209.png"></p>
+<p>Runtime overhead：</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%2010.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2010.png"></p>
+<h2 id="Fuzz-testing-Real-Firmware"><a href="#Fuzz-testing-Real-Firmware" class="headerlink" title="Fuzz-testing Real Firmware"></a>Fuzz-testing Real Firmware</h2><p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%2011.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2011.png"></p>
+<p>Fuzzing Statistics:</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%2012.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2012.png"></p>
+<p>Detected New Bugs and Case Study:</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%2013.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2013.png"></p>
+<p>case study Bug #1:</p>
+<p>(the correct check should be startAddr &gt;= MODBUS_SLAVE_REGISTERS_NUM)</p>
+<p><img src="/2021/07/12/paper_notes/2021-0712-DICE 105af14bb31f41cd8b1f654117fb948d/Untitled%2014.png" alt="2021-0712-DICE%20105af14bb31f41cd8b1f654117fb948d/Untitled%2014.png"></p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>作者对DMA的使用情况进行了较大规模的调查，显示了DMA在基于MCU的嵌入式设备上的普遍性和多样性。为了解决现有固件动态分析方案，作者设计了DICE，通过集成到现有分析方案，实现与硬件无关的DMA输入模拟。并能够自动化的推断出DMA缓冲区的位置及大小。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/05/26/paper_notes/2021-0526-DynPTA 78974e4c6b7d49ae89f7dd5d0eec9485/" rel="next" title="【论文笔记】DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】DynPTA: Combining Static and Dynamic Analysis for Practical Selective Data Protection
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/27/paper_notes/2021-0727-SelectiveTaint 6edda7b73f34460a9dd5c4528311db64/" rel="prev" title="【论文笔记】SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting">
+                【论文笔记】SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0712-DICE"><span class="nav-number">1.</span> <span class="nav-text">2021-0712-DICE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DICE-Automatic-Emulation-of-DMA-Input-Channels-for-Dynamic-Firmware-Analysis"><span class="nav-number">2.</span> <span class="nav-text">DICE: Automatic Emulation of DMA Input Channels for Dynamic Firmware Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">2.1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">2.2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">2.3.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Survey-on-DMA-Availability-and-Usage-on-MCUs"><span class="nav-number">2.4.</span> <span class="nav-text">Survey on DMA Availability and Usage on MCUs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DMA-Availability-on-MCUs"><span class="nav-number">2.4.1.</span> <span class="nav-text">DMA Availability on MCUs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DMA-Usage-by-Firmware"><span class="nav-number">2.4.2.</span> <span class="nav-text">DMA Usage by Firmware</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#System-Design"><span class="nav-number">2.5.</span> <span class="nav-text">System Design</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DMA-Input-Channels"><span class="nav-number">2.5.1.</span> <span class="nav-text">DMA Input Channels</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Capturing-Stream-Conﬁgurations"><span class="nav-number">2.5.2.</span> <span class="nav-text">Capturing Stream Conﬁgurations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Responding-to-DMA-Data-Read"><span class="nav-number">2.5.3.</span> <span class="nav-text">Responding to DMA Data Read</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation"><span class="nav-number">2.6.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unit-Tests-on-Sample-Firmware"><span class="nav-number">2.6.1.</span> <span class="nav-text">Unit Tests on Sample Firmware</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fuzz-testing-Real-Firmware"><span class="nav-number">2.7.</span> <span class="nav-text">Fuzz-testing Real Firmware</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">2.8.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
