@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,Reverse,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0CTF/TCTF 2021 Quals FA51R_RE &amp;amp; FA51R_PWN WriteUp English  Table of Contents 0CTF/TCTF 2021 Quals FA51R_RE &amp;amp; FA51R_PWN WriteUp Table of Contents 基本信息 概述 设计思路 FASLR 二进制俄罗斯方块 in FA51R_RE FA51R_P">
+<meta name="keywords" content="CTF,Reverse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0CTF&#x2F;TCTF 2021 Quals FA51R_RE &amp; FA51R_PWN WriteUp">
+<meta property="og:url" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="0CTF/TCTF 2021 Quals FA51R_RE &amp;amp; FA51R_PWN WriteUp English  Table of Contents 0CTF/TCTF 2021 Quals FA51R_RE &amp;amp; FA51R_PWN WriteUp Table of Contents 基本信息 概述 设计思路 FASLR 二进制俄罗斯方块 in FA51R_RE FA51R_P">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/addressspace.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/image-20210705232952268.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/image-20210705233116165.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/image-20210705233150233.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/image-20210705233322009.png">
+<meta property="og:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/image-20210705234028687.png">
+<meta property="og:updated_time" content="2021-08-03T13:24:32.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="0CTF&#x2F;TCTF 2021 Quals FA51R_RE &amp; FA51R_PWN WriteUp">
+<meta name="twitter:description" content="0CTF/TCTF 2021 Quals FA51R_RE &amp;amp; FA51R_PWN WriteUp English  Table of Contents 0CTF/TCTF 2021 Quals FA51R_RE &amp;amp; FA51R_PWN WriteUp Table of Contents 基本信息 概述 设计思路 FASLR 二进制俄罗斯方块 in FA51R_RE FA51R_P">
+<meta name="twitter:image" content="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/addressspace.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/">
+
+
+
+
+
+  <title>0CTF/TCTF 2021 Quals FA51R_RE & FA51R_PWN WriteUp | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/07/14/0CTF-2021-qual-FA51R/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">0CTF/TCTF 2021 Quals FA51R_RE & FA51R_PWN WriteUp</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-07-14T18:07:35+08:00">
+                2021-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/Reverse/" itemprop="url" rel="index">
+                    <span itemprop="name">Reverse</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/14/0CTF-2021-qual-FA51R/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/07/14/0CTF-2021-qual-FA51R/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0CTF-TCTF-2021-Quals-FA51R-RE-amp-FA51R-PWN-WriteUp"><a href="#0CTF-TCTF-2021-Quals-FA51R-RE-amp-FA51R-PWN-WriteUp" class="headerlink" title="0CTF/TCTF 2021 Quals FA51R_RE &amp; FA51R_PWN WriteUp"></a>0CTF/TCTF 2021 Quals FA51R_RE &amp; FA51R_PWN WriteUp</h1><ul>
+<li><a href="https://github.com/GANGE666/MyCTFChallenges/blob/master/0ctf_tctf_2021_quals/FA51R_RE%26PWN/README_en.md" target="_blank" rel="noopener">English</a></li>
+</ul>
+<h2 id="Table-of-Contents"><a href="#Table-of-Contents" class="headerlink" title="Table of Contents"></a>Table of Contents</h2><ul>
+<li><a href="#0ctftctf-2021-quals-fa51r_re--fa51r_pwn-writeup">0CTF/TCTF 2021 Quals FA51R_RE &amp; FA51R_PWN WriteUp</a><ul>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#基本信息">基本信息</a></li>
+<li><a href="#概述">概述</a></li>
+<li><a href="#设计思路">设计思路</a><ul>
+<li><a href="#faslr">FASLR</a></li>
+<li><a href="#二进制俄罗斯方块-in-fa51r_re">二进制俄罗斯方块 in FA51R_RE</a></li>
+<li><a href="#fa51r_pwn">FA51R_PWN</a></li>
+</ul>
+</li>
+<li><a href="#预期解法">预期解法</a><ul>
+<li><a href="#fa51r_re">FA51R_RE</a></li>
+<li><a href="#fa51r_pwn-1">FA51R_PWN</a></li>
+</ul>
+</li>
+<li><a href="#主要文件列表">主要文件列表</a></li>
+<li><a href="#环境部署">环境部署</a></li>
+<li><a href="#解题脚本">解题脚本</a></li>
+<li><a href="#others">Others</a></li>
+<li><a href="#credit">Credit</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h2><p><strong>FA51R_RE</strong></p>
+<p>Rev, 10 solves, 550 points</p>
+<p><strong>FA51R_PWN</strong></p>
+<p>Pwn, 0 solves, 1000 points</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>FA51R的全称是Function level Address Space Layout Randomization（FASLR）。</p>
+<ul>
+<li>_RE：选手需要通过逆向二进制俄罗斯方块小游戏并完成挑战，以通过第一关并获得admin权限、FA51R_RE的flag和FA51R_PWN文件的解压密码。</li>
+<li>_PWN：admin菜单中提供了增删查改、_RE的可视化版本小游戏、设置随机数种子、关闭动态加载函数（虽然并不是真的关闭），共七个功能。</li>
+</ul>
+<p><strong>漏洞位置</strong>：关闭动态加载函数时会检查mmap的第一个参数（希望分配到的地址）与mmap的返回值（实际分配的地址）是否相同，以达到Randomization的目的。在检查不相等时会进入到错误处理分支，在这个Error Handling Code中封装了两个清理函数，其中存在一个double free漏洞。</p>
+<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><h3 id="FASLR"><a href="#FASLR" class="headerlink" title="FASLR"></a>FASLR</h3><p>我们最常见的ASLR机制，以module为粒度进行随机化，只需要泄露其中的任意一个地址，攻击者便可利用其中的gadget。</p>
+<ul>
+<li><p>FASLR的出发点在于以函数为粒度进行随机化，使得攻击者在劫持控制流时需要更多的信息量才能跳转到正确的地址。</p>
+</li>
+<li><p>动态加载函数的出发点在于使得内存中的函数尽可能的少，减少攻击者可以使用的gadget</p>
+</li>
+</ul>
+<p>FASLR的工作机制如下：</p>
+<ul>
+<li>loader加载时mmap FASLR .rodata .bss section，以及0x300000用于存放dyncall的地址。（dyncall是Loader中的一个函数）</li>
+<li>调用一个FASLR function时<ul>
+<li>caller需要设置xmm15寄存器的值为callee的hash，并跳转至*0x300000(dyncall函数)</li>
+<li>dyncall从0x10000000-0xFFFFFFFF的地址空间内随机选取一个值，并会根据hash将callee加载至指定内存。（dyncall中做的一系列复杂操作是为了在保证栈上参数位置正确的同时，将caller的返回地址替换为dyncall的返回地址，使得callee返回后能够继续执行dyncall的清理操作）</li>
+<li>dyncall跳转至callee</li>
+<li>从callee返回后dyncall会将callee的内存munmap掉。</li>
+<li>从dyncall返回caller</li>
+</ul>
+</li>
+</ul>
+<p>本次的FASLR的prototype设计较为粗糙，存在overhead过高、随机化不完全等诸多缺点。</p>
+<p>Related code in <code>src/loader.c</code></p>
+<img src="/2021/07/14/0CTF-2021-qual-FA51R/addressspace.png" alt="addressspace.png" style="zoom:50%;">
+
+
+
+<h3 id="二进制俄罗斯方块-in-FA51R-RE"><a href="#二进制俄罗斯方块-in-FA51R-RE" class="headerlink" title="二进制俄罗斯方块 in FA51R_RE"></a>二进制俄罗斯方块 in FA51R_RE</h3><p>FA51R_RE中Login的校验是我基于俄罗斯方块设计的一个二进制俄罗斯方块游戏。游戏空间有4*4*5个bit组成，共有5层，每一层有4*4个bit。每一次掉落随机的4*4个bit的方块，所某层中任意一行或一列的bit全为1时，该行/列bit消除，分数+1，上层bit落下。选手可以操作掉落的4*4的方块进行整体的循环下移或右移，当掉落方块中的某个bit的1与下层的1重叠时，方块停止下落。当第五层存在方块时游戏结束，当分数超过150分时，获胜。</p>
+<p><strong>棋盘状态</strong>（4*4*5层）：<img src="/2021/07/14/0CTF-2021-qual-FA51R/image-20210705232952268.png" alt="image-20210705232952268" style="zoom:50%;"></p>
+<p>随机生成的方块（仅有1行1列的随机数，其余位置为0）：<img src="/2021/07/14/0CTF-2021-qual-FA51R/image-20210705233116165.png" alt="image-20210705233116165" style="zoom:50%;"></p>
+<p>方块循环下移：<img src="/2021/07/14/0CTF-2021-qual-FA51R/image-20210705233150233.png" alt="image-20210705233150233" style="zoom:50%;"></p>
+<p>方块循环右移：<img src="/2021/07/14/0CTF-2021-qual-FA51R/image-20210705233322009.png" alt="image-20210705233322009" style="zoom:50%;"></p>
+<p>方块掉落完成后，若某一行或某一列(1*4/4*1 bit)全为1时，该行/列消除，得分+1。</p>
+<p>胜利条件：大于150分</p>
+<p>失败条件：最高层的方块无法下落</p>
+<h3 id="FA51R-PWN"><a href="#FA51R-PWN" class="headerlink" title="FA51R_PWN"></a>FA51R_PWN</h3><p>完成FA51R_RE后，可以进入admin mode，其中共有7个功能。</p>
+<img src="/2021/07/14/0CTF-2021-qual-FA51R/image-20210705234028687.png" alt="image-20210705234028687" style="zoom:50%;">
+
+<ul>
+<li>[1~4] 增删查改：可以对堆块进行一系列的操作，其中没有漏洞，作用是为了方便选手进行堆布局。</li>
+<li>[5] _RE关卡的可视化小游戏，没有实质性的作用，just for fun. </li>
+<li>[6] 允许设置随机数种子，该随机数种子可以影响[5]游戏及[7]中的mmap地址。</li>
+<li>[7] 关闭FASLR、动态加载函数（虽然不会真的关闭），程序会将所有的函数加载到内存中的随机地址。<a href="./src/allinone.c#L1266">对应代码</a></li>
+</ul>
+<p>漏洞位于当<code>rand()&amp;0xFFFFF000</code>产生的mmap目标地址与实际分配到的地址不符时，在<a href="./src/allinone.c#L1313">Error Handling Code</a>中出现的Double Free漏洞。</p>
+<p>FASLR程序中所使用的堆为一个十分简单的堆管理器<a href="https://github.com/CCareaga/heap_allocator" target="_blank" rel="noopener">Simple Heap Memory ALLocator</a>，其没有double free的检查，可以通过类似于fastbin attack的技巧，结合增删查改功能构造任意地址读写的原语。</p>
+<h2 id="预期解法"><a href="#预期解法" class="headerlink" title="预期解法"></a>预期解法</h2><h3 id="FA51R-RE"><a href="#FA51R-RE" class="headerlink" title="FA51R_RE"></a>FA51R_RE</h3><ul>
+<li>理解FASLR的函数加载、调用机制及全局变量的访问方式（大部分在<code>main</code>中）</li>
+<li>恢复call graph、恢复字符串引用</li>
+<li>逆向Login的逻辑，发现为一个类似于俄罗斯方块的游戏，达到150分即可过关</li>
+<li>编写脚本自动化玩游戏，算法不同，通关的成功率不同。（可以使用DFS、枚举并加入评分机制等等）。由于时间作为seed，因此游戏中掉落的方块的值是可以预测的。（因此你也可以选择一个未来的时间手动玩150分？❌）</li>
+</ul>
+<h3 id="FA51R-PWN-1"><a href="#FA51R-PWN-1" class="headerlink" title="FA51R_PWN"></a>FA51R_PWN</h3><ul>
+<li>分析七个功能：增删查改、_RE的可视化版本小游戏、设置随机数种子、关闭动态加载函数</li>
+<li>增删查改中没有漏洞、小游戏复用了大部分_RE中的代码、设置随机数种子会设置一个全局的<code>random_seed</code></li>
+<li>发现关闭动态加载函数的功能实际上并没有真正的关闭动态加载。仔细分析其流程发现，当<code>mmap</code>分配出的地址与预期不符时会在错误处理时产生double free，一个32字节大小的堆块被double free。</li>
+<li>[触发漏洞] <ul>
+<li>明确了漏洞的位置，接下来需要注入一个错误，使得<code>mmap</code>不能够分配到预期的地址。</li>
+<li>可以很容易的想到，当<code>mmap</code>一个mapped的地址时无法正常的分配到该地址</li>
+<li>而<code>mmap</code>的预期地址是通过<code>rand</code>函数&amp;0xFFFFF000得到的</li>
+<li>因此，我们需要挑选一个seed，使得接下来两个<code>rand</code>的返回值and 0xFFFFF000的结果相同。（使他们分配到同一个地址，产生错误，触发double free）</li>
+</ul>
+</li>
+<li>[任意地址读写原语构造] 程序中所使用的堆管理器是一个十分简单的<a href="https://github.com/CCareaga/heap_allocator" target="_blank" rel="noopener">Simple Heap Memory ALLocator</a>，没有double free的检查。使用基本的fastbin attack技巧即可构造出任意地址读写原语。</li>
+<li>[getshell] 发现<code>mian</code>中最后会调用FASLR的<code>puts</code>函数输出用户输入的姓名。改写<code>main</code> .data段中用于标识<code>puts</code>的hash，修改为<code>execve</code>的hash。用户名输入<code>/bin/sh</code>，getshell。</li>
+</ul>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a href="https://github.com/GANGE666/MyCTFChallenges/tree/master/0ctf_tctf_2021_quals/FA51R_RE%26PWN" target="_blank" rel="noopener">https://github.com/GANGE666/MyCTFChallenges/tree/master/0ctf_tctf_2021_quals/FA51R_RE%26PWN</a></p>
+<h2 id="主要文件列表"><a href="#主要文件列表" class="headerlink" title="主要文件列表"></a>主要文件列表</h2><ul>
+<li>./allinone_noFASLR：没有开启FASLR的版本，可直接运行</li>
+<li>./allinone_withFASLR_nosplit：开了了FASLR，但没有将函数分割开的版本</li>
+<li>./deployment/FA51R_server/share/admin/main：题目环境，FASLR的loader</li>
+<li>./deployment/FA51R_server/share/admin/ ：题目环境，开启了FASLR并将不同函数分隔成单独文件</li>
+<li><a href="https://github.com/GANGE666/MyCTFChallenges/blob/master/0ctf_tctf_2021_quals/FA51R_RE%26PWN/func_hash.txt" target="_blank" rel="noopener">./func_hash.txt</a>：函数名及hash的对应关系</li>
+</ul>
+<h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd deployment</span><br><span class="line">cd FA51R_server</span><br><span class="line">docker-compose up -d --build</span><br></pre></td></tr></table></figure>
+
+<h2 id="解题脚本"><a href="#解题脚本" class="headerlink" title="解题脚本"></a>解题脚本</h2><ul>
+<li>final.py 包含_RE和_PWN的脚本</li>
+<li>tetris_solver.py  _RE解题脚本</li>
+<li>pwn.py  _PWN利用脚本</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd solver</span><br><span class="line">python3 final.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><p>本来考虑过基于llvm，通过pass实现FASLR的保护效果，但是考虑到glibc不支持使用llvm编译，故放弃。</p>
+<p>然而后来由于glibc中的corner case过多，不好处理，故改为使用<a href="https://github.com/CCareaga/heap_allocator" target="_blank" rel="noopener">Simple Heap Memory ALLocator</a>及各种syscall的wrapper。</p>
+<h2 id="Credit"><a href="#Credit" class="headerlink" title="Credit"></a>Credit</h2><p>感谢<a href="https://github.com/Le0nn" target="_blank" rel="noopener">@Pyro</a>、<a href="https://github.com/YZloser" target="_blank" rel="noopener">@YZloser</a>、<a href="https://github.com/hzqmwne" target="_blank" rel="noopener">@hzqmwne</a>参与验题并提供建议与帮助。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/Reverse/" rel="tag"># Reverse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/14/0CTF-2021-qual-FEA/" rel="next" title="0CTF/TCTF 2021 Quals FEA WriteUp">
+                <i class="fa fa-chevron-left"></i> 0CTF/TCTF 2021 Quals FEA WriteUp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/27/paper_notes/2021-0727-SelectiveTaint 6edda7b73f34460a9dd5c4528311db64/" rel="prev" title="【论文笔记】SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting">
+                【论文笔记】SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0CTF-TCTF-2021-Quals-FA51R-RE-amp-FA51R-PWN-WriteUp"><span class="nav-number">1.</span> <span class="nav-text">0CTF/TCTF 2021 Quals FA51R_RE &amp; FA51R_PWN WriteUp</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Table-of-Contents"><span class="nav-number">1.1.</span> <span class="nav-text">Table of Contents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本信息"><span class="nav-number">1.2.</span> <span class="nav-text">基本信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.3.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-number">1.4.</span> <span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FASLR"><span class="nav-number">1.4.1.</span> <span class="nav-text">FASLR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制俄罗斯方块-in-FA51R-RE"><span class="nav-number">1.4.2.</span> <span class="nav-text">二进制俄罗斯方块 in FA51R_RE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FA51R-PWN"><span class="nav-number">1.4.3.</span> <span class="nav-text">FA51R_PWN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预期解法"><span class="nav-number">1.5.</span> <span class="nav-text">预期解法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FA51R-RE"><span class="nav-number">1.5.1.</span> <span class="nav-text">FA51R_RE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FA51R-PWN-1"><span class="nav-number">1.5.2.</span> <span class="nav-text">FA51R_PWN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Source"><span class="nav-number">1.6.</span> <span class="nav-text">Source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要文件列表"><span class="nav-number">1.7.</span> <span class="nav-text">主要文件列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境部署"><span class="nav-number">1.8.</span> <span class="nav-text">环境部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题脚本"><span class="nav-number">1.9.</span> <span class="nav-text">解题脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Others"><span class="nav-number">1.10.</span> <span class="nav-text">Others</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Credit"><span class="nav-number">1.11.</span> <span class="nav-text">Credit</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
