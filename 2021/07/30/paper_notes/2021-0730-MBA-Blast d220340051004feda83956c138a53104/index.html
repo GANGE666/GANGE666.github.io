@@ -106,7 +106,7 @@
 <meta property="og:image" content="https://gange666.github.io/2021/07/30/paper_notes/2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2016.png">
 <meta property="og:image" content="https://gange666.github.io/2021/07/30/paper_notes/2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2017.png">
 <meta property="og:image" content="https://gange666.github.io/2021/07/30/paper_notes/2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2018.png">
-<meta property="og:updated_time" content="2021-09-27T07:16:38.166Z">
+<meta property="og:updated_time" content="2021-09-27T11:40:55.214Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation">
 <meta name="twitter:description" content="2021-0730-MBA-BlastMBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation 作者：Binbin Liu, Junfu Shen, Jiang Ming, Qilong Zheng, Jing Li, Dongpeng Xu 单位：University of Science and Tech">
@@ -402,17 +402,22 @@
 <p>作者研究了MBA混淆的数学原理并证明了MBA设计中隐藏的双向转换特征：作者发现MBA转换在1-bit变量和任意长度整数上的行为相同。根据这一发现，作者设计了MBA-Blast，其能够将MBA表达式有效的化简为简单形式。其核心思想在于将所有bitwise表达式转换成1-bit的特定的MBA形式，然后进行算术规约。当位运算替换完成后，可以使用传统的运算定律进行化简。作者提供了一个数学证明来支撑这一结论。</p>
 <p>为了证明MBA-Blast的有效性，作者选取了10000个MBA表达式的数据集对MBA-Blast及目前类似的解决方案进行测试，实验结果表明只有MBA-Blast能够成功化简所有的MBA表达式，且其开销可忽略。</p>
 <h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><h3 id="MBA-Expression"><a href="#MBA-Expression" class="headerlink" title="MBA Expression"></a>MBA Expression</h3><p>MBA在计算机科学领域有广泛的应用，如优化、编码、压缩等，常见的MBA表达式：</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled.png" style="zoom:33%;">
+
 <p>定义：</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%201.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%201.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%201.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%201.png" style="zoom:33%;">
+
 <h3 id="MBA-Obfuscation"><a href="#MBA-Obfuscation" class="headerlink" title="MBA Obfuscation"></a>MBA Obfuscation</h3><p>之前有人证明了：<em>any Boolean function has its non-trivial MBA expression equivalents</em>。为MBA混淆奠定了理论基础。市面上也有诸多开源、闭源的MBA混淆方案。</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%202.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%202.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%202.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%202.png" style="zoom:33%;">
+
 <h3 id="Strength-of-MBA-Obfuscation"><a href="#Strength-of-MBA-Obfuscation" class="headerlink" title="Strength of MBA Obfuscation"></a>Strength of MBA Obfuscation</h3><p>Potency、Resilience、Cost、Correctness</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%203.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%203.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%203.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%203.png" style="zoom:33%;">
+
 <h3 id="Deobfuscation-of-MBA-Expressions"><a href="#Deobfuscation-of-MBA-Expressions" class="headerlink" title="Deobfuscation of MBA Expressions"></a>Deobfuscation of MBA Expressions</h3><p>前人尝试了多种去混淆的方式，但都无法通用/效果不佳：符号计算软件（Maple, Wolfram Mathematica, SageMath, and Z3）、LLVM编译时优化、SSPAM等使用的模式匹配、适用于特定MBA模式的代数化简、使用program synthesis生成一个更简单但等价的表达式…</p>
 <p>现有工作共有的局限性在于，他们将MBA混淆视为一个黑箱，而没有研究内在的原理。作者还发现缺乏全面的MBA ground truth。</p>
 <h1 id="How-MBA-Obfuscation-Works-from-One-bit-to-N-bit"><a href="#How-MBA-Obfuscation-Works-from-One-bit-to-N-bit" class="headerlink" title="How MBA Obfuscation Works: from One-bit to N-bit"></a>How MBA Obfuscation Works: from One-bit to N-bit</h1><p>Zhou et al. [24]提出了一种自动化生成MBA等式的方法。以两个布尔变量、五种运算为例：</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%204.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%204.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%204.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%204.png" style="zoom: 50%;">
+
 <p>尽管这只能生成1-bit变量，但Zhou等人证明了该方法对任意长度的整数都适用。</p>
 <h1 id="Our-Finding-“N-bit-to-One-bit”-Also-Holds"><a href="#Our-Finding-“N-bit-to-One-bit”-Also-Holds" class="headerlink" title="Our Finding: “N-bit to One-bit” Also Holds"></a>Our Finding: “N-bit to One-bit” Also Holds</h1><p>作者发现现有的MBA混淆设计实际上是隐含了1-bit和n-bit变量的双向转换。n-bit到1-bit的转换是去除MBA混淆的基础。</p>
 <p>作者使用反证法进行了证明，略过。</p>
@@ -421,31 +426,44 @@
 <li>在1-bit空间中找到E’1使得E1-E’1 = 0</li>
 <li>将E’1从1-bit空间转换为n-bit空间</li>
 </ol>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%205.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%205.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%205.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%205.png" style="zoom: 50%;">
+
 <p>第1、3步已在Section 3 and 4中证明，核心的是第二步，找到一个1-bit化简后的表达式。</p>
 <p>$$E_n - E’_n = 0 \Leftrightarrow E_1 - E’_1 = 0<br>$$</p>
 <p>在1-bit空间上化简的优势在于：可以使用真值表来枚举所有可能的值。</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%206.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%206.png"></p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%207.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%207.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%206.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%206.png" style="zoom:33%;">
+
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%207.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%207.png" style="zoom:33%;">
+
 <p>根据Section 3，我们可以由Table 1得到：$x+y − (x∨y) − (x∧y) = 0$，也就意味着$x∨y = x+y−(x∧y)$。通过这种方法我们可以构建两变量的真值表（Table 2）。The truth value of $x∨y$为0111（纵列），通过替换$x∨y$为其他操作得到对应的项。通过这种方式得到的MBA表达式都形如$c_1 x+c_2 y+c_3 (x∧y)−c_4$。</p>
 <p>因此可以进行化简：$∑a_i e_i =<br>∑a_i (c_1i x+c_2i y+c_3i (x∧y)−c_4i )<br>= C_1 x+C_2 y+C_3 (x∧y)−C_4$</p>
 <p>Section 3中的例子：</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%208.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%208.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%208.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%208.png" style="zoom:33%;">
+
 <p>Figure 1中的例子：</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%209.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%209.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%209.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%209.png" style="zoom:33%;">
+
 <h1 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h1><p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2010.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2010.png"></p>
 <h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><h2 id="Experimental-Setup"><a href="#Experimental-Setup" class="headerlink" title="Experimental Setup"></a>Experimental Setup</h2><p>dataset 1：</p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2011.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2011.png"></p>
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2011.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2011.png" style="zoom:33%;">
+
 <p>Dataset 2：</p>
 <p>10000条MBA表达式，考虑了Length of variables、Number of variables、Number of terms</p>
 <h3 id="Peer-Tools-for-Comparison"><a href="#Peer-Tools-for-Comparison" class="headerlink" title="Peer Tools for Comparison"></a>Peer Tools for Comparison</h3><p>Arybo [33], SSPAM [34], and Syntia [21]</p>
-<h2 id="Dataset-1-Collected-MBA-Examples"><a href="#Dataset-1-Collected-MBA-Examples" class="headerlink" title="Dataset 1: Collected MBA Examples"></a>Dataset 1: Collected MBA Examples</h2><p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2012.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2012.png"></p>
-<h2 id="Dataset-2-Comprehensive-MBA-Dataset"><a href="#Dataset-2-Comprehensive-MBA-Dataset" class="headerlink" title="Dataset 2: Comprehensive MBA Dataset"></a>Dataset 2: Comprehensive MBA Dataset</h2><p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2013.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2013.png"></p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2014.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2014.png"></p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2015.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2015.png"></p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2016.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2016.png"></p>
-<h2 id="Defeating-Tigress-MBA-Obfuscation"><a href="#Defeating-Tigress-MBA-Obfuscation" class="headerlink" title="Defeating Tigress MBA Obfuscation"></a>Defeating Tigress MBA Obfuscation</h2><h2 id="Solving-MBA-Powered-Opaque-Predicates"><a href="#Solving-MBA-Powered-Opaque-Predicates" class="headerlink" title="Solving MBA-Powered Opaque Predicates"></a>Solving MBA-Powered Opaque Predicates</h2><h2 id="MBA-Usage-in-Real-World-Malware"><a href="#MBA-Usage-in-Real-World-Malware" class="headerlink" title="MBA Usage in Real-World Malware"></a>MBA Usage in Real-World Malware</h2><p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2017.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2017.png"></p>
-<p><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2018.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2018.png"></p>
+<h2 id="Dataset-1-Collected-MBA-Examples"><a href="#Dataset-1-Collected-MBA-Examples" class="headerlink" title="Dataset 1: Collected MBA Examples"></a>Dataset 1: Collected MBA Examples</h2><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2012.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2012.png" style="zoom:50%;">
+
+<h2 id="Dataset-2-Comprehensive-MBA-Dataset"><a href="#Dataset-2-Comprehensive-MBA-Dataset" class="headerlink" title="Dataset 2: Comprehensive MBA Dataset"></a>Dataset 2: Comprehensive MBA Dataset</h2><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2013.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2013.png" style="zoom:50%;">
+
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2014.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2014.png" style="zoom: 33%;">
+
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2015.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2015.png" style="zoom: 33%;">
+
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2016.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2016.png" style="zoom: 33%;">
+
+<h2 id="Defeating-Tigress-MBA-Obfuscation"><a href="#Defeating-Tigress-MBA-Obfuscation" class="headerlink" title="Defeating Tigress MBA Obfuscation"></a>Defeating Tigress MBA Obfuscation</h2><h2 id="Solving-MBA-Powered-Opaque-Predicates"><a href="#Solving-MBA-Powered-Opaque-Predicates" class="headerlink" title="Solving MBA-Powered Opaque Predicates"></a>Solving MBA-Powered Opaque Predicates</h2><h2 id="MBA-Usage-in-Real-World-Malware"><a href="#MBA-Usage-in-Real-World-Malware" class="headerlink" title="MBA Usage in Real-World Malware"></a>MBA Usage in Real-World Malware</h2><img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2017.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2017.png" style="zoom:33%;">
+
+<img src="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/Untitled%2018.png" alt="2021-0730-MBA-Blast%20d220340051004feda83956c138a53104/Untitled%2018.png" style="zoom:33%;">
+
 <h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>本文提出了一种针对于Mixed BooleanArithmetic (MBA) obfuscation的解混淆方案。作者研究了MBA混淆内在的数学原理，并证明了1-bit和n-bit变量之间双向转换特征。基于这一发现实现了MBA-Blast，将MBA表达式在1-bit空间中进行算术规约。作者通过大规模的MBA实验以及real-world恶意软件研究，证明了MBA-Blast的有效性和通用性。</p>
 
       
@@ -486,6 +504,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/09/27/0CTF-2021-final-0bf/" rel="prev" title="0CTF/TCTF 2021 Final 0bf WriteUp">
+                0CTF/TCTF 2021 Final 0bf WriteUp <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -565,7 +587,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
