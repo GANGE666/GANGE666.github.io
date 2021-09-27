@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="2021-0727-SelectiveTaintSelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting 作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang  单位：The Ohio State University 会议：USENIX Security 2021 链接">
+<meta name="description" content="2021-0727-SelectiveTaintSelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting 作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang 单位：The Ohio State University 会议：USENIX Security 2021 链接：">
 <meta name="keywords" content="paper_notes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【论文笔记】SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting">
 <meta property="og:url" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint 6edda7b73f34460a9dd5c4528311db64/index.html">
 <meta property="og:site_name" content="GANGE666&#39;s Blog">
-<meta property="og:description" content="2021-0727-SelectiveTaintSelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting 作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang  单位：The Ohio State University 会议：USENIX Security 2021 链接">
+<meta property="og:description" content="2021-0727-SelectiveTaintSelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting 作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang 单位：The Ohio State University 会议：USENIX Security 2021 链接：">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint%206edda7b73f34460a9dd5c4528311db64/Untitled.png">
 <meta property="og:image" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint%206edda7b73f34460a9dd5c4528311db64/Untitled%201.png">
@@ -101,10 +101,10 @@
 <meta property="og:image" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint%206edda7b73f34460a9dd5c4528311db64/Untitled%2011.png">
 <meta property="og:image" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint%206edda7b73f34460a9dd5c4528311db64/Untitled%2012.png">
 <meta property="og:image" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint%206edda7b73f34460a9dd5c4528311db64/Untitled%2013.png">
-<meta property="og:updated_time" content="2021-07-29T07:55:25.631Z">
+<meta property="og:updated_time" content="2021-09-27T07:16:49.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting">
-<meta name="twitter:description" content="2021-0727-SelectiveTaintSelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting 作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang  单位：The Ohio State University 会议：USENIX Security 2021 链接">
+<meta name="twitter:description" content="2021-0727-SelectiveTaintSelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting 作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang 单位：The Ohio State University 会议：USENIX Security 2021 链接：">
 <meta name="twitter:image" content="https://gange666.github.io/2021/07/27/paper_notes/2021-0727-SelectiveTaint%206edda7b73f34460a9dd5c4528311db64/Untitled.png">
 
 
@@ -389,10 +389,10 @@
       
         <h1 id="2021-0727-SelectiveTaint"><a href="#2021-0727-SelectiveTaint" class="headerlink" title="2021-0727-SelectiveTaint"></a>2021-0727-SelectiveTaint</h1><h1 id="SelectiveTaint-Efficient-Data-Flow-Tracking-With-Static-Binary-Rewriting"><a href="#SelectiveTaint-Efficient-Data-Flow-Tracking-With-Static-Binary-Rewriting" class="headerlink" title="SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting"></a>SelectiveTaint: Efficient Data Flow Tracking With Static Binary Rewriting</h1><blockquote>
 <p>作者：Sanchuan Chen, Zhiqiang Lin, Yinqian Zhang</p>
-</blockquote>
 <p>单位：The Ohio State University</p>
 <p>会议：USENIX Security 2021</p>
 <p>链接：<a href="https://www.usenix.org/system/files/sec21fall-chen-sanchuan.pdf" target="_blank" rel="noopener">https://www.usenix.org/system/files/sec21fall-chen-sanchuan.pdf</a></p>
+</blockquote>
 <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>污点分析已被广泛应用于许多的安全研究，例如漏洞检测、信息流追踪、恶意软件分析和协议逆向工程。dynamic taint analysis也被称为dynamic data ﬂow tracking (DDFT)。State-of-the-art 的动态污点分析工具通常建立在动态二进制插桩之上，其会每条可能的指令进行插桩并依靠运行时信息来决定指令是否需要进行污点传播，因此具有很高的性能开销。例如使用libdft应用在gzip 解压一个文件上时会4x slowdown。</p>
 <p>之前有一系列的工作旨在提高动态污点分析的性能，如应用类似编译器的优化来消除污点分析代码中的冗余逻辑[16]、污点逻辑与程序逻辑解耦并优化数据结构[15]、并行与流水线方案[25]、在线状态追踪与离线符号污点分析[24]。</p>
 <p>目前的DDFT框架以及优化都是基于dynamic binary instrumentation (DBI)，尤其是使用Intel’s Pin，在运行时进行插桩。Pin中的VM、APIs会为污点分析工具带来额外的开销。</p>
@@ -528,8 +528,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/07/14/0CTF-2021-qual-FA51R/" rel="next" title="0CTF/TCTF 2021 Quals FA51R_RE & FA51R_PWN WriteUp">
-                <i class="fa fa-chevron-left"></i> 0CTF/TCTF 2021 Quals FA51R_RE & FA51R_PWN WriteUp
+              <a href="/2021/07/14/0CTF-2021-qual-FEA/" rel="next" title="0CTF/TCTF 2021 Quals FEA WriteUp">
+                <i class="fa fa-chevron-left"></i> 0CTF/TCTF 2021 Quals FEA WriteUp
               </a>
             
           </div>
@@ -537,6 +537,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/" rel="prev" title="【论文笔记】MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation">
+                【论文笔记】MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -616,7 +620,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
