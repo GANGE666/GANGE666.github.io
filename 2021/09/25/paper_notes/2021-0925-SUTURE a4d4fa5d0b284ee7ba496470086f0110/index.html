@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-0925-SUTUREStatically Discovering High-Order Taint Style Vulnerabilities in OS Kernels 作者：Hang Zhang, Weiteng Chen, Yu Hao, Guoren Li, Yizhuo Zhai, Xiaochen Zou, Zhiyun Qian  单位：UC Riverside 会议：C">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels">
+<meta property="og:url" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-0925-SUTUREStatically Discovering High-Order Taint Style Vulnerabilities in OS Kernels 作者：Hang Zhang, Weiteng Chen, Yu Hao, Guoren Li, Yizhuo Zhai, Xiaochen Zou, Zhiyun Qian  单位：UC Riverside 会议：C">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%2010.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%2011.png">
+<meta property="og:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled%2012.png">
+<meta property="og:updated_time" content="2021-09-28T16:02:50.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels">
+<meta name="twitter:description" content="2021-0925-SUTUREStatically Discovering High-Order Taint Style Vulnerabilities in OS Kernels 作者：Hang Zhang, Weiteng Chen, Yu Hao, Guoren Li, Yizhuo Zhai, Xiaochen Zou, Zhiyun Qian  单位：UC Riverside 会议：C">
+<meta name="twitter:image" content="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE%20a4d4fa5d0b284ee7ba496470086f0110/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/">
+
+
+
+
+
+  <title>【论文笔记】Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-09-25T22:00:00+08:00">
+                2021-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-0925-SUTURE"><a href="#2021-0925-SUTURE" class="headerlink" title="2021-0925-SUTURE"></a>2021-0925-SUTURE</h1><h1 id="Statically-Discovering-High-Order-Taint-Style-Vulnerabilities-in-OS-Kernels"><a href="#Statically-Discovering-High-Order-Taint-Style-Vulnerabilities-in-OS-Kernels" class="headerlink" title="Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels"></a>Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels</h1><blockquote>
+<p>作者：Hang Zhang, Weiteng Chen, Yu Hao, Guoren Li, Yizhuo Zhai, Xiaochen Zou, Zhiyun Qian</p>
+</blockquote>
+<p>单位：UC Riverside</p>
+<p>会议：CCS 2021</p>
+<p>链接：<a href="https://www.cs.ucr.edu/~zhiyunq/pub/ccs21_static_high_order.pdf" target="_blank" rel="noopener">https://www.cs.ucr.edu/~zhiyunq/pub/ccs21_static_high_order.pdf</a></p>
+<blockquote>
+</blockquote>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>使用静态分析进行漏洞挖掘存在一个众所周知的问题：误报率高，尤其是针对像linux kernel这种代码量较大的系统，这也使得几乎没有误报的动态分析技术如fuzzing等更受欢迎。</p>
+<p>大型系统中往往存在一些很复杂的漏洞，从用户输入（taint source）到最终触发敏感操作（taint sink）需要经历一系列的函数调用，作者称这些漏洞为high-order taint style vulnerabilities。</p>
+<p>实现一个能够发现high-order vulnerabilities、good coverage, while minimizing false alarms的静态分析工具主要存在两个挑战：1. 分析需要对一个entry函数走过尽可能多的组合（在序列中的调用顺序）2. 足够准确的处理有检查的cross-entry taint flow，否在会带来很多的误报。</p>
+<p>作者实现了SUTURE，一个高精度、可扩展的静态分析工具，以发现OS kernel中的high-order taint style vulnerabilities。SUTURE使用了一种summary-based high-order taint flow construction的方法对cross-entry taint flows进行模拟。能够得到高精度的inter-procedural flow-, context-, field-, index-, and opportunistically path-sensitive static taint analysis分析结果。</p>
+<p>作者在多个主流Android kernel上使用SUTURE，生成了79个true positive warning groups，其中19个被厂商确认。</p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><h2 id="The-Motivating-Example"><a href="#The-Motivating-Example" class="headerlink" title="The Motivating Example"></a>The Motivating Example</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled.png" alt="Untitled"></p>
+<h2 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%201.png" alt="Untitled"></p>
+<h1 id="Static-Analysis-Design"><a href="#Static-Analysis-Design" class="headerlink" title="Static Analysis Design"></a>Static Analysis Design</h1><h2 id="Positioning"><a href="#Positioning" class="headerlink" title="Positioning"></a>Positioning</h2><p>基于Dr. Checker主要的数据结构实现，并作出了诸多改进，作者指出主要特点：1. 支持high-order taint flow construction，2. 数个提升分析精度和准确性的技术</p>
+<h2 id="Definitions"><a href="#Definitions" class="headerlink" title="Definitions"></a>Definitions</h2><p>Def 0. entry function作为入口函数，在同一模块内没有调用者，由用户或其他模块进行调用（如ioctl）</p>
+<h2 id="Summary-Based-High-Order-Taint-Flow-Construction"><a href="#Summary-Based-High-Order-Taint-Flow-Construction" class="headerlink" title="Summary-Based High-Order Taint Flow Construction"></a>Summary-Based High-Order Taint Flow Construction</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%202.png" alt="Untitled"></p>
+<h3 id="Taint-Summary-Generation"><a href="#Taint-Summary-Generation" class="headerlink" title="Taint Summary Generation"></a>Taint Summary Generation</h3><p>与之前的taint summary类似，区别在于SUTURE使用这些summaries连接多个top-level entry functions，而不是把caller连接到callee。</p>
+<p>因为当指针涉及全局变量时，它可能在任何的entry function中被改变。</p>
+<h3 id="High-Order-Taint-Flow-Construction"><a href="#High-Order-Taint-Flow-Construction" class="headerlink" title="High-Order Taint Flow Construction"></a>High-Order Taint Flow Construction</h3><p><strong>Global Memory Matching</strong></p>
+<p>SUTURE能够处理两种global memory：显示定义的和可以通过全局指针访问的内存。后者处理起来更困难啊。</p>
+<p>T3可以连接T1，T3也可以连接T4</p>
+<p><strong>Taint Overwrite</strong></p>
+<h2 id="Opportunistic-Path-Sensitivity"><a href="#Opportunistic-Path-Sensitivity" class="headerlink" title="Opportunistic Path Sensitivity"></a>Opportunistic Path Sensitivity</h2><p>众所周知，由于无法感知冲突的路径约束，静态分析可能会分析不可达的路径，从而导致不准确（例如，不可能的污点传播）和效率低（例如，分析不必要的分支）。直接的解决方案时采用path-sensitive的分析方案，但是由于复杂的约束求解和路径爆炸，完全的path-sensitive方案的开销过高。因此作者希望能够尽可能path-sensitive，同时避免过高的开销，因此称为opportunistic path-sensitive analysis。</p>
+<p>主要基于两点观察：</p>
+<ol>
+<li>内核中很大一部分的路径约束很简单，收集并求解这些路径约束可以做大量的剪枝</li>
+<li>可以以某种形式讲path-sensitive分析结合进flow-sensitive的工作流程中</li>
+</ol>
+<p>约束收集比较简单，当分支属于𝑜𝑝 ∈ {==, &gt;, &lt;, ≥, ≤}时，收集约束。作者称可以在17条不可行路径中过滤掉16条路径。</p>
+<p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%203.png" alt="Untitled"></p>
+<h2 id="Multi-Source-Multi-Sink-Pairing"><a href="#Multi-Source-Multi-Sink-Pairing" class="headerlink" title="Multi-Source Multi-Sink Pairing"></a>Multi-Source Multi-Sink Pairing</h2><p>这是作者表示在研究过程中遇到的另一个问题，如果处理不好，会导致points-to、污点的爆炸，并导致大量的误报。常用的指针赋值处理方式如Dr. Checker和SVF中是all to all的，即取并集or双射，但是显然在程序的实际运行中下图中subs和data_subs是对应的。</p>
+<p>为了解决这个问题，作者采用“折叠”的方式，使sink和source共享同样的源。</p>
+<p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%204.png" alt="Untitled"></p>
+<h2 id="Other-Improvements-in-SUTURE"><a href="#Other-Improvements-in-SUTURE" class="headerlink" title="Other Improvements in SUTURE"></a>Other Improvements in SUTURE</h2><h3 id="Memory-SSA-based-Analysis"><a href="#Memory-SSA-based-Analysis" class="headerlink" title="Memory SSA based Analysis"></a>Memory SSA based Analysis</h3><p>虽然LLVM IR变量是SSA形式的，但是内存对象却不是，就造成了实现flow-、context-sensitive分析时的困难。</p>
+<p>为了解决这个问题，SUTURE实现了一种on-the-fly memory SSA 分析。</p>
+<p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%205.png" alt="Untitled"></p>
+<h3 id="Index-Sensitivity"><a href="#Index-Sensitivity" class="headerlink" title="Index Sensitivity"></a>Index Sensitivity</h3><p>处理了常量索引的读取（v=a[2]）</p>
+<h3 id="General-Language-Feature-Support"><a href="#General-Language-Feature-Support" class="headerlink" title="General Language Feature Support"></a>General Language Feature Support</h3><p>改进了Dr. Checker的结构体嵌套、指针运算</p>
+<h3 id="Kernel-Code-Pattern-Handling"><a href="#Kernel-Code-Pattern-Handling" class="headerlink" title="Kernel Code Pattern Handling"></a>Kernel Code Pattern Handling</h3><p>加入了基于类型的方法来解决间接调用目标</p>
+<h3 id="Multi-Tag-Taint-Analysis"><a href="#Multi-Tag-Taint-Analysis" class="headerlink" title="Multi-Tag Taint Analysis"></a>Multi-Tag Taint Analysis</h3><h1 id="Vulnerability-Discovery-And-Warning-Grouping"><a href="#Vulnerability-Discovery-And-Warning-Grouping" class="headerlink" title="Vulnerability Discovery And Warning Grouping"></a>Vulnerability Discovery And Warning Grouping</h1><p><strong>Vulnerability Detectors</strong></p>
+<p>沿用了Dr.Checker的漏洞检测器</p>
+<p><strong>On-Demand Query of Taint Summaries</strong></p>
+<p><strong>Warning Grouping</strong></p>
+<h1 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h1><ul>
+<li>built on top of Dr. Checker</li>
+<li>15k代码量</li>
+<li>LLVM 9.0</li>
+</ul>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p><strong>Dataset</strong></p>
+<p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%206.png" alt="Untitled"></p>
+<h2 id="Efficacy-of-SUTURE’s-Static-Analysis-Improvements"><a href="#Efficacy-of-SUTURE’s-Static-Analysis-Improvements" class="headerlink" title="Efficacy of SUTURE’s Static Analysis Improvements"></a>Efficacy of SUTURE’s Static Analysis Improvements</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%207.png" alt="Untitled"></p>
+<h2 id="Vulnerability-Discovery-Accuracy"><a href="#Vulnerability-Discovery-Accuracy" class="headerlink" title="Vulnerability Discovery Accuracy"></a>Vulnerability Discovery Accuracy</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%208.png" alt="Untitled"></p>
+<h2 id="Known-High-Order-Taint-Vulnerabilities"><a href="#Known-High-Order-Taint-Vulnerabilities" class="headerlink" title="Known High-Order Taint Vulnerabilities"></a>Known High-Order Taint Vulnerabilities</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%209.png" alt="Untitled"></p>
+<h2 id="Efficiency"><a href="#Efficiency" class="headerlink" title="Efficiency"></a>Efficiency</h2><p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%2010.png" alt="Untitled"></p>
+<h2 id="Study-of-Discovered-Vulnerabilities"><a href="#Study-of-Discovered-Vulnerabilities" class="headerlink" title="Study of Discovered Vulnerabilities"></a>Study of Discovered Vulnerabilities</h2><p>整数溢出：</p>
+<p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%2011.png" alt="Untitled"></p>
+<p>OOB：</p>
+<p><img src="/2021/09/25/paper_notes/2021-0925-SUTURE a4d4fa5d0b284ee7ba496470086f0110/Untitled%2012.png" alt="Untitled"></p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>作者使用了诸多针对于静态分析的优化，实现了十分高精度的静态分析，从而能够发现较复杂的一些漏洞。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/30/paper_notes/2021-0730-MBA-Blast d220340051004feda83956c138a53104/" rel="next" title="【论文笔记】MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation">
+                <i class="fa fa-chevron-left"></i> 【论文笔记】MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/09/27/0CTF-2021-final-0bf/" rel="prev" title="0CTF/TCTF 2021 Final 0bf WriteUp">
+                0CTF/TCTF 2021 Final 0bf WriteUp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-0925-SUTURE"><span class="nav-number">1.</span> <span class="nav-text">2021-0925-SUTURE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Statically-Discovering-High-Order-Taint-Style-Vulnerabilities-in-OS-Kernels"><span class="nav-number">2.</span> <span class="nav-text">Statically Discovering High-Order Taint Style Vulnerabilities in OS Kernels</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">3.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">4.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Motivating-Example"><span class="nav-number">4.1.</span> <span class="nav-text">The Motivating Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Workflow"><span class="nav-number">4.2.</span> <span class="nav-text">Workflow</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Static-Analysis-Design"><span class="nav-number">5.</span> <span class="nav-text">Static Analysis Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Positioning"><span class="nav-number">5.1.</span> <span class="nav-text">Positioning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Definitions"><span class="nav-number">5.2.</span> <span class="nav-text">Definitions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-Based-High-Order-Taint-Flow-Construction"><span class="nav-number">5.3.</span> <span class="nav-text">Summary-Based High-Order Taint Flow Construction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Taint-Summary-Generation"><span class="nav-number">5.3.1.</span> <span class="nav-text">Taint Summary Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#High-Order-Taint-Flow-Construction"><span class="nav-number">5.3.2.</span> <span class="nav-text">High-Order Taint Flow Construction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Opportunistic-Path-Sensitivity"><span class="nav-number">5.4.</span> <span class="nav-text">Opportunistic Path Sensitivity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Source-Multi-Sink-Pairing"><span class="nav-number">5.5.</span> <span class="nav-text">Multi-Source Multi-Sink Pairing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-Improvements-in-SUTURE"><span class="nav-number">5.6.</span> <span class="nav-text">Other Improvements in SUTURE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Memory-SSA-based-Analysis"><span class="nav-number">5.6.1.</span> <span class="nav-text">Memory SSA based Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Index-Sensitivity"><span class="nav-number">5.6.2.</span> <span class="nav-text">Index Sensitivity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#General-Language-Feature-Support"><span class="nav-number">5.6.3.</span> <span class="nav-text">General Language Feature Support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kernel-Code-Pattern-Handling"><span class="nav-number">5.6.4.</span> <span class="nav-text">Kernel Code Pattern Handling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-Tag-Taint-Analysis"><span class="nav-number">5.6.5.</span> <span class="nav-text">Multi-Tag Taint Analysis</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vulnerability-Discovery-And-Warning-Grouping"><span class="nav-number">6.</span> <span class="nav-text">Vulnerability Discovery And Warning Grouping</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Implementation"><span class="nav-number">7.</span> <span class="nav-text">Implementation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">8.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Efficacy-of-SUTURE’s-Static-Analysis-Improvements"><span class="nav-number">8.1.</span> <span class="nav-text">Efficacy of SUTURE’s Static Analysis Improvements</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vulnerability-Discovery-Accuracy"><span class="nav-number">8.2.</span> <span class="nav-text">Vulnerability Discovery Accuracy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Known-High-Order-Taint-Vulnerabilities"><span class="nav-number">8.3.</span> <span class="nav-text">Known High-Order Taint Vulnerabilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Efficiency"><span class="nav-number">8.4.</span> <span class="nav-text">Efficiency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Study-of-Discovered-Vulnerabilities"><span class="nav-number">8.5.</span> <span class="nav-text">Study of Discovered Vulnerabilities</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">9.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
