@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="paper_notes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2021-1122-BDABDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation 作者：ZHUO ZHANG, WEI YOU, GUANHONG TAO, GUANNAN WEI, Y">
+<meta name="keywords" content="paper_notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文笔记】BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation">
+<meta property="og:url" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/index.html">
+<meta property="og:site_name" content="GANGE666&#39;s Blog">
+<meta property="og:description" content="2021-1122-BDABDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation 作者：ZHUO ZHANG, WEI YOU, GUANHONG TAO, GUANNAN WEI, Y">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%201.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%202.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%203.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%204.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%205.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%206.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%207.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%208.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%209.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%2010.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%2011.png">
+<meta property="og:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled%2012.png">
+<meta property="og:updated_time" content="2021-12-10T08:58:18.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【论文笔记】BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation">
+<meta name="twitter:description" content="2021-1122-BDABDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation 作者：ZHUO ZHANG, WEI YOU, GUANHONG TAO, GUANNAN WEI, Y">
+<meta name="twitter:image" content="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA%2026ca1d136bfb4801a2a2aed378ec82f9/Untitled.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/">
+
+
+
+
+
+  <title>【论文笔记】BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation | GANGE666's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GANGE666's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmarks">
+          <a href="/bookmarks/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br>
+            
+            bookmarks
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://gange666.github.io/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="G6">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GANGE666's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【论文笔记】BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-22T22:00:00+08:00">
+                2021-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper-notes/" itemprop="url" rel="index">
+                    <span itemprop="name">paper_notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2021-1122-BDA"><a href="#2021-1122-BDA" class="headerlink" title="2021-1122-BDA"></a>2021-1122-BDA</h1><h1 id="BDA-Practical-Dependence-Analysis-for-Binary-Executables-by-Unbiased-Whole-Program-Path-Sampling-and-Per-Path-Abstract-Interpretation"><a href="#BDA-Practical-Dependence-Analysis-for-Binary-Executables-by-Unbiased-Whole-Program-Path-Sampling-and-Per-Path-Abstract-Interpretation" class="headerlink" title="BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation"></a>BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation</h1><blockquote>
+<p>作者：ZHUO ZHANG, WEI YOU, GUANHONG TAO, GUANNAN WEI, YONGHWI KWON, XIANGYU ZHANG</p>
+</blockquote>
+<p>单位：Purdue University, Renmin University of China, University of Virginia</p>
+<p>会议：OOPSLA 2019</p>
+<p>链接：<a href="https://www.cs.purdue.edu/homes/zhan3299/res/OOPSLA19.pdf" target="_blank" rel="noopener">https://www.cs.purdue.edu/homes/zhan3299/res/OOPSLA19.pdf</a></p>
+<blockquote>
+</blockquote>
+<p>传统的二进制别名分析技术如VSA，Alto由于过于保守，会带来大量的over-approximation。而单一路径上的代码/数据依赖关系是比较容易确定的，因此作者从程序中采样出大量路径并对每条路径进行抽象解释，分析出该路径中的依赖关系，最后通过合并采样的路径得到程序中的依赖关系。分析结果大大降低了over-approximation，而其漏报率由概率保障（采样分析的路径越多，漏报越少）。</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>通过Program dependence analysis能够判断两条指令之间是否存在依赖关系。Binary program dependence analysis比source level dependence analysis更具有挑战性，因为binary中缺少符号信息，结构体、变量、参数都变成了寄存器和内存访问、间接控制流，使得Program dependence analysis在binary中更加困难。</p>
+<p>Binary dependence analysis中的关键挑战是memory alias analysis，其可以判定内存访问指令是否会访问同一块memory location。在此之前，大多数使用Value Set Analysis（VSA），一种静态分析方法，来解决内存别名问题。其通过计算每一条指令的取值范围，别名的内存访问指令拥有相同的值集。虽然VSA是sound的，但是其在实际使用中有很大的局限性，会产生大量的误报。</p>
+<p>soundness虽然在部分场景是必要的（如语义等价的code transformation），但在一些soundness不是至关重要的场景下（如函数识别、漏洞检测、fuzzing、协议逆向等），使用dependence analysis with probabilistic guarantees可以提供性能和可用性之间的trade-off。</p>
+<p>因此在本文中，作者提出了a binary level program dependence analysis technique with probabilistic guarantees。其通过随机采样，生成不同的路径（由于是if-else时随机选择，因此可能难以探索较长的路径），并对每条路径进行抽象解释。最后由一个 context-sensitive and flow-sensitive 的 posterior dependence analysis 对每条路径中的抽象变量进行合并，得到最后的结果。可以通过增加path sampling的数量减少漏报，并通过strong updates来遏制误报。</p>
+<h1 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h1><p>一个在binary dependence analysis中，甚至说是binary analysis中普遍存在的关键挑战是决定内存访问指令的points-to relations。</p>
+<h2 id="Limitations-of-Existing-Techniques"><a href="#Limitations-of-Existing-Techniques" class="headerlink" title="Limitations of Existing Techniques"></a>Limitations of Existing Techniques</h2><p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled.png" alt="Untitled"></p>
+<p>内存别名分析的核心（也是downstream dependence analysis）在于静态决定内存访问指令中地址的possible runtime values (PRV)，其可能是寄存器或memory location。然而这个问题在通常情况下是undecidable的。</p>
+<h3 id="Alto"><a href="#Alto" class="headerlink" title="Alto"></a>Alto</h3><p>Alto对变量使用 address descriptor &lt;inst, OFFSET&gt;的形式进行抽象表示。inst代表获得base value的指令，OFFSET代表base value可能的偏移集合。如Figure 1的13行中将dict-&gt;words读取到rdi，通过两条指令完成，指令i加载base dict，指令j加上words字段的偏移(8)。因此rdi的address descriptor为&lt;i,{0x8}&gt;。</p>
+<p>Alto只根据寄存器操作计算PRV，而不考虑内存读写。当指令i从内存地址中加载值到一个寄存器后，将该寄存器的PRV重置为&lt;i,{0x0}&gt;，而不会考虑最近对这个地址的写入。因此Alto会保守的认为一个new descriptor会从任意的地址中读取，并不会依赖任何的memory write，会造成大量的误报。</p>
+<h3 id="VSA"><a href="#VSA" class="headerlink" title="VSA"></a>VSA</h3><p>VSA通过抽象解释，对寄存器和内存的操作进行建模计算PRV，其通过strided interval  s[lb,ub]来表示变量的PRV，lb和ub分表代表下界和上界，s为间隔。因此，其可以用一组整数表示 {lb,lb + s,lb + 2s, …,ub}。strided interval与内存区域关联，可能是heap、stack或global。同时引入⊤，代表all possible value。</p>
+<p>两个strided intervals的加法规则为gcd：</p>
+<p>$SI 1 = s 1 [lb 1 ,ub 1 ]\ \ \  SI 2 = s 2 [lb 2 ,ub 2 ]$</p>
+<p>$SI 3 = gcd (s 1 ,s 2 ) [lb 1 + lb 2 ,ub 1 + ub 2 ]$</p>
+<p>The major limitation of VSA is over-approximation.</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%201.png" alt="Untitled"></p>
+<h2 id="Observations"><a href="#Observations" class="headerlink" title="Observations"></a>Observations</h2><p>不同的分析需要不同的sensitivity，最简单的type inference可以是path-insensitive，context-insensitive，甚至flow-insensitive；比较复杂的dependence analysis则是path-sensitive，context-sensitive，flow-sensitive的。</p>
+<p>一个重要的观察是a dependence relation, which means dependence through memory in our context, can be disclosed by many whole-program paths. 换而言之，即使是context-sensitive，path-sensitive，分析的敏感度仍然受限。依赖关系可能由多条paths决定，且可能是input sensitive。</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%202.png" alt="Untitled"></p>
+<h2 id="Our-Technique"><a href="#Our-Technique" class="headerlink" title="Our Technique"></a>Our Technique</h2><p>作者提出了一种sampling based的抽象解释方法用于dependence analysis。BDA对程序中的路径进行跨过程的采样，不同路径的可能性通过正态分布而不考虑路径的长度。对于每一条采样的路径，抽象解释每条指令可能的值。</p>
+<p>抽象解释时，</p>
+<ul>
+<li>输入从预设的分布中随机采样</li>
+<li>stack memory用stack frame及offset表示</li>
+<li>heap memory用allocation site表示</li>
+<li>抽象value根据指令的语义进行更新</li>
+<li>memory reads/writes通过抽象store建模</li>
+</ul>
+<p>BDA的抽象解释并不依赖与strided intervals，而更接近于混合执行，对每条指令计算一个抽象value。</p>
+<p>BDA最后还会进行posterior分析，以消减采样时带来的误报。</p>
+<p>naive sampling algorithm对每一个分支都使用1/2概率的方式决定，是行不通的，A→B→D→F→H→J只有1/32的概率。</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%203.png" alt="Untitled"></p>
+<h1 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h1><p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%204.png" alt="Untitled"></p>
+<p>pre-processor生成iCFG，iCFG中每个基本块的权重为从该块出发的路径数量。采样器根据block的权重进行采样。</p>
+<h1 id="Path-Sampling"><a href="#Path-Sampling" class="headerlink" title="Path Sampling"></a>Path Sampling</h1><p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%205.png" alt="Untitled"></p>
+<h3 id="Addressing-Practical-Challenges"><a href="#Addressing-Practical-Challenges" class="headerlink" title="Addressing Practical Challenges"></a>Addressing Practical Challenges</h3><ul>
+<li>Handling Loops</li>
+<li>Handling Multi-Exits</li>
+<li>Handling Indirect Calls</li>
+<li>Edge Coverage</li>
+<li>Sampling External Inputs</li>
+<li>Probabilistic Guarantees in Practice</li>
+</ul>
+<h1 id="Abstract-Interpretation"><a href="#Abstract-Interpretation" class="headerlink" title="Abstract Interpretation"></a>Abstract Interpretation</h1><p>自己搞了个low-level language，并将程序lift到这个IL上。并沿着sample到的路径逐指令抽象解释，具体的规则如下：</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%206.png" alt="Untitled"></p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%207.png" alt="Untitled"></p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%208.png" alt="Untitled"></p>
+<p>Read和Write的处理使用了NormalizeVal，将ra中的地址归一化，使得对同一地址的访问能够关联起来。</p>
+<blockquote>
+<p>Rule Read describes the semantics of memory read. It invokes an auxiliary procedure <strong>NormalizeVal</strong>() to normalize the abstract (address) value in register r a , denoted as RS[r a ]. As shown in Figure 9, if the value is a global or heap value, it is returned directly. Otherwise, it is checked to identify the enclosing stack frame of the address. Note that it is common for an instruction to access a stack location beyond the current stack frame (e.g., access an argument passed from the caller function). The procedure traverses the stack frames from the top to the bottom till it finds a frame on which the offset becomes negative. After normalization, the abstract value stored in the normalized address is copied to the target register r. The taint bit of r is the union of the taint bits of the normalized address and the address register r a . At the end, the pc is updated to the next instruction.</p>
+</blockquote>
+<p>Example：</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%209.png" alt="Untitled"></p>
+<h1 id="Posterior-Analysis"><a href="#Posterior-Analysis" class="headerlink" title="Posterior Analysis"></a>Posterior Analysis</h1><p>对所有采样的路径抽象解释完成后，posterior analysis将完成dependence analysis，其通过一种flow-sensitive, context-sensitive, and path-insensitive的方式将不同路径的抽象变量收集起来。</p>
+<p>Example：</p>
+<p>如Fig. 10，BDA通过抽象解释两条路径2 → 3 → 4 → 5 → 6 → 8 and  2 → 3 → 7，发现了7→4，5→4，8→2的依赖关系，由于路径不完全，遗失了8→4。Posterior analysis通过在line 3处，将这两条路径中的抽象变量合并，从而发现missing的依赖关系。</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%2010.png" alt="Untitled"></p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><p>BDA用Rust实现，利用Radare2作为其反汇编的基础设施。与Alto和VSA进行对比，benchmark为SPECINT2000。并与IDA对比间接控制流转移的目标分析，与Cuckoo对比识别malware的hhidden malicious behaviors。</p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%2011.png" alt="Untitled"></p>
+<p><img src="/2021/11/22/paper_notes/2021-1122-BDA 26ca1d136bfb4801a2a2aed378ec82f9/Untitled%2012.png" alt="Untitled"></p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>本文提出了一种对二进制程序切实可行的program dependence analysis方法，其使用一种新型的全程序路径采样算法并对每一条路径进行抽象解释以发现程序中的依赖关系。通过实验表明BDA比state-ofthe-art技术VSA有可观的提升。其能够应用于indirect call target identification and malware behavior analysis.</p>
+<p>BDA未开源</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/paper-notes/" rel="tag"># paper_notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/09/27/0CTF-2021-final-0bf/" rel="next" title="0CTF/TCTF 2021 Final 0bf WriteUp">
+                <i class="fa fa-chevron-left"></i> 0CTF/TCTF 2021 Final 0bf WriteUp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">G6</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GANGE666" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2021-1122-BDA"><span class="nav-number">1.</span> <span class="nav-text">2021-1122-BDA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BDA-Practical-Dependence-Analysis-for-Binary-Executables-by-Unbiased-Whole-Program-Path-Sampling-and-Per-Path-Abstract-Interpretation"><span class="nav-number">2.</span> <span class="nav-text">BDA: Practical Dependence Analysis for Binary Executables by Unbiased Whole-Program Path Sampling and Per-Path Abstract Interpretation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">3.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation"><span class="nav-number">4.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Limitations-of-Existing-Techniques"><span class="nav-number">4.1.</span> <span class="nav-text">Limitations of Existing Techniques</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Alto"><span class="nav-number">4.1.1.</span> <span class="nav-text">Alto</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VSA"><span class="nav-number">4.1.2.</span> <span class="nav-text">VSA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Observations"><span class="nav-number">4.2.</span> <span class="nav-text">Observations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Our-Technique"><span class="nav-number">4.3.</span> <span class="nav-text">Our Technique</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Design"><span class="nav-number">5.</span> <span class="nav-text">Design</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Path-Sampling"><span class="nav-number">6.</span> <span class="nav-text">Path Sampling</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Addressing-Practical-Challenges"><span class="nav-number">6.0.1.</span> <span class="nav-text">Addressing Practical Challenges</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract-Interpretation"><span class="nav-number">7.</span> <span class="nav-text">Abstract Interpretation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Posterior-Analysis"><span class="nav-number">8.</span> <span class="nav-text">Posterior Analysis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Evaluation"><span class="nav-number">9.</span> <span class="nav-text">Evaluation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">10.</span> <span class="nav-text">Conclusion</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">G6</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+<span class="post-meta-divider">|</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fDx22HGyMClt8aY7zazwRpk0-gzGzoHsz',
+        appKey: 'Ht2919J1KqJDdCRuqg1djNAc',
+        placeholder: '请在此输入您的留言',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
